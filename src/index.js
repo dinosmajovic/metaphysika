@@ -10,15 +10,19 @@ import GlobalStyle from 'styles/GlobalStyle';
 import { theme } from 'styles';
 
 import Header from 'components/molecules/Header';
-// import Navigation from 'components/Navigation';
+import Footer from 'components/molecules/Footer';
+import LayoutWrapper from 'components/organisms/LayoutWrapper';
 
 const App = () => (
   <Provider store={store}>
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Header />
-        <Routes />
+        <LayoutWrapper>
+          <Header />
+          <Routes />
+          <Footer />
+        </LayoutWrapper>
       </ThemeProvider>
     </Router>
   </Provider>
