@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
-import fonts from 'assets/fonts';
-
 
 export const ArrowHoverWrapper = styled.span`
   width: 100%;
@@ -30,8 +28,7 @@ export const ArrowUp = styled.span`
   }
 
   :after {
-    background-color: ${(props) =>
-      props.isHovered ? `${colors.gray.light}` : 'none'};
+    background-color: ${(props) => (props.isHovered ? `${colors.gray.light}` : 'none')};
     content: '';
     display: block;
     position: absolute;
@@ -47,9 +44,8 @@ export const ArrowUp = styled.span`
   }
 `;
 
-
 export const MyProfileMenu = styled.div`
- display: none  ;
+  display: none;
   position: relative;
   background-color: ${colors.white.primary};
   box-shadow: 6px 6px 12px ${colors.gray.light};
@@ -63,48 +59,42 @@ export const MyProfileMenu = styled.div`
 `;
 
 export const MyBasketMenu = styled.div`
-display: none;
-width: 200px;
-height: 300px;
-background-color: green;
-position: absolute;
-right: 0;
-`
+  display: none;
+  width: 200px;
+  height: 300px;
+  background-color: green;
+  position: absolute;
+  right: 0;
+`;
 
 export const MyWishListMenu = styled.div`
-display: none;
-width: 200px;
-height: 300px;
-background-color: orange;
-position: absolute;
-right: 0;
-`
+  display: none;
+  width: 200px;
+  height: 300px;
+  background-color: orange;
+  position: absolute;
+  right: 0;
+`;
 
 export const RightNavigationContainer = styled.span`
-display: flex;
+  display: flex;
+`;
 
-
-`
 export const IconContainer = styled.div`
+  position: relative;
 
-position: relative;
-
-:not(:last-child) {
+  :not(:last-child) {
     margin-right: 25px;
   }
 
   :hover {
-    > ${MyProfileMenu},
-    ${MyBasketMenu},
-    ${MyWishListMenu} {
+    > ${MyProfileMenu}, ${MyBasketMenu}, ${MyWishListMenu} {
       display: block;
-    
     }
   }
-`
+`;
 
-
-export const Icon  = styled.span`
+export const Icon = styled.span`
   height: 22px;
   width: 22px;
   display: flex;
@@ -118,4 +108,3 @@ export const Icon  = styled.span`
     height: 100%;
   }
 `;
-

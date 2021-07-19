@@ -10,7 +10,7 @@ import {
 import plus from 'assets/icons/plus.svg';
 import closePinkIcon from 'assets/icons/closePink.svg';
 
-const Filter = ({ label, filters, onSelectFilter }) => {
+const Filter = ({ label, name, filters, onSelectFilter, appliedFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ const Filter = ({ label, filters, onSelectFilter }) => {
         {filters.map((filter, index) => (
           <FilterItem key={index} onClick={() => onSelectFilter(filter)}>
             <Checkbox>
-              <img src={closePinkIcon} alt="x" />
+              {appliedFilter?.includes(filter) && <img src={closePinkIcon} alt="x" />}
             </Checkbox>
             <span>{filter}</span>
           </FilterItem>
@@ -36,15 +36,18 @@ const Filter = ({ label, filters, onSelectFilter }) => {
   );
 };
 
-const Filters = () => {
+const Filters = ({ filters, appliedFilters, onSelectFilter }) => {
   return (
     <FiltersContainer>
-      <Filter
-        name="color"
-        label="color"
-        filters={[44, 45, 46]}
-        onSelectFilter={(filter) => console.log(filter)}
-      />
+      {filters?.map((filter) => (
+        <Filter
+          label={filter.label}
+          name={filter.name}
+          filters={filter.filters}
+          onSelectFilter={(f) => onSelectFilter(filter.name, f)}
+          appliedFilter={appliedFilters?.[filter.name]}
+        />
+      ))}
     </FiltersContainer>
   );
 };

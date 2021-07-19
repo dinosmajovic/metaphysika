@@ -1,52 +1,59 @@
-import {
-  SidebarWrapper,
-  Filter,
-  Line,
-  FilterOptions,
-  Checkbox,
-  ButtonWrapper
-} from './styled';
-import closePinkIcon from 'assets/icons/closePink.svg';
-import plus from 'assets/icons/plus.svg';
-// import Button from 'components/atoms/Button';
+import { useState, useEffect } from 'react';
+import { SidebarWrapper, ButtonWrapper } from './styled';
+import queryString from 'query-string';
+import { useLocation } from 'react-router';
+import history from 'routing/history';
+import Button from 'components/atoms/Button';
 
 import Filters from '../Filters';
 
-const Sidebar = ({ filters, clicked, onCheck, onApplyFilter }) => {
+const FILTERS = [
+  {
+    name: 'size',
+    label: 'SIZE',
+    filters: [44, 45, 46]
+  },
+  {
+    name: 'brand',
+    label: 'BRAND',
+    filters: [44, 45, 46]
+  },
+  {
+    name: 'color',
+    label: 'COLOR',
+    filters: [44, 45, 46]
+  }
+];
+
+const Sidebar = ({ onApplyFilter }) => {
+  const [appliedFilters, setAppliedFilters] = useState({});
+
+  const onSelectFilter = (name, filter) => {
+    let filters = { ...appliedFilters };
+
+    if (filters[name]?.includes(filter)) {
+      const index = filters[name].indexOf(filter);
+      filters[name].splice(index, 1);
+    } else if (filters[name]) {
+      filters[name] = [...filters[name], filter];
+    } else {
+      filters[name] = [filter];
+    }
+
+    setAppliedFilters(filters);
+  };
+
   return (
     <SidebarWrapper>
-      {filters.map((filter) => {
-        return (
-          <div key={filter.label}>
-            <Filter onClick={() => clicked(filter.label)}>
-              <span>{filter.label}</span>
-              <div>
-                <img src={plus} alt="+" />
-              </div>
-            </Filter>
-            <Line />
-            <FilterOptions isOpened={filter.isOpened}>
-              {filter.values.map((value) => {
-                return (
-                  <div
-                    key={value.label}
-                    onClick={() => onCheck(value.label, filter.label)}
-                  >
-                    <Checkbox>{value.isChecked && <img src={closePinkIcon} />}</Checkbox>
-                    <span>{value.label}</span>
-                  </div>
-                );
-              })}
-            </FilterOptions>
-          </div>
-        );
-      })}
+      <Filters
+        filters={FILTERS}
+        appliedFilters={appliedFilters}
+        onSelectFilter={onSelectFilter}
+      />
 
-      <Filters />
-
-      {/* <ButtonWrapper>
-        <Button isClicked={onApplyFilter}>Apply filter</Button>
-      </ButtonWrapper> */}
+      <ButtonWrapper>
+        <Button isClicked={() => onApplyFilter(appliedFilters)}>Apply filter</Button>
+      </ButtonWrapper>
     </SidebarWrapper>
   );
 };
