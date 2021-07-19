@@ -9,7 +9,7 @@ const MyProfileMenu = () => {
       <ArrowUp />
    <ItemContainer >
                 <div>
-                  <img src={icon} />
+                  <img src={icon} alt='icon'/>
                 </div>
                 <span>Item name</span>
               </ItemContainer>

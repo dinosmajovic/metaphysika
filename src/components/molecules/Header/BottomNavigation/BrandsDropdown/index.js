@@ -36,7 +36,7 @@ const BrandsDropdown = () => {
         <HoverHelpLine />
 
         {brands.map(brand => 
-   <BrandName>{brand.label}</BrandName>
+   <BrandName key={brand.label}>{brand.label}</BrandName>
         )}     
           
       </Menu>

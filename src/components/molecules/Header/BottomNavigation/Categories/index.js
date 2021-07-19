@@ -44,7 +44,7 @@ const Categories = () => {
   return (
     <CategoriesContainer>
      {categories.map(category => 
-      <CategoryItem>{category.label}</CategoryItem>
+      <CategoryItem key={category.label}>{category.label}</CategoryItem>
      )}
     </CategoriesContainer>
   );

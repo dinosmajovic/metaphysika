@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Item = styled.a`
+const Item = styled.span`
   margin-right: 25px;
   font-size: 12px;
   cursor: pointer;
@@ -20,7 +20,11 @@ const Navigation = () => {
     <nav>
       {navigationItems.map((item) => {
         return (
-          <Link href={item.link} key={item.label}>
+          <Link
+            to={item.link}
+            key={item.label}
+            style={{ textDecoration: 'none' }}
+          >
             <Item>{item.label}</Item>
           </Link>
         );

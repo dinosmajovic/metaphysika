@@ -22,11 +22,6 @@ html {
     color: ${colors.gray.text};
   }
 
-  #__next {
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-}
 `;
 
 export default GlobalStyle;

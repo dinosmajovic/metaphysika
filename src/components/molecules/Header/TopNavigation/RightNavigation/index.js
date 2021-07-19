@@ -8,8 +8,6 @@ import MyProfileItems from 'components/atoms/MyProfileMenu'
 
 
 const RightNavigation = () => {
-
- 
   return <RightNavigationContainer>
     <IconContainer>
    <Icon>
@@ -20,7 +18,7 @@ const RightNavigation = () => {
    </MyProfileMenu>
    </IconContainer>
 
-   
+
    <IconContainer>
    <Icon>
    <img src={basket}   alt="basket icon"/>

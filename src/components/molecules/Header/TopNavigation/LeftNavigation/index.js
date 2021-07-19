@@ -33,7 +33,7 @@ const LeftNavigation = () => {
   return (
     <nav>
       {navigationItems.map((item) => (
-          <NavigationItem>{item.label}</NavigationItem>
+          <NavigationItem key={item.label}>{item.label}</NavigationItem>
       ))}
     </nav>
   );
