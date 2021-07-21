@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 
-
 export const ArrowHoverWrapper = styled.span`
   width: 100%;
   height: 23px;
@@ -29,8 +28,7 @@ export const ArrowUp = styled.span`
   }
 
   :after {
-    background-color: ${(props) =>
-      props.isHovered ? `${colors.gray.light}` : 'none'};
+    background-color: ${colors.white.primary};
     content: '';
     display: block;
     position: absolute;
@@ -46,35 +44,29 @@ export const ArrowUp = styled.span`
   }
 `;
 
-export const ItemContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
-
-  cursor: pointer;
-
-  :hover {
-    > span {
-      color: #e23f85;
-    }
-  }
+export const Title = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid ${colors.gray.light};
 
   > span {
-    font-size: 14px;
-    padding: 10px;
-  }
+    font-size: 16px;
 
-  > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-
-    > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    > span {
+      color: ${colors.pink.dark};
     }
   }
+`;
+
+export const Products = styled.div`
+  max-height: 315px;
+  overflow: scroll;
+`;
+
+export const Buttons = styled.div`
+  /* background-color: red; */
+  z-index: 50;
+  border-top: 1px solid ${colors.gray.light};
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
 `;

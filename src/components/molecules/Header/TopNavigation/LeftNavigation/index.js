@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import fonts from 'assets/fonts';
-import {colors} from 'styles';
+import { colors } from 'styles';
 
 const NavigationItem = styled.a`
   margin-right: 20px;
@@ -33,7 +33,7 @@ const LeftNavigation = () => {
   return (
     <nav>
       {navigationItems.map((item) => (
-          <NavigationItem key={item.label}>{item.label}</NavigationItem>
+        <NavigationItem key={item.label}>{item.label}</NavigationItem>
       ))}
     </nav>
   );

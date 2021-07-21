@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 const Home = () => {
   const location = useParams();
 
-  return <div>Home</div>;
+  return <div>home</div>;
 };
 
 export default Home;

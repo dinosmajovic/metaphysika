@@ -8,6 +8,8 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   grid-area: sort;
   width: 100%;
+  cursor: pointer;
+
   > h1 {
     font-size: 25px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
@@ -18,7 +20,7 @@ export const SortOptions = styled.div`
   position: absolute;
   z-index: 10;
   top: 29px;
-
+  width: 100%;
   border: 1px solid ${colors.gray.light};
   display: flex;
   flex-direction: column;
@@ -28,11 +30,12 @@ export const SortOptions = styled.div`
 
   > span {
     padding: 5px;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
 
     :hover {
-      background-color: ${colors.gray.light};
+      background-color: ${colors.gray.hover};
+      color: ${colors.pink.primary};
     }
   }
 

@@ -17,11 +17,10 @@ export const Menu = styled.div`
 
 export const BrandName = styled.p`
   padding: 10px 20px;
-  color: ${({ specificBrandIsClicked }) =>
-    specificBrandIsClicked ? `${colors.pink.light}` : 'none'};
+  color: ${({ isClicked }) => (isClicked ? `${colors.pink.dark}` : '')};
 
   :hover {
-    background-color: ${colors.gray.light};
+    background-color: ${colors.gray.hover};
     color: ${colors.pink.dark};
   }
 `;
@@ -45,11 +44,11 @@ export const Dropdown = styled.div`
 export const Label = styled.span`
   font-size: 18px;
   font-weight: ${fonts.sfPro.fontWeight.regular};
-  /* color: ${({ brandIsClicked }) =>
+  color: ${({ brandIsClicked }) =>
     brandIsClicked ? colors.pink.primary : 'none'};
   padding-bottom: ${({ brandIsClicked }) => (brandIsClicked ? '2px' : 'none')};
   border-bottom: ${({ brandIsClicked }) =>
-    brandIsClicked ? `1px solid ${colors.pink.primary}` : 'none'}; */
+    brandIsClicked ? `1px solid ${colors.pink.primary}` : 'none'};
 `;
 
 export const ArrowUp = styled.span`

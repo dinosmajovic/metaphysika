@@ -8,7 +8,7 @@ import Routes from './routing';
 import history from './routing/history';
 import GlobalStyle from 'styles/GlobalStyle';
 import { theme } from 'styles';
-
+import { ApolloProvider } from '@apollo/client';
 import Header from 'components/molecules/Header';
 import Footer from 'components/molecules/Footer';
 import LayoutWrapper from 'components/organisms/LayoutWrapper';

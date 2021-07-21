@@ -9,6 +9,7 @@ export const colors = {
   },
   gray: {
     textLight: '#424242',
+    hover: 'rgba(0, 0, 0, 0.03)',
     text: '#212121',
     light: '#E8E8E8'
   }

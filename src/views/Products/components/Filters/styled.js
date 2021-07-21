@@ -7,9 +7,12 @@ export const FiltersContainer = styled.div`
   flex-direction: column;
 `;
 
-export const FilterWrapper = styled.div``;
+export const FilterWrapper = styled.div`
+  margin-bottom: 10px;
+`;
 
 export const FilterHeader = styled.div`
+  user-select: none;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -30,18 +33,24 @@ export const FilterHeader = styled.div`
 `;
 
 export const FilterItems = styled.div`
-  margin: 15px 0;
-  padding-left: 10px;
+  margin-top: 15px;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 `;
 
 export const FilterItem = styled.div`
   display: flex;
+  padding-left: 15px;
   justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
+
+  :hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
 
   :not(:last-child) {
-    margin-bottom: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
 
   > span {
@@ -57,7 +66,6 @@ export const Checkbox = styled.div`
   margin-right: 5px;
   display: flex;
   justify-content: center;
-  cursor: pointer;
 
   > img {
     width: 100%;

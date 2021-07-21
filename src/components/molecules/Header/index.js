@@ -7,6 +7,7 @@ import BottomNavigation from './BottomNavigation';
 const HeaderWrapper = styled.header`
   padding: 15px;
   width: 100%;
+
   @media (max-width: 1024px) {
     padding: 10px;
     position: relative;

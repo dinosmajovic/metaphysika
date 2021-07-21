@@ -1,101 +1,42 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductsWrapper } from './styled';
+import axios from 'axios';
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import ProductsGrid from './components/ProductsGrid';
 
-const FILTERS = [
-  {
-    label: 'SIZE',
-    isOpened: false,
-    values: [
-      {
-        label: '36',
-        isChecked: false
-      },
-      {
-        label: '37',
-        isChecked: false
-      },
-      {
-        label: '38',
-        isChecked: false
-      },
-      {
-        label: '39',
-        isChecked: false
-      },
-      {
-        label: '40',
-        isChecked: false
-      },
-      {
-        label: '41',
-        isChecked: false
-      },
-      {
-        label: '42',
-        isChecked: false
-      }
-    ]
-  },
-  {
-    label: 'BRAND',
-    isOpened: false,
-    values: [
-      {
-        label: 'Metaphysika',
-        isChecked: false
-      },
-      {
-        label: 'Irregular Choice',
-        isChecked: false
-      },
-      {
-        label: 'Magdalena Klašnja',
-        isChecked: false
-      }
-    ]
-  },
-  {
-    label: 'COLOR',
-    isOpened: false,
-    values: [
-      {
-        label: 'Black',
-        isChecked: false
-      },
-      {
-        label: 'Blue',
-        isChecked: false
-      },
-      {
-        label: 'Red',
-        isChecked: false
-      },
-      {
-        label: 'Orange',
-        isChecked: false
-      },
-      {
-        label: 'Purple',
-        isChecked: false
-      }
-    ]
-  }
-];
+import { PRODUCTS, FILTERS } from './consts';
 
-const Product = () => {
+const Products = () => {
   const params = useParams();
-  const { brandName, productName, categoryName, subCategoryName } = params || {};
+  const { brandName, categoryName, subCategoryName } = params || {};
+
+  const getProducts = () => {
+    axios
+      .get('/products')
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <ProductsWrapper>
       <Header brandName={brandName} />
-      <Sidebar filters={FILTERS} brandName={brandName} />
+      <Sidebar
+        filters={FILTERS}
+        brandName={brandName}
+        onApplyFilter={(filters) => console.log(filters)}
+      />
+      <ProductsGrid products={PRODUCTS} />
     </ProductsWrapper>
   );
 };
 
-export default Product;
+export default Products;

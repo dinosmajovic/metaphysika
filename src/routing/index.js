@@ -1,16 +1,17 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Product from 'views/Product';
 import Products from 'views/Products';
 import Home from 'views/Home';
 import About from 'views/About';
+import Error from 'views/Error';
 
 const Routing = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
+      <Route exact path="/404" component={Error} />
       {/* <Route path="/terms-of-service" component={TermsOfService} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/contact" component={Contact} />
