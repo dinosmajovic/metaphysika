@@ -12,12 +12,13 @@ import {
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
 import { Link } from 'react-router-dom';
+import calculatePrecentage from 'constants/calculatePrecentage';
 
 const Product = ({ product }) => {
-  const precentageDecrease = Math.round(
-    ((product.price - product.oldPrice) / product.price) * 100
+  const precentageDecrease = calculatePrecentage(
+    product.price,
+    product.oldPrice
   );
-
   return (
     <ProductContainer>
       <PictureContainer>
@@ -28,7 +29,11 @@ const Product = ({ product }) => {
             <img src={likeHeartOutlined} alt="Heart icon" />
           )}
         </Heart>
-        {product?.oldPrice && <Percentage>{precentageDecrease}%</Percentage>}
+        {product?.oldPrice && (
+          <Percentage>
+            <span> {precentageDecrease}%</span>
+          </Percentage>
+        )}
 
         <Link to="/">
           <Picture>

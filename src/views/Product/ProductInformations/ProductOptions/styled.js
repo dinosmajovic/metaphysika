@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import colors from 'styles/Colors';
+import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
 export const Options = styled.div`
   display: flex;
   z-index: 50;
+  position: relative;
+  z-index: 120;
 `;
 
 export const Option = styled.div`
@@ -15,6 +17,7 @@ export const Option = styled.div`
     font-size: 20px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
     margin-bottom: 5px;
+    z-index: 50;
   }
 `;
 
@@ -28,6 +31,10 @@ export const Dropdown = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+
+  :hover {
+    background-color: ${colors.gray.hover};
+  }
 
   > h2 {
     font-size: 16px;
@@ -52,12 +59,9 @@ export const DropdownMenu = styled.div`
   top: 60px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  transition: opacity 0.3s;
-  display: flex;
-  opacity: ${(props) => (props.isOpened ? '1' : '0')};
-  transform: ${(props) =>
-    props.isOpened ? 'translateX(0)' : 'translateX(-960px)'};
+  display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
   flex-direction: column;
+  cursor: pointer;
 
   > span {
     padding: 8px 10px;
@@ -65,9 +69,18 @@ export const DropdownMenu = styled.div`
     font-weight: ${fonts.sfPro.fontWeight.light};
 
     :hover {
-      background-color: ${colors.gray.light};
+      background-color: ${colors.gray.hover};
       color: ${colors.pink.primary};
       display: flex;
     }
   }
+`;
+
+export const SizeError = styled.span`
+  font-size: 14px;
+  color: ${colors.pink.dark};
+  align-self: flex-end;
+  position: absolute;
+  left: 172px;
+  bottom: 18px;
 `;

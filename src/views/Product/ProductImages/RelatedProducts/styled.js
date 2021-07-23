@@ -1,4 +1,4 @@
-import colors from 'styles/Colors';
+import { colors } from 'styles';
 import fonts from 'assets/fonts';
 import styled from 'styled-components';
 
@@ -24,6 +24,11 @@ export const RelatedProduct = styled.div`
   text-align: center;
   cursor: pointer;
   margin-right: 15px;
+
+  :hover,
+  :active {
+    border: solid 1px ${colors.pink.primary};
+  }
 
   > img {
     width: 100%;

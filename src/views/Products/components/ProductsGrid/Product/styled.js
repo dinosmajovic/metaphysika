@@ -68,11 +68,17 @@ export const Price = styled.span`
 
 export const Percentage = styled.span`
   position: absolute;
-  font-size: 20px;
-  right: 20px;
-  top: 25px;
-  z-index: 2;
 
-  transform: rotate(-28deg);
-  color: ${colors.pink.primary};
+  cursor: default;
+  right: 20px;
+  top: 20px;
+  z-index: 2;
+  background-color: ${colors.gray.hover};
+  padding: 9px;
+  border-radius: 50px;
+
+  > span {
+    font-size: 17px;
+    color: ${colors.pink.primary};
+  }
 `;

@@ -2,16 +2,30 @@ import { useEffect, useState } from 'react';
 import ProductImages from './ProductImages';
 import ProductInformations from './ProductInformations';
 import { ProductContainer } from './styled';
+import Backdrop from 'components/atoms/Backdrop/index';
 import { PRODUCT } from './consts';
-
-// import client from 'api/apollo-client';
-// import { GET_PRODUCT } from 'queries/product/get_product';
-// import { addToBag, sumSubtotalPrice } from 'state/bag';
-// import Spinner from 'components/atoms/Spinner';
+import Modal from './Modal/index';
 
 const Product = ({ path, id }) => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [options, setOptions] = useState([
+    {
+      label: 'Size',
+      value: 'Select',
+      values: [''],
+      isOpened: false
+    },
+    {
+      label: 'Quantity',
+      value: '1',
+      values: [''],
+      isOpened: false
+    }
+  ]);
+  const [modalIsOpened, setModalIsOpened] = useState(false);
+  const [mainImage, setMainImage] = useState(null);
+  const [images, setImages] = useState(null);
 
   useEffect(() => {
     getProduct();
@@ -19,14 +33,96 @@ const Product = ({ path, id }) => {
 
   const getProduct = () => {
     setTimeout(() => {
-      setProduct('KARINA');
-    }, 500);
+      const eidtedProduct = {
+        ...PRODUCT,
+        images: PRODUCT.images.map((img) => ({ img, isClicked: false }))
+      };
+
+      const newOptions = options.map((option) => {
+        if (option.label === 'Size') {
+          return {
+            ...option,
+            values: PRODUCT.sizes
+          };
+        }
+        if (option.label === 'Quantity') {
+          return {
+            ...option,
+            values: PRODUCT.quantity
+          };
+        }
+      });
+
+      setImages(eidtedProduct.images);
+      setMainImage(eidtedProduct.mainImg);
+      setOptions(newOptions);
+      setProduct(eidtedProduct);
+      setLoading(false);
+    }, 300);
+  };
+
+  const onCloseDropdowns = (event) => {
+    if (event.target.className.includes('dropdown')) {
+      return null;
+    } else {
+      const newOptions = options.map((option) => {
+        return {
+          ...option,
+          isOpened: false
+        };
+      });
+      setOptions(newOptions);
+    }
+  };
+
+  const onOpenModal = () => {
+    setModalIsOpened(true);
+  };
+
+  const onCloseModal = () => {
+    setModalIsOpened(false);
+  };
+
+  const onImageClick = (image) => {
+    setMainImage(image);
+
+    const clickedImageIndex = images.findIndex((item) => item.img === image);
+
+    const newImages = images.map((item) => ({
+      ...item,
+      isClicked: false
+    }));
+
+    newImages[clickedImageIndex].isClicked = true;
+
+    setImages(newImages);
   };
 
   if (product) {
     return (
-      <ProductContainer>
-        <div>product</div>
+      <ProductContainer onClick={(event) => onCloseDropdowns(event)}>
+        {modalIsOpened && <Backdrop onCloseModal={onCloseModal} />}
+        {modalIsOpened && (
+          <Modal
+            images={images}
+            mainImage={mainImage}
+            onImageClick={onImageClick}
+            onCloseModal={onCloseModal}
+          />
+        )}
+        <ProductImages
+          relatedProducts={product.relatedProducts}
+          images={images}
+          mainImage={mainImage}
+          onOpenModal={onOpenModal}
+          onImageClick={onImageClick}
+        />
+        <ProductInformations
+          product={product}
+          sizeIsSelected={false}
+          options={options}
+          setOptions={setOptions}
+        />
       </ProductContainer>
     );
   } else if (loading) {
@@ -35,23 +131,3 @@ const Product = ({ path, id }) => {
 };
 
 export default Product;
-
-// <ProductImages
-// onRelatedProduct={resetOptions}
-// relatedProducts={product.relatedProducts}
-// images={images}
-// brand={brand}
-// onImageClick={(id) => setImageToDefault(id, dispatch)}
-// onDefaultImageClick={() => openModal(dispatch)}
-// />
-
-{
-  /* <ProductInformations
-          onAddToBag={addProductToBag}
-          product={product}
-          options={productOptions}
-          onSizeClick={enableAddToBag}
-          onInputClick={onInputClick}
-          isErrorMessage={isErrorMessage}
-        /> */
-}

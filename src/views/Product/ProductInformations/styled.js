@@ -1,21 +1,9 @@
 import styled from 'styled-components';
-import colors from 'styles/Colors';
+import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
 export const ProductInfo = styled.div`
   width: 50%;
-
-  > h1 {
-    font-size: 30px;
-    font-weight: ${fonts.sfPro.fontWeight.regular};
-    margin-bottom: 7px;
-  }
-
-  > h2 {
-    font-size: 28;
-    font-weight: ${fonts.sfPro.fontWeight.regular};
-    margin-bottom: 30px;
-  }
 
   > p {
     font-size: 17px;
@@ -37,6 +25,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Description = styled.div`
+  margin-bottom: 20px;
   > p {
     font-size: 15px;
     font-weight: ${fonts.sfPro.fontWeight.ultraLight};
@@ -73,9 +62,48 @@ export const Button = styled.button`
 `;
 
 export const InputError = styled.span`
-  font-size: 18px;
-  color: rgba(246, 71, 71, 1);
+  font-size: 16px;
+  color: ${colors.pink.dark};
   position: absolute;
-  bottom: -30px;
+  bottom: -25px;
   right: -10px;
+
+  @media (max-width: 910px) {
+    display: none;
+  }
+`;
+
+export const PriceContainer = styled.span`
+  display: flex;
+  margin-bottom: 30px;
+`;
+
+export const OldPrice = styled.span`
+  margin-right: 10px;
+  font-size: 26px;
+  color: ${colors.pink.primary};
+  text-decoration: line-through;
+  font-weight: ${fonts.sfPro.fontWeight.regular};
+`;
+
+export const Price = styled.span`
+  font-size: 26px;
+  font-weight: ${fonts.sfPro.fontWeight.regular};
+`;
+
+export const ProductName = styled.span`
+  display: flex;
+  margin-bottom: 8px;
+  > h1 {
+    font-size: 30px;
+    font-weight: ${fonts.sfPro.fontWeight.regular};
+    margin-right: 15px;
+  }
+
+  > span {
+    cursor: default;
+    color: ${colors.pink.primary};
+
+    font-size: 30px;
+  }
 `;

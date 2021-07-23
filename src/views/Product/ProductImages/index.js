@@ -1,32 +1,27 @@
-// import React from 'react';
-// import Images from './Images';
-// import RelatedProducts from './RelatedProducts';
+import React from 'react';
+import Images from './Images';
+import RelatedProducts from './RelatedProducts';
 
-// const ProductImages = ({
-//   images,
-//   relatedProducts,
-//   brand,
-//   onImageClick,
-//   onDefaultImageClick,
-//   onCloseDropdown,
-//   onRelatedProduct
-// }) => {
-//   return (
-//     <div onClick={onCloseDropdown}>
-//       <div>
-//         <Images
-//           images={images}
-//           onImageClick={onImageClick}
-//           onDefaultImageClick={onDefaultImageClick}
-//         />
-//         <RelatedProducts
-//           relatedProducts={relatedProducts}
-//           brand={brand}
-//           onRelatedProduct={onRelatedProduct}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
+const ProductImages = ({
+  relatedProducts,
+  images,
+  mainImage,
+  onOpenModal,
+  onImageClick
+}) => {
+  return (
+    <div>
+      <div>
+        <Images
+          onImageClick={onImageClick}
+          images={images}
+          mainImage={mainImage}
+          onOpenModal={onOpenModal}
+        />
+        <RelatedProducts relatedProducts={relatedProducts} />
+      </div>
+    </div>
+  );
+};
 
-// export default ProductImages;
+export default ProductImages;

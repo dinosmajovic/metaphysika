@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from 'styles/Colors';
+import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
 export const Wrapper = styled.div`
@@ -34,9 +34,9 @@ export const ImagesContainer = styled.div`
 `;
 
 export const Image = styled.div`
-  border: solid 1px
-    ${(props) =>
-      props.isClicked ? `${colors.pink.primary}` : `${colors.gray.light}`};
+  border: 1px solid
+    ${({ isClicked }) =>
+      isClicked ? `${colors.pink.primary}` : `${colors.gray.light}`};
   padding: 5px;
   width: 90px;
   height: 90px;
@@ -44,33 +44,13 @@ export const Image = styled.div`
   text-align: center;
   cursor: pointer;
 
+  :hover {
+    border: 1px solid ${colors.pink.primary};
+  }
+
   > img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-  }
-`;
-
-export const Button = styled.button`
-  cursor: pointer;
-  width: 140px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: ${fonts.sfPro.fontWeight.semibold};
-  background-color: ${colors.pink.primary};
-  color: ${colors.white.primary};
-  margin-left: 50%;
-  transform: translateX(-25%);
-
-  display: none;
-
-  :active {
-    background-color: ${colors.pink.dark};
-  }
-
-  @media (max-width: 910px) {
-    display: block;
   }
 `;
