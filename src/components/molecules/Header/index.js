@@ -1,24 +1,59 @@
-import styled from 'styled-components';
-import { colors } from 'styles';
 import Logo from './Logo';
 import TopNavigation from './TopNavigation';
 import BottomNavigation from './BottomNavigation';
-
-const HeaderWrapper = styled.header`
-  padding: 15px;
-  width: 100%;
-
-  @media (max-width: 1024px) {
-    padding: 10px;
-    position: relative;
-    border-bottom: 1px solid ${colors.gray.light};
-  }
-`;
+import { HeaderWrapper } from './styled';
+import { useState } from 'react';
+import Backdrop from 'components/atoms/Backdrop';
+import LogInModal from './LogInModal';
+import SignUpModal from './SignUpModal';
 
 const Header = () => {
+  const [isLogInModal, setIsLogInModal] = useState(false);
+  const [isSignUpModal, setIsSignUpModal] = useState(false);
+
+  const onLogInModal = () => {
+    setIsLogInModal(true);
+  };
+
+  const onSignUpModal = () => {
+    setIsSignUpModal(true);
+  };
+
+  const onBackdropCloseLoginModal = (event) => {
+    event.target.className.includes('backdrop') && setIsLogInModal(false);
+  };
+
+  const onBackdropCloseSignUpModal = (event) => {
+    event.target.className.includes('backdrop') && setIsSignUpModal(false);
+  };
+
   return (
     <HeaderWrapper>
-      <TopNavigation />
+      {isLogInModal && (
+        <Backdrop
+          onBackdropCloseModal={(event) => onBackdropCloseLoginModal(event)}
+        >
+          <LogInModal
+            setIsLogInModal={setIsLogInModal}
+            setIsSignUpModal={setIsSignUpModal}
+          />
+        </Backdrop>
+      )}
+
+      {isSignUpModal && (
+        <Backdrop
+          onBackdropCloseModal={(event) => onBackdropCloseSignUpModal(event)}
+        >
+          <SignUpModal
+            setIsSignUpModal={setIsSignUpModal}
+            setIsLogInModal={setIsLogInModal}
+          />
+        </Backdrop>
+      )}
+      <TopNavigation
+        onLogInModal={onLogInModal}
+        onSignUpModal={onSignUpModal}
+      />
       <Logo />
       <BottomNavigation />
     </HeaderWrapper>

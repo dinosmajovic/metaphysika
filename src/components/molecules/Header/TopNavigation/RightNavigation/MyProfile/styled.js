@@ -6,8 +6,7 @@ export const ArrowHoverWrapper = styled.span`
   height: 23px;
   display: block;
   position: absolute;
-  right: 3px;
-  top: -23px;
+  top: -15px;
   opacity: 0;
 `;
 

@@ -83,6 +83,8 @@ export const PRODUCTS = [
   {
     sku: 1,
     name: 'Jojo Bee',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 295,
     oldPrice: 320,
     currencyCode: 'BAM',
@@ -92,6 +94,8 @@ export const PRODUCTS = [
   {
     sku: 2,
     name: 'Sashay',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 289,
     currencyCode: 'BAM',
     defaultImg:
@@ -100,6 +104,8 @@ export const PRODUCTS = [
   {
     sku: 3,
     name: 'Jojo Bee',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 295,
     currencyCode: 'BAM',
     defaultImg:
@@ -108,6 +114,8 @@ export const PRODUCTS = [
   {
     sku: 4,
     name: 'Sashay',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 289,
     oldPrice: 369,
     currencyCode: 'BAM',
@@ -117,6 +125,8 @@ export const PRODUCTS = [
   {
     sku: 5,
     name: 'Jojo Bee',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 295,
     oldPrice: 389,
     currencyCode: 'BAM',
@@ -126,6 +136,8 @@ export const PRODUCTS = [
   {
     sku: 6,
     name: 'Sashay',
+    path: '/productPath/',
+    brandPath: '/brands/irregular-choice',
     price: 289,
     oldPrice: 399,
     currencyCode: 'BAM',

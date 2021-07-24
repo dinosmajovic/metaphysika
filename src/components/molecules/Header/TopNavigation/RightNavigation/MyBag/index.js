@@ -1,16 +1,7 @@
 import Button from 'components/atoms/Button';
 import Product from './Product';
 
-// import { useDispatch, useSelector } from 'react-redux';
-// import { deleteFromBag, sumSubtotalPrice } from 'state/bag';
-// import { resetBag } from 'state/header';
-
-// import { bagPath } from 'constants/paths';
-// import { checkoutPath } from 'constants/paths';
-// import { useRouter } from 'next/router';
-
 import {
-  MyBag,
   ArrowUp,
   ArrowHoverWrapper,
   Title,
@@ -20,26 +11,6 @@ import {
 } from './styled';
 
 const MyBagList = ({ isOpened, menuIsOpened, menuIsClosed }) => {
-  // const router = useRouter();
-  // const dispatch = useDispatch();
-
-  // const goToBag = () => {
-  //   router.push(bagPath);
-  // };
-
-  // const goToCheckout = () => {
-  //   router.push(checkoutPath);
-  // };
-  // const myBag = useSelector((state) => state.myBag.myBag);
-
-  // const deleteProduct = (product) => {
-  //   dispatch(deleteFromBag(product.id));
-  //   dispatch(sumSubtotalPrice());
-  //   dispatch(resetBag());
-  // };
-
-  // const subTotalSum = useSelector((state) => state.myBag.subTotal);
-
   return (
     <>
       <ArrowHoverWrapper />

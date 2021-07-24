@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
-import { Link } from 'react-router-dom';
 
 export const CategoriesContainer = styled.div`
   > span {

@@ -6,13 +6,17 @@ import styled from 'styled-components';
 const TopNavigationContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 15px;
 `;
 
-const TopNavigation = () => {
+const TopNavigation = ({ onLogInModal, onSignUpModal }) => {
   return (
     <TopNavigationContainer>
       <LeftNavigation />
-      <RightNavigation />
+      <RightNavigation
+        onLogInModal={onLogInModal}
+        onSignUpModal={onSignUpModal}
+      />
     </TopNavigationContainer>
   );
 };

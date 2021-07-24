@@ -6,7 +6,6 @@ import {
   InputError,
   Description,
   OldPrice,
-  Percentage,
   PriceContainer,
   Price,
   ProductName

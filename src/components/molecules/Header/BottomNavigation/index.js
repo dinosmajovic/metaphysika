@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import { errorPath } from 'constants/routes';
 import findItemIndex from 'constants/findItemIndex/index';
 import GET_BRANDS_AND_CATEGORIES from 'queries/get_brands_and_categories';
-import { reset } from '../../../../../node_modules/axe-core/axe';
 
 const BottomNavigationContainer = styled.div`
   display: flex;
@@ -24,6 +23,7 @@ const BottomNavigation = () => {
 
   useEffect(() => {
     getBrandsAndCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getBrandsAndCategories = async () => {

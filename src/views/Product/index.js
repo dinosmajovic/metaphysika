@@ -83,6 +83,10 @@ const Product = ({ path, id }) => {
     setModalIsOpened(false);
   };
 
+  const onBackdropCloseModal = (event) => {
+    event.target.className.includes('backdrop') && setModalIsOpened(false);
+  };
+
   const onImageClick = (image) => {
     setMainImage(image);
 
@@ -101,15 +105,19 @@ const Product = ({ path, id }) => {
   if (product) {
     return (
       <ProductContainer onClick={(event) => onCloseDropdowns(event)}>
-        {modalIsOpened && <Backdrop onCloseModal={onCloseModal} />}
         {modalIsOpened && (
-          <Modal
-            images={images}
-            mainImage={mainImage}
-            onImageClick={onImageClick}
-            onCloseModal={onCloseModal}
-          />
+          <Backdrop
+            onBackdropCloseModal={(event) => onBackdropCloseModal(event)}
+          >
+            <Modal
+              images={images}
+              mainImage={mainImage}
+              onImageClick={onImageClick}
+              onCloseModal={onCloseModal}
+            />
+          </Backdrop>
         )}
+
         <ProductImages
           relatedProducts={product.relatedProducts}
           images={images}

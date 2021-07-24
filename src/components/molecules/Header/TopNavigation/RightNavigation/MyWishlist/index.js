@@ -1,6 +1,5 @@
 import Button from 'components/atoms/Button';
 import Product from './Product';
-import { useDispatch, useSelector } from 'react-redux';
 
 // import { bagPath } from 'constants/paths';
 // import { useRouter } from 'next/router';

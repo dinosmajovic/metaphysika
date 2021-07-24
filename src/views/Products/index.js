@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import { ProductsWrapper } from './styled';
 import axios from 'axios';
 
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import ProductsGrid from './components/ProductsGrid';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import ProductsGrid from './ProductsGrid';
 
 import { PRODUCTS, FILTERS } from './consts';
 

@@ -11,14 +11,21 @@ import {
 } from './styled';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import calculatePrecentage from 'constants/calculatePrecentage';
 
 const Product = ({ product }) => {
+  const history = useHistory();
+
   const precentageDecrease = calculatePrecentage(
     product.price,
     product.oldPrice
   );
+
+  const onGoToProduct = (productPath, brandPath) => {
+    history.push(`${brandPath}${productPath}`);
+  };
+
   return (
     <ProductContainer>
       <PictureContainer>
@@ -35,11 +42,9 @@ const Product = ({ product }) => {
           </Percentage>
         )}
 
-        <Link to="/">
-          <Picture>
-            <img src={product?.defaultImg} alt="Product" />
-          </Picture>
-        </Link>
+        <Picture onClick={() => onGoToProduct(product.path, product.brandPath)}>
+          <img src={product?.defaultImg} alt="Product" />
+        </Picture>
       </PictureContainer>
       <Label>{product?.name}</Label>
       <PriceContainer>

@@ -14,7 +14,7 @@ import MyProfile from './MyProfile';
 import MyBag from './MyBag';
 import MyWishlist from './MyWishlist';
 
-const RightNavigation = () => {
+const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
   return (
     <RightNavigationContainer>
       <IconContainer>
@@ -22,7 +22,10 @@ const RightNavigation = () => {
           <img src={person} alt="person icon" />
         </Icon>
         <MyProfileMenu>
-          <MyProfile />
+          <MyProfile
+            onLogInModal={onLogInModal}
+            onSignUpModal={onSignUpModal}
+          />
         </MyProfileMenu>
       </IconContainer>
 

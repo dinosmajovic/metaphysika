@@ -34,10 +34,9 @@ const Product = ({ product, onProductDelete }) => {
       <DeleteWrapper>
         <img src={deleteIcon} alt="x icon" />
       </DeleteWrapper>
-      {/* <Link href={product.productPath}> */}
       <ProductWrapper>
         <ProductImage>
-          <img src={image} alt="Product image" />
+          <img src={image} alt="product" />
         </ProductImage>
         <ProductInfo>
           <ProductName>{transformProductName('jojo')}</ProductName>
@@ -47,7 +46,6 @@ const Product = ({ product, onProductDelete }) => {
           <ProductPrice>120 KM</ProductPrice>
         </ProductInfo>
       </ProductWrapper>
-      {/* </Link> */}
     </Wrapper>
   );
 };

@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
-import modalClose from 'assets/icons/modalClose.svg';
 
 export const ModalContainer = styled.div`
   position: fixed;
   background-color: white;
   display: flex;
-  top: 100px;
-  z-index: 130;
+  z-index: 30;
   padding: 20px;
   border-radius: 5px;
   animation: openModal 0.7s ease-out forwards;
@@ -77,8 +75,8 @@ export const Image = styled.div`
 `;
 
 export const ModalCloseWrapper = styled.span`
-  width: 29px;
-  height: 29px;
+  width: 27px;
+  height: 27px;
   position: absolute;
   right: 15px;
   top: 20px;

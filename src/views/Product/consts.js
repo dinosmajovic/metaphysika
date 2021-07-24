@@ -16,8 +16,14 @@ export const PRODUCT = {
   ],
 
   relatedProducts: [
-    'https://cdn11.bigcommerce.com/s-vkwk6y8xk3/images/stencil/original/products/130/457/13913615_1453394871341093_4696478200404458805_o__86633.1624294039.jpg'
+    {
+      brandPath: '/brands/irregular-choice',
+      productPath: '/jojo-bee/',
+      defaultImage:
+        'https://cdn11.bigcommerce.com/s-vkwk6y8xk3/images/stencil/original/products/130/457/13913615_1453394871341093_4696478200404458805_o__86633.1624294039.jpg'
+    }
   ],
+
   sizes: ['41', '42', '43'],
   quantity: ['1', '2', '3']
 };

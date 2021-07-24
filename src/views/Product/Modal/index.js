@@ -22,13 +22,13 @@ const Modal = ({ images, mainImage, onImageClick, onCloseModal }) => {
               isClicked={item.isClicked}
               onClick={() => onImageClick(item.img)}
             >
-              <img src={item.img} alt="Product image" />
+              <img src={item.img} alt="product" />
             </Image>
           );
         })}
       </ImagesContainer>
       <MainImage>
-        <img src={mainImage} alt="Product image" />
+        <img src={mainImage} alt="product" />
       </MainImage>
     </ModalContainer>
   );

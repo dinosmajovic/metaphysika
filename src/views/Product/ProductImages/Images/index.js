@@ -11,13 +11,13 @@ const Images = ({ images, mainImage, onOpenModal, onImageClick }) => {
               onClick={() => onImageClick(item.img)}
               isClicked={item.isClicked}
             >
-              <img src={item.img} alt="Product image" />
+              <img src={item.img} alt="product" />
             </Image>
           );
         })}
       </ImagesContainer>
       <MainImage onClick={onOpenModal}>
-        <img src={mainImage} alt="Product image" />
+        <img src={mainImage} alt="product" />
       </MainImage>
     </Wrapper>
   );

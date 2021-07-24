@@ -4,9 +4,8 @@ import fonts from 'assets/fonts';
 
 export const Options = styled.div`
   display: flex;
-  z-index: 50;
+  z-index: 10;
   position: relative;
-  z-index: 120;
 `;
 
 export const Option = styled.div`
@@ -47,6 +46,12 @@ export const Dropdown = styled.div`
     align-items: center;
     height: 13px;
     width: 13px;
+
+    > img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 
