@@ -1,16 +1,18 @@
 import Button from 'components/atoms/Button';
 import Product from './Product';
-
 import {
   ArrowUp,
   ArrowHoverWrapper,
   Title,
   Products,
   SubTotal,
-  Buttons
+  Buttons,
+  StyledLink
 } from './styled';
 
-const MyBagList = ({ isOpened, menuIsOpened, menuIsClosed }) => {
+import { checkoutPath, bagPath } from 'constants/routes';
+
+const MyBagList = () => {
   return (
     <>
       <ArrowHoverWrapper />
@@ -28,12 +30,16 @@ const MyBagList = ({ isOpened, menuIsOpened, menuIsClosed }) => {
         <span>50 BAM</span>
       </SubTotal>
       <Buttons>
-        <Button size="small" type="white">
-          VIEW BAG
-        </Button>
-        <Button size="small" type="pink">
-          CHECKOUT
-        </Button>
+        <StyledLink to={bagPath}>
+          <Button size="small" type="white">
+            VIEW BAG
+          </Button>
+        </StyledLink>
+        <StyledLink to={checkoutPath}>
+          <Button size="small" type="pink">
+            CHECKOUT
+          </Button>
+        </StyledLink>
       </Buttons>
     </>
   );

@@ -42,12 +42,16 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
     setIsSignUpModal(true);
   };
 
+  const onCloseModal = () => {
+    setIsLogInModal(false);
+  };
+
   const onCloseError = () => {
     setIsError(false);
   };
   return (
     <Container>
-      <ModalCloseWrapper>
+      <ModalCloseWrapper onClick={onCloseModal}>
         <img src={closeModalIcon} alt="close icon" />
       </ModalCloseWrapper>
       <h1>Log in</h1>

@@ -4,11 +4,13 @@ import { combineReducers } from 'redux';
 // ================== Reducers ================== //
 
 import brands from './brands';
+import payment from './payment';
 
 // ================== Global app state ================== //
 
 const appReducer = combineReducers({
-  brands
+  brands,
+  payment
 });
 
 const rootReducer = (state, action) => {

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from 'styles';
 
@@ -70,4 +71,8 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 15px;
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

@@ -51,13 +51,13 @@ export const MyWishListMenu = styled.div`
   display: none;
   width: 300px;
   background-color: ${colors.white.primary};
-  box-shadow: 3px 3px 20px ${colors.gray.light};
   position: absolute;
   top: 35px;
   right: -3px;
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
   z-index: 10;
+  box-shadow: 6px 6px 12px ${colors.gray.light};
 `;
 
 export const IconContainer = styled.div`

@@ -1,15 +1,20 @@
-import React from 'react';
+import { Container } from './styled';
+import Button from 'components/atoms/Button';
+import { Link } from 'react-router-dom';
 
 const Error = () => {
   return (
-    <div>
+    <Container>
       <span>404</span>
       <span>OPPS! PAGE NOT FOUND</span>
       <p>
-        Sorry, the page you're looking for doesnt't exist. If you think
-        something is broken, please report a problem.
+        Sorry, the page you're looking for doesn't exist. If you think something
+        is broken, please report a problem.
       </p>
-    </div>
+      <Link to={'/'}>
+        <Button size="big">BACK TO HOME</Button>
+      </Link>
+    </Container>
   );
 };
 

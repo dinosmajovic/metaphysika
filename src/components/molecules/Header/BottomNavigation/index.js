@@ -20,6 +20,12 @@ const BottomNavigation = () => {
   const [loading, setLoading] = useState(true);
   const [brandIsClicked, setBrandIsClicked] = useState(false);
   const history = useHistory();
+  const [isCheckoutPage, setIsCheckoutPage] = useState(false);
+
+  useEffect(() => {
+    setIsCheckoutPage(window.location.pathname.includes('checkout'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.location.pathname]);
 
   useEffect(() => {
     getBrandsAndCategories();
@@ -92,19 +98,24 @@ const BottomNavigation = () => {
     setBrands(newBrands);
     history.push(brandPath);
   };
+
   return (
     <BottomNavigationContainer>
-      <BrandsDropdown
-        brandIsClicked={brandIsClicked}
-        onBrandClick={goToBrand}
-        brands={brands}
-        loading={loading}
-      />
-      <Categories
-        onCategoryClick={goToCategory}
-        categories={categories}
-        loading={loading}
-      />
+      {!isCheckoutPage && (
+        <>
+          <BrandsDropdown
+            brandIsClicked={brandIsClicked}
+            onBrandClick={goToBrand}
+            brands={brands}
+            loading={loading}
+          />
+          <Categories
+            onCategoryClick={goToCategory}
+            categories={categories}
+            loading={loading}
+          />
+        </>
+      )}
     </BottomNavigationContainer>
   );
 };

@@ -1,5 +1,5 @@
 import transformProductName from 'constants/transformProductName';
-// import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import xIcon from 'assets/icons/modalClose.svg';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import image from 'assets/images/1.jpeg';

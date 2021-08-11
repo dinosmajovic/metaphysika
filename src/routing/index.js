@@ -5,6 +5,12 @@ import Products from 'views/Products';
 import Home from 'views/Home';
 import About from 'views/About';
 import Error from 'views/Error';
+import Checkout from 'views/Checkout';
+import Shipping from 'views/Checkout/Shipping';
+import Payment from 'views/Checkout/Payment';
+import Confirmation from 'views/Checkout/Confirmation';
+import Bag from 'views/Bag';
+import Wishlist from 'views/Wishlist';
 
 const Routing = () => {
   return (
@@ -12,11 +18,12 @@ const Routing = () => {
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
       <Route exact path="/404" component={Error} />
-      {/* <Route path="/terms-of-service" component={TermsOfService} />
-      <Route path="/privacy-policy" component={PrivacyPolicy} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/return-policy" component={ReturnPolicy} /> */}
-
+      <Route exact path="/checkout" component={Checkout} />
+      <Route exact path="/checkout/shipping" component={Shipping} />
+      <Route exact path="/checkout/payment" component={Payment} />
+      <Route exact path="/checkout/confirmation" component={Confirmation} />
+      <Route exact path="/bag" component={Bag} />
+      <Route exact path="/wishlist" component={Wishlist} />
       <Route
         exact
         path="/brands/:brandName?/:productName?"
@@ -31,15 +38,16 @@ const Routing = () => {
             return <Products />;
           }
 
-          return <div>404 not found</div>;
+          return <Error />;
         }}
       />
-
       <Route
         exact
         path="/categories/:categoryName?/:subCategoryName?"
         component={Products}
       />
+
+      <Route path="*" exact component={Error} />
     </Switch>
   );
 };

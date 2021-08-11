@@ -1,3 +1,4 @@
+export const homePath = '/';
 export const bagPath = '/bag';
 export const checkoutPath = '/checkout';
 export const myProfilePath = '/';

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
+import { Link } from 'react-router-dom';
 
 export const ArrowHoverWrapper = styled.span`
   width: 100%;
@@ -36,7 +37,6 @@ export const ArrowUp = styled.span`
     width: 15px;
     height: 15px;
     border-radius: 2px;
-
     border-right: 1px solid ${colors.gray.light};
     border-bottom: 1px solid ${colors.gray.light};
     transform: rotate(-135deg);
@@ -74,4 +74,8 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;
