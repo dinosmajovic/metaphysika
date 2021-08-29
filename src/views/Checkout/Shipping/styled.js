@@ -45,3 +45,19 @@ export const Buttons = styled.div`
     margin-right: 20px;
   }
 `;
+
+export const ErrorMessage = styled.span`
+  display: block;
+  color: red;
+  margin-top: 20px;
+  font-size: 20px;
+`;
+
+export const Wrapper = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;

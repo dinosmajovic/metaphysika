@@ -2,10 +2,21 @@ import { Container } from './styled';
 import Summary from './Summary';
 import Details from './Details';
 
-const OrderDetails = ({ totalPrice, products, type }) => {
+const OrderDetails = ({
+  subtotalPrice,
+  products,
+  type,
+  totalPrice,
+  deliveryPrice
+}) => {
   return (
     <Container>
-      <Summary price={totalPrice} type={type} />
+      <Summary
+        subtotalPrice={subtotalPrice}
+        type={type}
+        totalPrice={totalPrice}
+        deliveryPrice={deliveryPrice}
+      />
       <Details products={products} />
     </Container>
   );

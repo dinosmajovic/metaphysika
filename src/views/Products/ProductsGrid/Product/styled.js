@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from 'styles';
 
@@ -8,8 +9,7 @@ export const ProductContainer = styled.div`
 `;
 
 export const Picture = styled.div`
-  border: solid 1px ${colors.gray.light};
-  padding: 40px;
+  padding: 30px;
   position: relative;
   height: 290px;
   display: block;
@@ -81,4 +81,8 @@ export const Percentage = styled.span`
     font-size: 17px;
     color: ${colors.pink.primary};
   }
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

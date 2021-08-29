@@ -24,10 +24,10 @@ const Product = ({ product, onProductDelete, type }) => {
           <img src={xIcon} alt="x icon" />
         </DeleteWrapper>
       )}
-      <StyledLink to={product.path}>
+      <StyledLink to={product.productPath}>
         <ProductWrapper>
           <ProductImage>
-            <img src={product.defaultImg} alt="Product"></img>
+            <img src={product.mainImg} alt="Product"></img>
           </ProductImage>
           <ProductInfo type={type}>
             <ProductName>{transformProductName(product.name)}</ProductName>

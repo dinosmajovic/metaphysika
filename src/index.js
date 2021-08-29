@@ -14,7 +14,7 @@ import LayoutWrapper from 'components/organisms/LayoutWrapper';
 
 const App = () => (
   <Provider store={store}>
-    <Router history={history}>
+    <Router>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <LayoutWrapper>

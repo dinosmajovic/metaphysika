@@ -1,88 +1,72 @@
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   MainImage,
-  Images,
-  Template,
-  Image,
-  Description
+  MiddleImages,
+  BottomImages,
+  MiddleImage,
+  BottomImage
 } from './styled';
-import Button from 'components/atoms/Button/index';
-import ClothesImage from 'assets/images/HomePageImages/1.jpg';
-import MetaphysikaShoes from 'assets/images/HomePageImages/2.jpg';
-import Shoes from 'assets/images/HomePageImages/4.jpg';
-import Shoes2 from 'assets/images/HomePageImages/3.jpg';
 
 const Home = () => {
+  const history = useHistory();
+
+  const goToPage = (page) => {
+    history.push(page);
+  };
   return (
     <Container>
       <MainImage>
-        <span>Shop now and get up to 30% Off</span>
-        <Button type="white" size="big">
-          Shop Now
-        </Button>
+        <div>
+          <span>SHOP NOW AND GET UP TO 30% OFF</span>
+        </div>
       </MainImage>
-      <Images>
-        <Template>
-          <Image>
-            <img src={Shoes} alt="shoes" />
-          </Image>
-          <Description color="#4C4B42">
-            <span>Shoes</span>
-          </Description>
-        </Template>
-        <Template>
-          <Image>
-            <img src={MetaphysikaShoes} alt="metaphysika design" />
-          </Image>
-          <Description color="#C0B29D">
-            <span>Metaphysika design</span>
-          </Description>
-        </Template>
-        <Template>
-          <Image>
-            <img src={ClothesImage} alt="clothes" />
-          </Image>
-          <Description color="#64A7B8">
-            <span>Clothes</span>
-          </Description>
-        </Template>
-        <Template>
-          <Image>
-            <img src={ClothesImage} alt="clothes" />
-          </Image>
-          <Description color="#64A7B8">
-            <span>Clothes</span>
-          </Description>
-        </Template>
-        <Template>
-          <Image>
-            <img src={Shoes2} alt="metaphysika design" />
-          </Image>
-          <Description color="#C0B29D">
-            <span>Magdalena Klašnja design</span>
-          </Description>
-        </Template>
-        <Template>
-          <Image>
-            <img src={Shoes} alt="shoes" />
-          </Image>
-          <Description color="#4C4B42">
-            <span>Shoes</span>
-          </Description>
-        </Template>
-      </Images>
+      <MiddleImages>
+        <MiddleImage
+          onClick={() => goToPage('categories/shoes')}
+          url={
+            'https://res.cloudinary.com/metaphysika/image/upload/v1629928690/11233533_1122041994476384_5229515622828517017_n-1_dgc55n.jpg'
+          }
+        >
+          <span>CLOTHES</span>
+        </MiddleImage>
+        <MiddleImage
+          onClick={() => goToPage('brands/metaphysika')}
+          url={
+            'https://res.cloudinary.com/metaphysika/image/upload/v1629929100/11174793_1115320981815152_6104364767035205636_n_tdp8kb.jpg'
+          }
+        >
+          <span>METAPHYSIKA</span>
+        </MiddleImage>
+        <MiddleImage
+          onClick={() => goToPage('categories/shoes')}
+          url={
+            'https://res.cloudinary.com/metaphysika/image/upload/v1629929162/11062012_1116805748333342_3833598397722169435_n_sdpjra.jpg'
+          }
+        >
+          <span>SHOES</span>
+        </MiddleImage>
+      </MiddleImages>
+      <BottomImages>
+        <BottomImage
+          onClick={() => goToPage('categories/sale')}
+          url={
+            'https://res.cloudinary.com/metaphysika/image/upload/v1629928893/11245799_1122731761074074_8712816680590886536_n_l4txwh.jpg'
+          }
+        >
+          <span>SALE</span>
+        </BottomImage>
+        <BottomImage
+          onClick={() => goToPage('categories/new')}
+          url={
+            'https://res.cloudinary.com/metaphysika/image/upload/v1629929256/11147212_1123444817669435_3121851933390405771_n_ywfyec.jpg'
+          }
+        >
+          <span>NEW ARRIVALS</span>
+        </BottomImage>
+      </BottomImages>
     </Container>
   );
 };
 
 export default Home;
-
-// import { useEffect, useState } from 'react';
-// useEffect(() => {
-//   fetchProducts();
-// }, []);
-// const [products, setProducts] = useState(null);
-
-// const fetchProducts = () => {
-//   fetch('/products').then((res) => console.log(res.json()));
-// };

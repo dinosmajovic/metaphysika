@@ -1,64 +1,133 @@
 import { useEffect, useState } from 'react';
 import ProductImages from './ProductImages';
 import ProductInformations from './ProductInformations';
-import { ProductContainer } from './styled';
+import { ProductContainer, Wrapper } from './styled';
 import Backdrop from 'components/atoms/Backdrop/index';
-import { PRODUCT } from './consts';
-import Modal from './Modal/index';
+import Modal from './Modal';
+import { useHistory, useParams } from 'react-router-dom';
+import { errorPath } from 'constants/routes/index';
+import axios from 'axios';
+import Loader from 'components/atoms/Loader';
 
 const Product = ({ path, id }) => {
+  const history = useHistory();
+  const params = useParams();
+
+  const [modalIsOpened, setModalIsOpened] = useState(false);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [mainImage, setMainImage] = useState(null);
+  const [images, setImages] = useState(null);
+  const [variants, setVariants] = useState(null);
   const [options, setOptions] = useState([
     {
       label: 'Size',
       value: 'Select',
-      values: [''],
+      values: [],
       isOpened: false
     },
     {
       label: 'Quantity',
       value: '1',
-      values: [''],
+      values: [],
       isOpened: false
     }
   ]);
-  const [modalIsOpened, setModalIsOpened] = useState(false);
-  const [mainImage, setMainImage] = useState(null);
-  const [images, setImages] = useState(null);
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    fetchProduct();
+  }, [params.productName]);
 
-  const getProduct = () => {
-    setTimeout(() => {
-      const eidtedProduct = {
-        ...PRODUCT,
-        images: PRODUCT.images.map((img) => ({ img, isClicked: false }))
-      };
+  const fetchProduct = () => {
+    const newOptions = [...options];
+    newOptions[0].value = 'Select';
+    newOptions[1].value = '1';
+    setOptions(newOptions);
 
-      const newOptions = options.map((option) => {
-        if (option.label === 'Size') {
-          return {
-            ...option,
-            values: PRODUCT.sizes
-          };
+    setLoading(true);
+    axios
+      .get('/brands/brand/product', {
+        params: {
+          path: `/${params.productName}/`
         }
-        if (option.label === 'Quantity') {
+      })
+      .then((res) => {
+        let data = res;
+        data = data.data.site.route.node;
+
+        const product = {
+          name: data.name,
+          id: data.id,
+          entityId: data.entityId,
+          description: data.description,
+          mainImg: data.defaultImage.urlOriginal,
+          images: data.images.edges,
+          price: data.prices.price.value,
+          currencyCode: data.prices.price.currencyCode,
+          oldPrice: data.prices.retailPrice?.value,
+          path: data.path,
+          brandPath: data.brand.path,
+          productPath: `${data.brand.path}${data.path}`,
+          relatedProducts: data.relatedProducts.edges.map((product) => {
+            return {
+              brandPath: product.node.brand.path,
+              defaultImage: product.node.defaultImage.urlOriginal,
+              productPath: product.node.path
+            };
+          })
+        };
+
+        const images = product.images.map((img) => {
           return {
-            ...option,
-            values: PRODUCT.quantity
+            link: img.node.urlOriginal,
+            isClicked: false
           };
-        }
+        });
+
+        setMainImage(product.mainImg);
+        setImages(images);
+        setProduct(product);
+        fetchProductVariants(product.entityId);
+      })
+      .catch(function (error) {
+        history.push(errorPath);
+        setLoading(false);
       });
+  };
 
-      setImages(eidtedProduct.images);
-      setMainImage(eidtedProduct.mainImg);
-      setOptions(newOptions);
-      setProduct(eidtedProduct);
-      setLoading(false);
-    }, 300);
+  const fetchProductVariants = (productId) => {
+    axios
+      .get('/brands/brand/productvariants', {
+        params: {
+          productId
+        }
+      })
+      .then((result) => {
+        const variants = result.data.data.map((variant) => {
+          return {
+            id: variant.id,
+            quantity: variant.inventory_level,
+            size: variant.option_values[0].label
+          };
+        });
+
+        const sizes = [];
+        variants.forEach((variant) => {
+          return variant.quantity > 0 ? sizes.push(variant.size) : null;
+        });
+
+        const newOptions = [...options];
+
+        newOptions[0].values = sizes;
+
+        setOptions(newOptions);
+        setVariants(variants);
+        setLoading(false);
+      })
+
+      .catch((error) => {
+        history.push(errorPath);
+      });
   };
 
   const onCloseDropdowns = (event) => {
@@ -90,7 +159,7 @@ const Product = ({ path, id }) => {
   const onImageClick = (image) => {
     setMainImage(image);
 
-    const clickedImageIndex = images.findIndex((item) => item.img === image);
+    const clickedImageIndex = images.findIndex((item) => item.link === image);
 
     const newImages = images.map((item) => ({
       ...item,
@@ -102,7 +171,13 @@ const Product = ({ path, id }) => {
     setImages(newImages);
   };
 
-  if (product) {
+  if (loading) {
+    return (
+      <Wrapper>
+        <Loader />
+      </Wrapper>
+    );
+  } else if (product && variants) {
     return (
       <ProductContainer onClick={(event) => onCloseDropdowns(event)}>
         {modalIsOpened && (
@@ -126,6 +201,7 @@ const Product = ({ path, id }) => {
           onImageClick={onImageClick}
         />
         <ProductInformations
+          variants={variants}
           product={product}
           sizeIsSelected={false}
           options={options}
@@ -133,9 +209,9 @@ const Product = ({ path, id }) => {
         />
       </ProductContainer>
     );
-  } else if (loading) {
-    return <div>loading</div>;
   }
 };
 
 export default Product;
+
+// if (product && variants) {

@@ -30,7 +30,7 @@ export const MyProfileMenu = styled.div`
   right: -3px;
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 10;
+  z-index: 15;
   width: 135px;
 `;
 
@@ -42,7 +42,7 @@ export const MyBagMenu = styled.div`
   box-shadow: 6px 6px 12px ${colors.gray.light};
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 10;
+  z-index: 15;
   top: 35px;
   right: -3px;
 `;
@@ -56,7 +56,7 @@ export const MyWishListMenu = styled.div`
   right: -3px;
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 10;
+  z-index: 15;
   box-shadow: 6px 6px 12px ${colors.gray.light};
 `;
 

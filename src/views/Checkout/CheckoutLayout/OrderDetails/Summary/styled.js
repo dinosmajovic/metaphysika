@@ -25,10 +25,29 @@ export const SummaryContainer = styled.div`
     width: 100%;
     justify-content: space-between;
     padding-bottom: 5px;
-    border-bottom: solid 1px ${colors.gray.light};
+    border-bottom: ${({ type }) =>
+      type === 'subTotal' ? `solid 1px ${colors.gray.light}` : ''};
+
+    :not(:last-child) {
+      margin-bottom: 4%;
+    }
 
     > span {
-      font-size: 20px;
+      font-size: ${({ type }) => (type === 'subTotal' ? '20px' : '18px')};
     }
+  }
+`;
+
+export const Total = styled.span`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: solid 1px ${colors.gray.light};
+
+  > span {
+    color: ${colors.pink.dark};
+    display: bloc;
+    font-size: 22px;
   }
 `;

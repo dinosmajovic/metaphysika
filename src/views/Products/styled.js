@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const ProductsWrapper = styled.div`
-  padding: 0 50px;
-  padding-bottom: 30px;
+  padding: 30px 50px;
   display: grid;
   grid-gap: 40px;
   grid-template-columns: auto 1fr;
@@ -23,4 +22,13 @@ export const ProductsWrapper = styled.div`
       '. productList'
       '. buttons';
   }
+`;
+
+export const Wrapper = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;

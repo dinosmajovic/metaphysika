@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import Stepper from '../Stepper';
 import OrderDetails from './OrderDetails';
 import { useLocation } from 'react-router-dom';
-import { MyBag } from '../consts';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const CheckoutContainer = styled.div`
   display: flex;
@@ -20,8 +19,15 @@ export const Container = styled.div`
   }
 `;
 
-const CheckoutLayout = ({ children }) => {
+const CheckoutLayout = ({
+  children,
+  totalPrice,
+  deliveryPrice,
+  type,
+  subtotalPrice
+}) => {
   const { pathname } = useLocation();
+  const bag = useSelector((state) => state.bag.products);
 
   const currentStep = pathname.split('/')[2];
 
@@ -45,7 +51,13 @@ const CheckoutLayout = ({ children }) => {
       <Stepper steps={steps} currentStep={currentStep} />
       <Container>
         {children}
-        <OrderDetails totalPrice={'50'} products={MyBag} type="subTotal" />
+        <OrderDetails
+          subtotalPrice={subtotalPrice}
+          totalPrice={totalPrice}
+          deliveryPrice={deliveryPrice}
+          products={bag}
+          type={type}
+        />
       </Container>
     </CheckoutContainer>
   );

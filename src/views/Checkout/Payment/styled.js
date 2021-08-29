@@ -23,6 +23,7 @@ export const Title = styled.h2`
 `;
 
 export const Buttons = styled.span`
+  position: relative;
   margin-top: 30px;
   width: 100%;
   display: flex;
@@ -63,8 +64,15 @@ export const OnlinePayment = styled.span`
   margin-bottom: 20px;
 
   > :nth-child(2) {
-    font-size: 16px;
-    font-weight: ${fonts.sfPro.fontWeight.light};
+    > :first-child {
+      font-size: 16px;
+      font-weight: ${fonts.sfPro.fontWeight.light};
+      margin-right: 10px;
+    }
+
+    > :nth-child(2) {
+      color: red;
+    }
   }
 `;
 
@@ -76,4 +84,11 @@ export const OfflinePayment = styled.span`
     font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.light};
   }
+`;
+
+export const ErrorMessage = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 45px;
+  color: red;
 `;

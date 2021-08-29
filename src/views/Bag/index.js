@@ -14,15 +14,16 @@ import Button from 'components/atoms/Button';
 import { checkoutPath } from 'constants/routes';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
-import { MyBag as MyBagProducts } from 'views/Checkout/consts';
+import { useSelector } from 'react-redux';
 
 const Bag = () => {
   const history = useHistory();
-  const myBag = MyBagProducts;
+  const bag = useSelector((state) => state.bag.products);
   const [isErrorMessage, setErrorMessage] = useState(false);
+  const subTotal = useSelector((state) => state.bag.subtotal);
 
   const onGoToCheckout = () => {
-    if (myBag.length > 0) {
+    if (bag.length > 0) {
       history.push(checkoutPath);
     } else {
       setErrorMessage(true);
@@ -35,13 +36,13 @@ const Bag = () => {
         <MyBag>
           <Title>
             <span>
-              My Bag (<span>{myBag.length}</span>)
+              My Bag (<span>{bag.length}</span>)
             </span>
           </Title>
           <Products>
-            {myBag.length > 0 ? (
-              myBag.map((product) => {
-                return <Product product={product} key={product.id} />;
+            {bag.length > 0 ? (
+              bag.map((product) => {
+                return <Product product={product} key={product.bagId} />;
               })
             ) : (
               <EmptyBag>
@@ -54,7 +55,7 @@ const Bag = () => {
           <span>Summary</span>
           <Subtotal>
             <span>Subtotal</span>
-            <span>120 BAM</span>
+            <span>{subTotal}</span>
           </Subtotal>
           <Button size={'big'} type={'pink'} onClick={onGoToCheckout}>
             CHECKOUT

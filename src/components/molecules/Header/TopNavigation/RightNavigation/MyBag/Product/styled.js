@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
+import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -21,6 +22,7 @@ export const ProductImage = styled.div`
   > img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -28,7 +30,7 @@ export const ProductWrapper = styled.div`
   display: flex;
   padding: 15px;
   align-items: flex-start;
-  cursor: pointer;
+
   position: relative;
 
   :not(:last-child) {
@@ -98,10 +100,15 @@ export const LikeWrapper = styled.div`
   position: absolute;
   right: 10px;
   bottom: 16px;
+  cursor: pointer;
 
   > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

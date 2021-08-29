@@ -10,20 +10,24 @@ import {
   Buttons,
   StyledLink
 } from './styled';
+import { useSelector } from 'react-redux';
 
-const MyWishlist = ({ isOpened, menuIsOpened, menuIsClosed }) => {
+const MyWishlist = () => {
+  const wishlist = useSelector((state) => state.wishlist.products);
+
   return (
     <>
       <ArrowHoverWrapper />
       <ArrowUp />
-
       <Title>
         <span>
-          My Wishlist (<span>{5}</span>)
+          My Wishlist (<span>{wishlist.length}</span>)
         </span>
       </Title>
       <Products>
-        <Product />
+        {wishlist.map((product) => (
+          <Product key={product.id} product={product} />
+        ))}
       </Products>
 
       <Buttons>

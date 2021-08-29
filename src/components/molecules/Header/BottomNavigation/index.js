@@ -2,11 +2,9 @@ import styled from 'styled-components';
 import Categories from './Categories';
 import BrandsDropdown from './BrandsDropdown';
 import { useEffect, useState } from 'react';
-import client from 'api/apollo-client';
-import { useHistory } from 'react-router-dom';
-import { errorPath } from 'constants/routes';
+import { useHistory, useLocation } from 'react-router-dom';
 import findItemIndex from 'constants/findItemIndex/index';
-import GET_BRANDS_AND_CATEGORIES from 'queries/get_brands_and_categories';
+import axios from 'axios';
 
 const BottomNavigationContainer = styled.div`
   display: flex;
@@ -21,50 +19,45 @@ const BottomNavigation = () => {
   const [brandIsClicked, setBrandIsClicked] = useState(false);
   const history = useHistory();
   const [isCheckoutPage, setIsCheckoutPage] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    setIsCheckoutPage(window.location.pathname.includes('checkout'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [window.location.pathname]);
+    setIsCheckoutPage(location.pathname.includes('checkout'));
+  }, [location.pathname]);
 
   useEffect(() => {
     getBrandsAndCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getBrandsAndCategories = async () => {
-    try {
-      await client
-        .query({
-          query: GET_BRANDS_AND_CATEGORIES
-        })
-        .then((result) => {
-          const mappedCategories = result.data.site.categoryTree.map(
-            (category) => {
-              return {
-                label: category.name,
-                path: category.path,
-                isClicked: false
-              };
-            }
-          );
-
-          const mappedBrands = result.data.site.brands.edges.map((brand) => {
+    axios
+      .get('/brands/and/categories')
+      .then((result) => {
+        const mappedCategories = result.data.site.categoryTree.map(
+          (category) => {
             return {
-              label: brand.node.name,
-              path: brand.node.path,
+              label: category.name,
+              path: category.path,
               isClicked: false
             };
-          });
+          }
+        );
 
-          setBrands(mappedBrands);
-          setCategories(mappedCategories);
-          setLoading(false);
+        const mappedBrands = result.data.site.brands.edges.map((brand) => {
+          return {
+            label: brand.node.name,
+            path: brand.node.path,
+            isClicked: false
+          };
         });
-    } catch (error) {
-      setLoading(false);
-      return history.push(errorPath);
-    }
+
+        setBrands(mappedBrands);
+        setCategories(mappedCategories);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const resetItems = (items) => {

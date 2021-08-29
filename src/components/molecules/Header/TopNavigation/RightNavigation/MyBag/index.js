@@ -11,23 +11,27 @@ import {
 } from './styled';
 
 import { checkoutPath, bagPath } from 'constants/routes';
+import { useSelector } from 'react-redux';
 
 const MyBagList = () => {
+  const bag = useSelector((state) => state.bag.products);
+  const subtotal = useSelector((state) => state.bag.subtotal);
+
   return (
     <>
       <ArrowHoverWrapper />
       <ArrowUp />
       <Title>
         <span>
-          My Bag (<span>5</span>)
+          My Bag (<span>{bag.length}</span>)
         </span>
       </Title>
       <Products>
-        <Product />
+        <Product products={bag} />
       </Products>
       <SubTotal>
         <span>Sub-total</span>
-        <span>50 BAM</span>
+        <span>{subtotal} BAM</span>
       </SubTotal>
       <Buttons>
         <StyledLink to={bagPath}>

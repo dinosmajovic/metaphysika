@@ -7,11 +7,11 @@ const Images = ({ images, mainImage, onOpenModal, onImageClick }) => {
         {images.map((item) => {
           return (
             <Image
-              key={item.img}
-              onClick={() => onImageClick(item.img)}
+              key={item.link}
+              onClick={() => onImageClick(item.link)}
               isClicked={item.isClicked}
             >
-              <img src={item.img} alt="product" />
+              <img src={item.link} alt="product" />
             </Image>
           );
         })}

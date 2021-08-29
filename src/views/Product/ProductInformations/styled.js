@@ -20,6 +20,7 @@ export const ProductInfo = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   width: 100%;
   position: relative;
 `;
@@ -66,7 +67,19 @@ export const InputError = styled.span`
   color: ${colors.pink.dark};
   position: absolute;
   bottom: -25px;
-  right: -10px;
+  right: 40px;
+
+  @media (max-width: 910px) {
+    display: none;
+  }
+`;
+
+export const QuantityError = styled.span`
+  font-size: 16px;
+  color: ${colors.pink.dark};
+  position: absolute;
+  bottom: -25px;
+  right: -2px;
 
   @media (max-width: 910px) {
     display: none;
@@ -105,5 +118,19 @@ export const ProductName = styled.span`
     color: ${colors.pink.primary};
 
     font-size: 30px;
+  }
+`;
+
+export const LikeWrapper = styled.div`
+  width: 34px;
+  height: 34px;
+  display: flex;
+  cursor: pointer;
+  margin-left: 20px;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;

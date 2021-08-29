@@ -1,13 +1,12 @@
 import Button from 'components/atoms/Button';
-import { colors } from 'styles';
 import checkCircle from 'assets/icons/checkCircle.svg';
 import { useState } from 'react';
-import SyncLoader from 'react-spinners/ClipLoader';
 import { homePath } from 'constants/routes';
 import { PaymentProcessing, Container, StyledLink } from './styled';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPayment } from 'state/payment';
+import Loader from 'components/atoms/Loader';
 
 const Confirmation = () => {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ const Confirmation = () => {
       <PaymentProcessing>
         <span>Your payment is processing</span>
         <div>
-          <SyncLoader color={colors.pink.primary} loading={true} size={40} />
+          <Loader />
         </div>
       </PaymentProcessing>
     );

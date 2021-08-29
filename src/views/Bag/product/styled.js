@@ -82,20 +82,21 @@ export const ProductOption = styled.div`
 export const Dropdown = styled.div`
   width: 110px;
   height: 25px;
-  border: solid 1px ${colors.gray.light};
-  border-radius: 5px;
-  padding: 13px 10px;
+  padding: 13px 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
+
+  /* border: solid 1px ${colors.gray.light};
+  border-radius: 5px;
   border-bottom-left-radius: ${(props) => (props.isOpened ? '0px' : '5px')};
   border-bottom-right-radius: ${(props) => (props.isOpened ? '0px' : '5px')};
   border-bottom: ${(props) =>
-    props.isOpened ? 'none' : `solid 1px ${colors.gray.light}`};
+    props.isOpened ? 'none' : `solid 1px ${colors.gray.light}`}; */
+
   > h2 {
-    font-size: 14px;
-    font-weight: ${fonts.sfPro.fontWeight.light};
+    font-size: 16px;
+    font-weight: ${fonts.sfPro.fontWeight.regular};
   }
 
   > div {

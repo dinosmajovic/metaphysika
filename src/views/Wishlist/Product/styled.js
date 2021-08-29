@@ -4,12 +4,14 @@ import fonts from 'assets/fonts';
 
 export const Container = styled.div`
   position: relative;
+
   display: flex;
   flex-direction: column;
   padding: 20px;
   border: 1px solid ${colors.gray.light};
+
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
 `;
 
 export const ProductImage = styled.div`
@@ -47,8 +49,8 @@ export const DeleteProduct = styled.div`
   justify-content: center;
   cursor: pointer;
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 5px;
+  top: 5px;
 
   > img {
     width: 100%;

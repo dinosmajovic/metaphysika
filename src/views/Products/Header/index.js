@@ -8,10 +8,33 @@ import {
 } from './styled';
 import arrowDown from 'assets/icons/arrowDown.svg';
 
-const Sort = ({ brandName }) => {
+const Sort = ({ label, productsList, setProductsList }) => {
+  const onSortHighToLow = () => {
+    const sortedProducts = productsList.sort((el1, el2) => {
+      return el1.price - el2.price;
+    });
+
+    const mappedSortedProducts = sortedProducts.map((el) => {
+      return el;
+    });
+
+    setProductsList(mappedSortedProducts);
+  };
+  const onSortLowToHigh = () => {
+    let sortedProducts = productsList.sort((el1, el2) => {
+      return el2.price - el1.price;
+    });
+
+    const mappedSortedProducts = sortedProducts.map((el) => {
+      return el;
+    });
+
+    setProductsList(mappedSortedProducts);
+  };
+
   return (
     <Wrapper>
-      <h1>{brandName}</h1>
+      <h1>{label}</h1>
       <SortContainer>
         <Container>
           <span>SORT</span>
@@ -21,8 +44,8 @@ const Sort = ({ brandName }) => {
         </Container>
         <Line />
         <SortOptions>
-          <span>Price Low To High</span>
-          <span>Price High To Low</span>
+          <span onClick={onSortLowToHigh}>Price Low To High</span>
+          <span onClick={onSortHighToLow}>Price High To Low</span>
         </SortOptions>
       </SortContainer>
     </Wrapper>

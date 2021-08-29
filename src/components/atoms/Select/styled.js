@@ -34,6 +34,11 @@ export const StyledSelect = styled.select`
   appearance: none;
   font-size: 16;
 
+  :-webkit-autofill {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
   :focus {
     border: 1px solid ${colors.pink.primary};
   }

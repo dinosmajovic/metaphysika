@@ -7,30 +7,51 @@ import {
   PriceContainer,
   OldPrice,
   Price,
-  Percentage
+  Percentage,
+  StyledLink
 } from './styled';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
-import { useHistory } from 'react-router-dom';
 import calculatePrecentage from 'constants/calculatePrecentage';
+import transformProductName from 'constants/transformProductName';
+import { addOrDeleteFromWishlist } from 'state/wishlist';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Product = ({ product }) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onAddOrDeleteFromWishlist = (product) => {
+    dispatch(addOrDeleteFromWishlist(product));
+  };
 
   const precentageDecrease = calculatePrecentage(
     product.price,
     product.oldPrice
   );
 
-  const onGoToProduct = (productPath, brandPath) => {
-    history.push(`${brandPath}${productPath}`);
-  };
+  const wishlistProducts = useSelector((state) => state.wishlist.products);
+
+  const productInWishlist = wishlistProducts.filter((p) => {
+    return product.id === p.id;
+  });
+
+  let productIsInWishlist = false;
+  if (productInWishlist.length > 0) {
+    productIsInWishlist = true;
+  } else {
+    productIsInWishlist = false;
+  }
 
   return (
     <ProductContainer>
       <PictureContainer>
-        <Heart onClick={() => {}}>
-          {false ? (
+        <Heart
+          onClick={() => {
+            onAddOrDeleteFromWishlist(product);
+          }}
+        >
+          {productIsInWishlist ? (
             <img src={likeHeartFilled} alt="Heart icon" />
           ) : (
             <img src={likeHeartOutlined} alt="Heart icon" />
@@ -38,15 +59,16 @@ const Product = ({ product }) => {
         </Heart>
         {product?.oldPrice && (
           <Percentage>
-            <span> {precentageDecrease}%</span>
+            <span>{precentageDecrease}%</span>
           </Percentage>
         )}
-
-        <Picture onClick={() => onGoToProduct(product.path, product.brandPath)}>
-          <img src={product?.defaultImg} alt="Product" />
-        </Picture>
+        <StyledLink to={`${product.brandPath}${product.path}`}>
+          <Picture>
+            <img src={product.mainImg} alt="Product" />
+          </Picture>
+        </StyledLink>
       </PictureContainer>
-      <Label>{product?.name}</Label>
+      <Label>{transformProductName(product?.name)}</Label>
       <PriceContainer>
         {product?.oldPrice && (
           <OldPrice>{`${product?.oldPrice} ${product?.currencyCode}`}</OldPrice>

@@ -1,35 +1,44 @@
-import { useState, useEffect } from 'react';
-import { SidebarWrapper, ButtonWrapper } from './styled';
-import queryString from 'query-string';
-import { useLocation } from 'react-router';
-import history from 'routing/history';
+import {
+  SidebarWrapper,
+  ButtonWrapper,
+  Subcategories,
+  SubCategory,
+  Line,
+  SubcategoriesTitle,
+  StyledLink
+} from './styled';
 import Button from 'components/atoms/Button';
 import Filters from '../Filters';
+import { useState } from 'react';
 
-const FILTERS = [
-  {
-    name: 'size',
-    label: 'SIZE',
-    filters: [44, 45, 46]
-  },
-  {
-    name: 'brand',
-    label: 'BRAND',
-    filters: [44, 45, 46]
-  },
-  {
-    name: 'color',
-    label: 'COLOR',
-    filters: [44, 45, 46]
-  }
-];
-
-const Sidebar = ({ onApplyFilter }) => {
+const Sidebar = ({
+  onApplyFilters,
+  filters,
+  categoryName,
+  subCategories,
+  setSubCategories
+}) => {
+  const FILTERS = [
+    {
+      name: 'size',
+      label: 'SIZE',
+      filters: filters.sizes
+    },
+    {
+      name: 'brand',
+      label: 'BRAND',
+      filters: filters.brands
+    },
+    {
+      name: 'color',
+      label: 'COLOR',
+      filters: filters.colors
+    }
+  ];
   const [appliedFilters, setAppliedFilters] = useState({});
 
   const onSelectFilter = (name, filter) => {
     let filters = { ...appliedFilters };
-
     if (filters[name]?.includes(filter)) {
       const index = filters[name].indexOf(filter);
       filters[name].splice(index, 1);
@@ -42,6 +51,23 @@ const Sidebar = ({ onApplyFilter }) => {
     setAppliedFilters(filters);
   };
 
+  const onSubcategoryClick = (path) => {
+    const newSubCategories = subCategories.map((subCategory) => {
+      return {
+        ...subCategory,
+        isClicked: false
+      };
+    });
+
+    const index = newSubCategories.findIndex((subCategory) => {
+      return subCategory.path === path;
+    });
+
+    newSubCategories[index].isClicked = true;
+
+    setSubCategories(newSubCategories);
+  };
+
   return (
     <SidebarWrapper>
       <Filters
@@ -51,10 +77,32 @@ const Sidebar = ({ onApplyFilter }) => {
       />
 
       <ButtonWrapper>
-        <Button onClick={() => onApplyFilter(appliedFilters)}>
+        <Button onClick={() => onApplyFilters(appliedFilters)}>
           Apply filter
         </Button>
       </ButtonWrapper>
+
+      {categoryName && (
+        <>
+          <SubcategoriesTitle>SUBCATEGORIES</SubcategoriesTitle>
+          <Line />
+          <Subcategories>
+            {subCategories?.map((subcategory) => {
+              return (
+                <StyledLink
+                  to={subcategory.path}
+                  key={subcategory.path}
+                  onClick={() => onSubcategoryClick(subcategory.path)}
+                >
+                  <SubCategory isClicked={subcategory.isClicked}>
+                    {subcategory.name}
+                  </SubCategory>
+                </StyledLink>
+              );
+            })}
+          </Subcategories>
+        </>
+      )}
     </SidebarWrapper>
   );
 };

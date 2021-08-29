@@ -18,11 +18,11 @@ const Modal = ({ images, mainImage, onImageClick, onCloseModal }) => {
         {images.map((item) => {
           return (
             <Image
-              key={item.img}
+              key={item.link}
               isClicked={item.isClicked}
-              onClick={() => onImageClick(item.img)}
+              onClick={() => onImageClick(item.link)}
             >
-              <img src={item.img} alt="product" />
+              <img src={item.link} alt="product" />
             </Image>
           );
         })}

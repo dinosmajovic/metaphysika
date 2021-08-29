@@ -1,18 +1,19 @@
 import { Container, Title, Products } from './styled';
 import Product from './Product';
-import { WISHLIST } from './consts';
+import { useSelector } from 'react-redux';
 
 const Wishlist = () => {
-  const products = WISHLIST;
+  const wishlistProducts = useSelector((state) => state.wishlist.products);
+
   return (
     <Container>
       <Title>
-        My Wishlist (<span>6</span>)
+        My Wishlist (<span>{wishlistProducts.length}</span>)
       </Title>
 
       <Products>
-        {products.map((product) => (
-          <Product product={product} />
+        {wishlistProducts.map((product) => (
+          <Product product={product} key={product.id} />
         ))}
       </Products>
     </Container>

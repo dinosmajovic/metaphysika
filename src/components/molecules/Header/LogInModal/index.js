@@ -30,7 +30,6 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
       });
 
       if (accountIsExisting) {
-        console.log('set wishlist and bag  and other data of user');
         setIsLogInModal(false);
       } else {
         setIsError(true);
