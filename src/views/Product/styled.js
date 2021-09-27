@@ -2,14 +2,13 @@ import styled from 'styled-components';
 
 export const ProductContainer = styled.div`
   display: flex;
-  padding-top: 50px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 50px 20px;
   justify-content: center;
 
-  @media (max-width: 910px) {
+  @media (max-width: 950px) {
     flex-direction: column-reverse;
     align-items: center;
+    padding: 10px 0px;
   }
 `;
 

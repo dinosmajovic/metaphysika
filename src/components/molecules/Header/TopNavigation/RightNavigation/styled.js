@@ -3,6 +3,10 @@ import { colors } from 'styles';
 
 export const RightNavigationContainer = styled.span`
   display: flex;
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
 `;
 
 export const Icon = styled.span`

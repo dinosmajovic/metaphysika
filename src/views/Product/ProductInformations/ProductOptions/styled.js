@@ -6,6 +6,11 @@ export const Options = styled.div`
   display: flex;
   z-index: 10;
   position: relative;
+
+  @media (max-width: 360px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 export const Option = styled.div`
@@ -17,6 +22,10 @@ export const Option = styled.div`
     font-weight: ${fonts.sfPro.fontWeight.regular};
     margin-bottom: 5px;
     z-index: 50;
+  }
+
+  @media (max-width: 360px) {
+    margin-right: 0px;
   }
 `;
 
@@ -30,6 +39,10 @@ export const Dropdown = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+
+  @media (max-width: 360px) {
+    width: 100%;
+  }
 
   :hover {
     background-color: ${colors.gray.hover};

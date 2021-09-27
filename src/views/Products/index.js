@@ -8,493 +8,276 @@ import ProductsGrid from './ProductsGrid';
 import { errorPath } from 'constants/routes';
 import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
-import getUniqueChars from 'constants/getUniqueChars';
+import { filter } from 'lodash';
 
-/* eslint-disable */
 const Products = () => {
   const history = useHistory();
   const params = useParams();
-
-  const { brandName, categoryName, subCategoryName } = params || {};
-  const [loading, setLoading] = useState(true);
-  const [productsList, setProductsList] = useState([]);
-  const [numberOfRequests, setNumberOfRequests] = useState(null);
-  const [count, setCount] = useState(0);
-  const [label, setLabel] = useState(null);
+  const { brandName, categoryName, subcategoryName } = params || {};
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(20);
-  const [endCursor, setEndCursor] = useState(null);
   const [totalProductsCount, setTotalProductsCount] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState(null);
-  const [displayProducts, setDisplayProducts] = useState(null);
-  const [subCategories, setSubCategories] = useState(null);
-  const [filters, setFilters] = useState({
-    sizes: [],
-    brands: [],
-    colors: []
-  });
+  const [label, setLabel] = useState(null);
+  const [subcategories, setSubcategories] = useState(null);
+  const [filters, setFilters] = useState({});
+  const [appliedFilters, setAppliedFilters] = useState({});
+  const [sortType, setSortType] = useState('creation-time-descending');
+  const productsPerPage = 24;
+  const [sortOptions, setSortOptions] = useState([
+    {
+      label: 'Newest to oldest',
+      sortType: 'creation-time-descending',
+      isClicked: true
+    },
+    {
+      label: 'Oldest to newest',
+      sortType: 'creation-time-ascending',
+      isClicked: false
+    },
+    {
+      label: 'Price high to low',
+      sortType: 'price-high-to-low',
+      isClicked: false
+    },
+    {
+      label: 'Price low to high',
+      sortType: 'price-low-to-high',
+      isClicked: false
+    }
+  ]);
+
+  const [allFilters, setAllFilters] = useState([
+    {
+      name: 'size',
+      label: 'SIZE',
+      filters: [],
+      isOpen: false
+    },
+    {
+      name: 'brand',
+      label: 'BRAND',
+      filters: [],
+      isOpen: false
+    },
+    {
+      name: 'color',
+      label: 'COLOR',
+      filters: [],
+      isOpen: false
+    }
+  ]);
 
   useEffect(() => {
-    fetchProducts();
+    const isCategoryChanged = true;
+    setAppliedFilters({});
+    setCurrentPage(1);
+    setLoading(true);
+    fetchProducts(isCategoryChanged, 1, {});
   }, [params]);
 
-  useEffect(() => {
-    if (count > 0 && count <= numberOfRequests) {
-      getProducts();
-    }
-  }, [count]);
-
-  useEffect(() => {
-    if (totalProductsCount == productsList.length) {
-      // reverse products list from last to first
-      let newProducts = [...productsList];
-      newProducts.reverse();
-
-      // GET AND SET FILTERS
-      const allBrands = newProducts.map((product) => product.brand);
-      const uniqueBrands = getUniqueChars(allBrands).sort();
-
-      const allColors = newProducts.map((product) => product.color);
-      const uniqueColors = getUniqueChars(allColors).sort();
-
-      const allSizes = newProducts.map((product) => product.sizes);
-      const concatAllSizes = Array.prototype.concat.apply([], allSizes);
-      const uniqueSizes = getUniqueChars(concatAllSizes).sort();
-
-      const newFilters = {
-        ...filters
-      };
-      newFilters.sizes = uniqueSizes;
-      newFilters.colors = uniqueColors;
-      newFilters.brands = uniqueBrands;
-
-      setFilters(newFilters);
-      setProducts(newProducts);
-      setDisplayProducts(newProducts);
-      setLoading(false);
-    }
-  }, [productsList]);
-
-  const fetchProducts = () => {
-    if (categoryName && !subCategoryName) {
-      setCurrentPage(1);
-      setLoading(true);
-      setProductsList([]);
-      setEndCursor('');
-
-      axios
-        .get('/categories/products', {
-          params: {
-            cursor: '',
-            path: `/categories/${categoryName}`,
-            quantity: 1
-          }
-        })
-        .then((result) => {
-          const categoryId = result.data.site.route.node.entityId;
-          const label = result.data.site.route.node.name;
-
-          setLabel(label);
-
-          axios
-            .get('/categories/category/subcategoryList', {
-              params: {
-                categoryId
-              }
-            })
-            .then((res) => {
-              const subCategories = res.data.site.categoryTree[0].children.map(
-                (subCategory) => {
-                  return {
-                    ...subCategory,
-                    isClicked: false
-                  };
-                }
-              );
-              setSubCategories(subCategories);
-            })
-            .catch((err) => {
-              history.push(errorPath);
-              setLoading(false);
-            })
-            .then(() => {
-              axios
-                .get('/categories/products/count', {
-                  params: {
-                    categoryId
-                  }
-                })
-                .then((res) => {
-                  const totalProductsCount = res.data.meta.pagination.total;
-                  const productsPerRequest = 50;
-
-                  setTotalProductsCount(totalProductsCount);
-
-                  const numberOfRequests = Math.ceil(
-                    totalProductsCount / productsPerRequest
-                  );
-
-                  if (numberOfRequests > 0) {
-                    setNumberOfRequests(numberOfRequests);
-                    setCount(1);
-                  } else {
-                    setProductsList([]);
-                    setLoading(false);
-                  }
-                })
-                .catch((error) => {
-                  history.push(errorPath);
-                  setLoading(false);
-                });
-            });
-        })
-        .catch((error) => {
-          history.push(errorPath);
-          setLoading(false);
-        });
-    } else if (categoryName && subCategoryName) {
-      setCurrentPage(1);
-      setLoading(true);
-      setProductsList([]);
-      setEndCursor('');
-
-      axios
-        .get('/categories/products', {
-          params: {
-            cursor: '',
-            path: `/categories/${categoryName}/${subCategoryName}`,
-            quantity: 1
-          }
-        })
-        .then((result) => {
-          const categoryId = result.data.site.route.node.entityId;
-          const label = result.data.site.route.node.name;
-
-          setLabel(label);
-
-          axios
-            .get('/categories/products/count', {
-              params: {
-                categoryId
-              }
-            })
-            .then((res) => {
-              const totalProductsCount = res.data.meta.pagination.total;
-              const productsPerRequest = 50;
-
-              setTotalProductsCount(totalProductsCount);
-
-              const numberOfRequests = Math.ceil(
-                totalProductsCount / productsPerRequest
-              );
-
-              if (numberOfRequests > 0) {
-                setNumberOfRequests(numberOfRequests);
-                setCount(1);
-              } else {
-                setProductsList([]);
-                setLoading(false);
-              }
-            })
-            .catch((error) => {
-              history.push(errorPath);
-              setLoading(false);
-            });
-        });
-    } else if (brandName) {
-      setLoading(true);
-      setCurrentPage(1);
-      setProductsList([]);
-      setEndCursor('');
-
-      axios
-        .get('/brands/products', {
-          params: {
-            cursor: '',
-            path: `/brands/${brandName}`,
-            quantity: 1
-          }
-        })
-        .then((result) => {
-          const brandId = result.data.site.route.node.entityId;
-          const label = result.data.site.route.node.name;
-          setLabel(label);
-
-          axios
-            .get('/brands/products/count', {
-              params: {
-                brandId
-              }
-            })
-            .then((res) => {
-              const totalProductsCount = res.data.meta.pagination.total;
-              const productsPerRequest = 50;
-
-              setTotalProductsCount(totalProductsCount);
-
-              const numberOfRequests = Math.ceil(
-                totalProductsCount / productsPerRequest
-              );
-
-              if (numberOfRequests > 0) {
-                setNumberOfRequests(numberOfRequests);
-                setCount(1);
-              } else {
-                setProductsList([]);
-                setLoading(false);
-              }
-            })
-            .catch((error) => {
-              history.push(errorPath);
-              setLoading(false);
-            });
-        })
-        .catch(function (error) {
-          history.push(errorPath);
-          setLoading(false);
-        });
-    }
-  };
-
-  const getProducts = () => {
-    if (categoryName && !subCategoryName) {
-      setLoading(true);
-      axios
-        .get('/categories/products', {
-          params: {
-            cursor: endCursor,
-            path: `/categories/${categoryName}`,
-            quantity: 50
-          }
-        })
-
-        .then((res) => {
-          const data = res.data.site.route.node;
-          setEndCursor(data.products.pageInfo.endCursor);
-
-          const products = {
-            productsList: data.products.edges.map((product) => {
-              return {
-                id: product.node.id,
-                name: product.node.name,
-                brandPath: product.node.brand.path,
-                path: product.node.path,
-                mainImg: product.node.defaultImage.urlOriginal,
-                currencyCode: product.node.prices.price.currencyCode,
-                description: product.node.description,
-                price: product.node.prices.price.value,
-                oldPrice: product.node.prices.retailPrice
-                  ? product.node.prices.retailPrice.value
-                  : false,
-                brand: product.node.brand.name,
-                color: product.node.customFields.edges[0].node.value,
-                sizes: product.node.variants.edges.map((size) => {
-                  return size.node.options.edges[0].node.values.edges[0].node
-                    .label;
-                })
-              };
-            })
-          };
-
-          const extendedArr = productsList.concat(products.productsList);
-
-          const newCount = count + 1;
-
-          setProductsList(extendedArr);
-          setCount(newCount);
-        })
-        .catch((error) => {
-          history.push(errorPath);
-          setLoading(false);
-        });
-    } else if (categoryName && subCategoryName) {
-      setLoading(true);
-      axios
-        .get('/categories/products', {
-          params: {
-            cursor: endCursor,
-            path: `/categories/${categoryName}/${subCategoryName}`,
-            quantity: 50
-          }
-        })
-
-        .then((res) => {
-          const data = res.data.site.route.node;
-          setEndCursor(data.products.pageInfo.endCursor);
-
-          const products = {
-            productsList: data.products.edges.map((product) => {
-              return {
-                id: product.node.id,
-                name: product.node.name,
-                brandPath: product.node.brand.path,
-                path: product.node.path,
-                mainImg: product.node.defaultImage.urlOriginal,
-                currencyCode: product.node.prices.price.currencyCode,
-                description: product.node.description,
-                price: product.node.prices.price.value,
-                oldPrice: product.node.prices.retailPrice
-                  ? product.node.prices.retailPrice.value
-                  : false,
-                brand: product.node.brand.name,
-                color: product.node.customFields.edges[0].node.value,
-                sizes: product.node.variants.edges.map((size) => {
-                  return size.node.options.edges[0].node.values.edges[0].node
-                    .label;
-                })
-              };
-            })
-          };
-
-          const extendedArr = productsList.concat(products.productsList);
-
-          const newCount = count + 1;
-
-          setProductsList(extendedArr);
-          setCount(newCount);
-        })
-        .catch((error) => {
-          history.push(errorPath);
-          setLoading(false);
-        });
-    } else if (brandName) {
-      setLoading(true);
-      axios
-        .get('/brands/products', {
-          params: {
-            cursor: endCursor,
-            path: `/brands/${brandName}`,
-            quantity: 50
-          }
-        })
-
-        .then((res) => {
-          const data = res.data.site.route.node;
-          setEndCursor(data.products.pageInfo.endCursor);
-          const products = {
-            productsList: data.products.edges.map((product) => {
-              return {
-                id: product.node.id,
-                name: product.node.name,
-                brandPath: product.node.brand.path,
-                path: product.node.path,
-                mainImg: product.node.defaultImage.urlOriginal,
-                currencyCode: product.node.prices.price.currencyCode,
-                description: product.node.description,
-                price: product.node.prices.price.value,
-                oldPrice: product.node.prices.retailPrice
-                  ? product.node.prices.retailPrice.value
-                  : false,
-                brand: product.node.brand.name,
-                color: product.node.customFields.edges[0].node.value,
-                sizes: product.node.variants.edges.map((size) => {
-                  return size.node.options.edges[0].node.values.edges[0].node
-                    .label;
-                })
-              };
-            })
-          };
-          const extendedArr = productsList.concat(products.productsList);
-          const newCount = count + 1;
-          setProductsList(extendedArr);
-          setCount(newCount);
-        })
-        .catch((error) => {
-          history.push(errorPath);
-          setLoading(false);
-        });
-    }
-  };
-
-  const filterProductsBySize = (products, sizes) => {
-    const filteredProducts = sizes.map((size) => {
-      return products.filter((product) => {
-        return product.sizes.some((productSize) => {
-          return productSize === size;
-        });
-      });
-    });
-
-    let filteredProductsArray = [].concat.apply([], filteredProducts);
-
-    filteredProductsArray = filteredProductsArray.filter((product, pos) => {
-      return filteredProductsArray.indexOf(product) === pos;
-    });
-
-    return filteredProductsArray;
-  };
-
-  const onApplyFilters = (appliedFilters) => {
-    setCurrentPage(1);
-    let newProducts;
-
-    // checks if filter exist
-    const values = Object.values(appliedFilters);
-    const isNoFilter = values.every((value) => {
-      return value.length === 0;
-    });
-    isNoFilter && setDisplayProducts(products);
-
-    if (appliedFilters.brand?.length > 0) {
-      const filteredProducts = appliedFilters.brand.map((brand) => {
-        return products.filter((product) => {
-          return product.brand === brand;
-        });
-      });
-      const filteredProductsArray = Array.prototype.concat.apply(
-        [],
-        filteredProducts
+  const fetchProducts = (
+    isCategoryChanged,
+    currentPage = 1,
+    filters = {},
+    sortType = 'creation-time-descending'
+  ) => {
+    if (categoryName && !subcategoryName) {
+      getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
+    } else if (categoryName && subcategoryName) {
+      getProductsBySubcategory(
+        isCategoryChanged,
+        currentPage,
+        filters,
+        sortType
       );
-
-      newProducts = filteredProductsArray;
-
-      setDisplayProducts(newProducts);
+    } else if (brandName) {
+      getProductsByBrand(isCategoryChanged, currentPage, filters, sortType);
     }
+  };
 
-    if (appliedFilters.size?.length > 0) {
-      if (newProducts) {
-        const filteredProducts = filterProductsBySize(
-          newProducts,
-          appliedFilters.size
-        );
-        newProducts = filteredProducts;
-        setDisplayProducts(newProducts);
-      } else {
-        const filteredProducts = filterProductsBySize(
-          products,
-          appliedFilters.size
-        );
-        newProducts = filteredProducts;
-        setDisplayProducts(newProducts);
+  const getProductsByCategory = async (
+    isCategoryChanged,
+    currentPage,
+    filters,
+    sortType
+  ) => {
+    try {
+      let result = await axios.post('/products/category', {
+        categoryName,
+        orderType: 'default',
+        currentPage,
+        productsPerPage,
+        isCategoryChanged,
+        filters,
+        sortType
+      });
+
+      setLabel(result.data.categoryName);
+      setProducts(result.data.products);
+      setTotalProductsCount(result.data.totalProductsCount);
+
+      if (result.data.subcategories) {
+        setSubcategories(result.data.subcategories);
       }
+
+      if (result.data.allFilters) {
+        const fetchedFilters = result.data.allFilters;
+
+        const brandNames = fetchedFilters.brands
+          .map((brand) => {
+            return brand.name;
+          })
+          .sort();
+
+        const newFilters = [...allFilters];
+
+        newFilters[0].filters = fetchedFilters.sizes;
+        newFilters[1].filters = brandNames;
+        newFilters[2].filters = fetchedFilters.colors;
+
+        setAllFilters(newFilters);
+        setFilters(result.data.allFilters);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      history.push(errorPath);
     }
+  };
 
-    if (appliedFilters.color?.length > 0) {
-      if (newProducts) {
-        const filteredProducts = appliedFilters.color.map((color) => {
-          return newProducts.filter((product) => {
-            return product.color === color;
-          });
-        });
-        const filteredProductsArray = Array.prototype.concat.apply(
-          [],
-          filteredProducts
-        );
-        newProducts = filteredProductsArray;
-        setDisplayProducts(newProducts);
-      } else {
-        const filteredProducts = appliedFilters.color.map((color) => {
-          return products.filter((product) => {
-            return product.color === color;
-          });
-        });
-        const filteredProductsArray = Array.prototype.concat.apply(
-          [],
-          filteredProducts
-        );
-        newProducts = filteredProductsArray;
-        setDisplayProducts(newProducts);
+  const getProductsBySubcategory = async (
+    isCategoryChanged,
+    currentPage,
+    filters,
+    sortType
+  ) => {
+    try {
+      let result = await axios.post('/products/subcategory', {
+        subcategoryName,
+        categoryName,
+        orderType: 'default',
+        currentPage,
+        productsPerPage,
+        isCategoryChanged,
+        filters,
+        sortType
+      });
+
+      setLabel(result.data.subcategoryName);
+      setProducts(result.data.products);
+      setTotalProductsCount(result.data.totalProductsCount);
+
+      if (result.data.allFilters) {
+        const fetchedFilters = result.data.allFilters;
+
+        const brandNames = fetchedFilters.brands
+          .map((brand) => {
+            return brand.name;
+          })
+          .sort();
+
+        const newFilters = [...allFilters];
+
+        newFilters[0].filters = fetchedFilters.sizes;
+        newFilters[1].filters = brandNames;
+        newFilters[2].filters = fetchedFilters.colors;
+
+        setAllFilters(newFilters);
+        setFilters(result.data.allFilters);
       }
+
+      setLoading(false);
+    } catch (error) {
+      history.push(errorPath);
+    }
+  };
+
+  const getProductsByBrand = async (
+    isCategoryChanged,
+    currentPage,
+    filters,
+    sortType
+  ) => {
+    try {
+      let result = await axios.post('/products/brand', {
+        brandName,
+        orderType: 'default',
+        currentPage,
+        productsPerPage,
+        isCategoryChanged,
+        filters,
+        sortType
+      });
+
+      console.log(result);
+
+      setLabel(result.data.brandName);
+      setProducts(result.data.products);
+      setTotalProductsCount(result.data.totalProductsCount);
+
+      if (result.data.allFilters) {
+        const fetchedFilters = result.data.allFilters;
+
+        const brandNames = fetchedFilters.brands
+          .map((brand) => {
+            return brand.name;
+          })
+          .sort();
+
+        const newFilters = [...allFilters];
+
+        newFilters[0].filters = fetchedFilters.sizes;
+        newFilters[1].filters = brandNames;
+        newFilters[2].filters = fetchedFilters.colors;
+
+        setAllFilters(newFilters);
+        setFilters(result.data.allFilters);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      history.push(errorPath);
+    }
+  };
+
+  const onApplyFilters = (filters) => {
+    const isCategoryChanged = false;
+    setCurrentPage(1);
+    setAppliedFilters(filters);
+    fetchProducts(isCategoryChanged, 1, filters);
+  };
+
+  const paginate = (currentPage) => {
+    window.scrollTo(0, 0);
+    const isCategoryChanged = false;
+    fetchProducts(isCategoryChanged, currentPage, appliedFilters);
+    setCurrentPage(currentPage);
+  };
+
+  const onSortProducts = (sortType) => {
+    const newSortOptions = sortOptions.map((option) => {
+      return {
+        ...option,
+        isClicked: option.sortType === sortType ? true : false
+      };
+    });
+
+    setSortOptions(newSortOptions);
+    setSortType(sortType);
+    fetchProducts(false, 1, {}, sortType);
+  };
+
+  const onCloseFilters = (event) => {
+    if (!event.target.className.includes('sidebar')) {
+      const newFilters = allFilters.map((filter) => {
+        return {
+          ...filter,
+          isOpen: false
+        };
+      });
+
+      setAllFilters(newFilters);
     }
   };
 
@@ -505,44 +288,27 @@ const Products = () => {
       </Wrapper>
     );
   } else {
-    // Get current posts
-
-    const indexOfLastProduct = currentPage * postsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - postsPerPage;
-    const currentProducts = displayProducts.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-    );
-
-    //  Change page
-    const paginate = (pageNumber) => {
-      window.scrollTo(0, 0);
-      setCurrentPage(pageNumber);
-    };
-
     return (
-      <ProductsWrapper>
+      <ProductsWrapper onClick={(event) => onCloseFilters(event)}>
         <Header
           label={label}
-          productsList={productsList}
-          setProductsList={setProductsList}
+          sortOptions={sortOptions}
+          onSortProducts={onSortProducts}
         />
         <Sidebar
+          onApplyFilters={(filters) => onApplyFilters(filters)}
           filters={filters}
-          onApplyFilters={(appliedFilters) => onApplyFilters(appliedFilters)}
-          categoryName={categoryName}
-          subCategories={subCategories}
-          setSubCategories={setSubCategories}
+          subcategories={subcategories}
+          setSubcategories={setSubcategories}
+          setAllFilters={setAllFilters}
+          allFilters={allFilters}
         />
-        <ProductsGrid
-          products={currentProducts}
-          subCategories={subCategories}
-        />
+        <ProductsGrid products={products} setLoading={setLoading} />
         <Pagination
-          postsPerPage={postsPerPage}
-          totalPosts={displayProducts.length}
-          paginate={paginate}
+          productsPerPage={productsPerPage}
+          totalProductsCount={totalProductsCount}
           currentPage={currentPage}
+          paginate={paginate}
         />
       </ProductsWrapper>
     );

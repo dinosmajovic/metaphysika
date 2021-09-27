@@ -29,6 +29,7 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
   const dispatch = useDispatch();
   const bag = useSelector((state) => state.bag);
   const wishlistProducts = useSelector((state) => state.wishlist.products);
+  const [isAddedToBag, setIsAddedToBag] = useState(false);
 
   const onAddToBag = () => {
     if (sizeIsClicked) {
@@ -39,7 +40,7 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
 
       const bagProducts = bag.products;
 
-      // checks if product already exist in the bag
+      // // checks if product already exist in the bag
       const productInBag = bagProducts.filter((product) => {
         return (
           product.id == currentProduct.id && product.size == currentProduct.size
@@ -49,27 +50,36 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
       if (productInBag.length < 1) {
         // add product to the bag
         dispatch(addProduct(currentProduct));
+        setIsAddedToBag(true);
+        setTimeout(() => {
+          setIsAddedToBag(false);
+        }, 2000);
       } else {
-        const selectedVariant = variants.filter((variant) => {
-          return variant.size == currentProduct.size;
+        const clickedSize = product.sizes.filter((size) => {
+          return size.name === currentProduct.size;
         });
 
         // RETURNS STOCK NUMBER OF SELECTED VARIANT
-        const variantQuantity = selectedVariant[0].quantity;
+        const clickedSizeStock = clickedSize[0].stock;
 
-        // RETURNS STOCK NUMBER IN BAG OF SELECTED VARIANT
+        // // RETURNS STOCK NUMBER OF SELECTED PRODUCT IN BAG
         const alreadyAddedQuantity = productInBag
           .map((product) => {
             return parseInt(product.quantity);
           })
           .reduce((a, b) => a + b, 0);
 
-        // RETURNS SELECTED STOCK NUMBER OF VARIANT
-        const currentQuantity = parseInt(currentProduct.quantity);
+        // // RETURNS SELECTED STOCK NUMBER OF VARIANT
 
-        if (variantQuantity >= alreadyAddedQuantity + currentQuantity) {
+        const currentQuantity = currentProduct.quantity;
+
+        if (clickedSizeStock >= alreadyAddedQuantity + currentQuantity) {
           // ADDS PRODUCT INTO THE BAG
           dispatch(addProduct(currentProduct));
+          setIsAddedToBag(true);
+          setTimeout(() => {
+            setIsAddedToBag(false);
+          }, 2000);
         } else {
           // THROWS AN ERROR
           setIsQuantityErrorMessage(true);
@@ -78,7 +88,7 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
     } else {
       setIsButtonErrorMessage(true);
     }
-    dispatch(calculateSubtotal());
+    // dispatch(calculateSubtotal());
   };
 
   const onDropDownInputClick = (option) => {
@@ -101,17 +111,18 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
     const clickedOptionIndex = findItemIndex(newOptions, option);
 
     if (option === 'Size') {
-      const selectedSize = variants.filter((variant) => {
-        return variant.size === value;
+      const clickedSize = product.sizes.filter((p) => {
+        return p.name === value;
       });
 
-      const variantQuantity = selectedSize[0].quantity;
-      const variantQuantityList = [];
-      for (var i = 1; i <= variantQuantity; i++) {
-        variantQuantityList.push(i.toString());
+      const sizeStock = clickedSize[0].stock;
+
+      const sizeStockList = [];
+      for (var i = 1; i <= sizeStock; i++) {
+        sizeStockList.push(i.toString());
       }
 
-      newOptions[1].values = variantQuantityList;
+      newOptions[1].values = sizeStockList;
       newOptions[clickedOptionIndex].value = value;
       newOptions[clickedOptionIndex].isOpened = false;
       newOptions[1].value = 1;
@@ -152,7 +163,7 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
   return (
     <ProductInfo>
       <ProductName>
-        <h1>{transformProductName(product.name)}</h1>
+        <h1>{product.name}</h1>
         {product.oldPrice && (
           <span>
             {calculatePercentageDecrease(product.price, product.oldPrice)}% OFF!
@@ -161,14 +172,8 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
       </ProductName>
 
       <PriceContainer>
-        {product.oldPrice && (
-          <OldPrice>
-            {product.oldPrice} {product.currencyCode}
-          </OldPrice>
-        )}
-        <Price>
-          {product.price} {product.currencyCode}
-        </Price>
+        {product.oldPrice && <OldPrice>{product.oldPrice} BAM</OldPrice>}
+        <Price>{product.price} BAM</Price>
       </PriceContainer>
 
       <ProductOptions
@@ -177,16 +182,25 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
         onOptionValueClick={onOptionValueClick}
         isInputErrorMessage={isInputErrorMessage}
       />
-      <Description
-        dangerouslySetInnerHTML={{ __html: product.description }}
-      ></Description>
+      <Description>
+        <p>{product.description}</p>
+        <ul>
+          {product.structure.map((structure) => (
+            <li key={structure}>{structure}</li>
+          ))}
+        </ul>
+      </Description>
       <ButtonWrapper>
         {isButtonErrorMessage && (
           <InputError>Please select size first</InputError>
         )}
 
         <Button onClick={onAddToBag}>
-          {isQuantityErrorMessage ? 'NOT AVAILABLE' : 'ADD TO BAG'}
+          {isAddedToBag
+            ? 'ADDED TO BAG'
+            : isQuantityErrorMessage
+            ? 'NOT AVAILABLE'
+            : 'ADD TO BAG'}
         </Button>
 
         <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product)}>

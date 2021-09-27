@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { store } from 'state';
 import Routes from './routing';
-import history from './routing/history';
 import GlobalStyle from 'styles/GlobalStyle';
 import { theme } from 'styles';
 import Header from 'components/molecules/Header';

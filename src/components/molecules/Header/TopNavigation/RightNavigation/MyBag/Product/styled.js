@@ -18,6 +18,7 @@ export const ProductImage = styled.div`
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.gray.light};
+  cursor: pointer;
 
   > img {
     width: 100%;

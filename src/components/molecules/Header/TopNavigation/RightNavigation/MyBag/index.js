@@ -7,15 +7,31 @@ import {
   Products,
   SubTotal,
   Buttons,
-  StyledLink
+  StyledLink,
+  ErrorMessage
 } from './styled';
 
 import { checkoutPath, bagPath } from 'constants/routes';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 const MyBagList = () => {
   const bag = useSelector((state) => state.bag.products);
   const subtotal = useSelector((state) => state.bag.subtotal);
+  const history = useHistory();
+  const [isErrorMessage, setIsErrorMessage] = useState(false);
+
+  const goToCheckout = () => {
+    if (bag.length > 0) {
+      history.push(checkoutPath);
+    } else {
+      setIsErrorMessage(true);
+      setTimeout(() => {
+        setIsErrorMessage(false);
+      }, 4000);
+    }
+  };
 
   return (
     <>
@@ -39,11 +55,10 @@ const MyBagList = () => {
             VIEW BAG
           </Button>
         </StyledLink>
-        <StyledLink to={checkoutPath}>
-          <Button size="small" type="pink">
-            CHECKOUT
-          </Button>
-        </StyledLink>
+        <Button size="small" type="pink" onClick={goToCheckout}>
+          CHECKOUT
+        </Button>
+        {isErrorMessage && <ErrorMessage>Add a product first</ErrorMessage>}
       </Buttons>
     </>
   );

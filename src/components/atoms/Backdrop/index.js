@@ -7,14 +7,17 @@ const StyledBackdrop = styled.div`
   width: 100%;
   height: 100vh;
   z-index: 25;
+  position: fixed;
+  left: 0px;
+  top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const Backdrop = ({ onBackdropCloseModal, children }) => {
+const Backdrop = ({ onBackdropClick, children }) => {
   return (
-    <StyledBackdrop className="backdrop" onClick={onBackdropCloseModal}>
+    <StyledBackdrop className="backdrop" onClick={onBackdropClick}>
       {children}
     </StyledBackdrop>
   );

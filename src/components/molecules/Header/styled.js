@@ -9,4 +9,8 @@ export const HeaderWrapper = styled.header`
     position: relative;
     border-bottom: 1px solid ${colors.gray.light};
   }
+
+  @media (max-width: 400px) {
+    display: none;
+  }
 `;

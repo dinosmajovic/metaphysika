@@ -32,7 +32,7 @@ const Logo = () => {
       <LogoWrapper>
         <img src={metaphysikaLogo} alt="Metaphysika logo" />
       </LogoWrapper>
-      <Slogan>For the passion of fashion</Slogan>
+      <Slogan>Passion for art and fashion</Slogan>
     </Container>
   );
 };

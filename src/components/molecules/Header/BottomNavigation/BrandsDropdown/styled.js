@@ -37,7 +37,11 @@ export const Dropdown = styled.div`
   }
 
   :not(:last-child) {
-    margin-right: 45px;
+    margin-right: 40px;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
 

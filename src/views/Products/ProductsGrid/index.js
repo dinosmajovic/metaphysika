@@ -1,7 +1,7 @@
 import Product from './Product';
 import { ProductsContainer, NoProductsContainer, Container } from './styled';
 
-const ProductsGrid = ({ products }) => {
+const ProductsGrid = ({ products, setLoading }) => {
   if (products.length == 0) {
     return (
       <NoProductsContainer>
@@ -13,7 +13,11 @@ const ProductsGrid = ({ products }) => {
       <Container>
         <ProductsContainer>
           {products?.map((product, i) => (
-            <Product key={product.id + i} product={product} />
+            <Product
+              key={product.id + i}
+              product={product}
+              setLoading={setLoading}
+            />
           ))}
         </ProductsContainer>
       </Container>
@@ -22,23 +26,3 @@ const ProductsGrid = ({ products }) => {
 };
 
 export default ProductsGrid;
-
-// {products.length === 0 ? (
-//   <div>no products found</div>
-// ) : (
-//   products?.map((product, i) => (
-//     <Product key={product.id + i} product={product} />
-//   ))
-// )}
-
-// return  ({
-//   products.length === 0 ? (
-//     <NoProductsContainer>
-
-//     </NoProductsContainer>
-//   ) : (
-//     <ProductsContainer>
-
-//     </ProductsContainer>
-//   )
-// })

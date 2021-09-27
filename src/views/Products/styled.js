@@ -4,7 +4,6 @@ export const ProductsWrapper = styled.div`
   padding: 30px 50px;
   display: grid;
   grid-gap: 40px;
-  grid-template-columns: auto 1fr;
   text-align: center;
   justify-content: center;
 
@@ -13,14 +12,23 @@ export const ProductsWrapper = styled.div`
     'sidebar productList'
     '. buttons';
 
-  @media (max-width: 1200px) {
-    grid-column-gap: 0px;
-    padding: 30px;
+  @media (max-width: 1230px) {
+    padding: 30px 40px;
+    grid-gap: 20px;
+  }
+
+  @media (max-width: 1150px) {
+    justify-content: center;
+    align-content: center;
     grid-template-areas:
-      '. topbar'
-      '. sort'
-      '. productList'
-      '. buttons';
+      'sort'
+      'sidebar'
+      'productList'
+      'buttons';
+  }
+
+  @media (max-width: 880px) {
+    padding: 20px 20px;
   }
 `;
 

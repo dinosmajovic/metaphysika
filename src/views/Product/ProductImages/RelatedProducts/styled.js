@@ -11,6 +11,7 @@ export const Title = styled.span`
 export const RelatedProductsWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 15px;
   margin-bottom: 15px;
 `;
@@ -24,6 +25,7 @@ export const RelatedProduct = styled.div`
   text-align: center;
   cursor: pointer;
   margin-right: 15px;
+  margin-bottom: 15px;
 
   :hover,
   :active {

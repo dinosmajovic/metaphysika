@@ -5,11 +5,16 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import findItemIndex from 'constants/findItemIndex/index';
 import axios from 'axios';
+import { errorPath } from 'constants/routes';
 
 const BottomNavigationContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const BottomNavigation = () => {
@@ -23,6 +28,27 @@ const BottomNavigation = () => {
 
   useEffect(() => {
     setIsCheckoutPage(location.pathname.includes('checkout'));
+    if (!location.pathname.includes('/brands')) {
+      const newBrands = brands?.map((category) => {
+        return {
+          ...category,
+          isClicked: false
+        };
+      });
+
+      setBrandIsClicked(false);
+      setBrands(newBrands);
+    }
+    if (!location.pathname.includes('/categories')) {
+      const newCategories = categories?.map((category) => {
+        return {
+          ...category,
+          isClicked: false
+        };
+      });
+
+      setCategories(newCategories);
+    }
   }, [location.pathname]);
 
   useEffect(() => {
@@ -30,33 +56,76 @@ const BottomNavigation = () => {
   }, []);
 
   const getBrandsAndCategories = async () => {
-    axios
-      .get('/brands/and/categories')
+    setLoading(true);
+    await axios
+      .get('/categories')
       .then((result) => {
-        const mappedCategories = result.data.site.categoryTree.map(
-          (category) => {
-            return {
-              label: category.name,
-              path: category.path,
-              isClicked: false
-            };
-          }
-        );
-
-        const mappedBrands = result.data.site.brands.edges.map((brand) => {
+        const mappedCategories = result.data.map((category) => {
           return {
-            label: brand.node.name,
-            path: brand.node.path,
+            label: category.name,
+            path: category.path,
+            isClicked: false
+          };
+        });
+        setCategories(mappedCategories);
+      })
+      .catch((error) => {
+        history.push(errorPath);
+      });
+
+    await axios
+      .get('/brands')
+      .then((result) => {
+        const mappedBrands = result.data.map((brand) => {
+          return {
+            label: brand.name,
+            path: brand.path,
+            isClicked: false
+          };
+        });
+        setBrands(mappedBrands);
+      })
+      .catch((error) => {
+        history.push(errorPath);
+      });
+
+    setLoading(false);
+  };
+
+  const getCategories = async () => {
+    axios
+      .get('/categories')
+      .then((result) => {
+        const mappedCategories = result.data.map((category) => {
+          return {
+            label: category.name,
+            path: category.path,
             isClicked: false
           };
         });
 
-        setBrands(mappedBrands);
         setCategories(mappedCategories);
-        setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        history.push(errorPath);
+      });
+  };
+
+  const getBrands = async () => {
+    axios
+      .get('/brands')
+      .then((result) => {
+        const mappedBrands = result.data.map((brand) => {
+          return {
+            label: brand.name,
+            path: brand.path,
+            isClicked: false
+          };
+        });
+        setBrands(mappedBrands);
+      })
+      .catch((error) => {
+        history.push(errorPath);
       });
   };
 
@@ -77,7 +146,7 @@ const BottomNavigation = () => {
     setBrandIsClicked(false);
     setBrands(resetItems(brands));
     setCategories(newCategories);
-    history.push(categoryPath);
+    history.push(`/categories/${categoryPath}`);
   };
 
   const goToBrand = (brandId, brandPath) => {
@@ -92,25 +161,27 @@ const BottomNavigation = () => {
     history.push(brandPath);
   };
 
-  return (
-    <BottomNavigationContainer>
-      {!isCheckoutPage && (
-        <>
-          <BrandsDropdown
-            brandIsClicked={brandIsClicked}
-            onBrandClick={goToBrand}
-            brands={brands}
-            loading={loading}
-          />
-          <Categories
-            onCategoryClick={goToCategory}
-            categories={categories}
-            loading={loading}
-          />
-        </>
-      )}
-    </BottomNavigationContainer>
-  );
+  if (loading) {
+    return null;
+  } else {
+    return (
+      <BottomNavigationContainer>
+        {!isCheckoutPage && (
+          <>
+            <BrandsDropdown
+              brandIsClicked={brandIsClicked}
+              onBrandClick={goToBrand}
+              brands={brands}
+            />
+            <Categories
+              onCategoryClick={goToCategory}
+              categories={categories}
+            />
+          </>
+        )}
+      </BottomNavigationContainer>
+    );
+  }
 };
 
 export default BottomNavigation;

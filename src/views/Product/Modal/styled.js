@@ -24,6 +24,14 @@ export const ModalContainer = styled.div`
       transform: translateX(0%);
     }
   }
+
+  @media (max-width: 800px) {
+    flex-direction: column-reverse;
+  }
+
+  @media (max-width: 800px) {
+    padding: 10px;
+  }
 `;
 
 export const Wrapper = styled.div``;
@@ -40,14 +48,27 @@ export const MainImage = styled.div`
     height: 100%;
     object-fit: contain;
   }
+
+  @media (max-width: 800px) {
+    padding: 0px;
+    width: auto;
+    height: 400px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 800px) {
+    height: 300px;
+  }
 `;
 
 export const ImagesContainer = styled.div`
-  > div {
-    :not(:last-child) {
-      margin-bottom: 10px;
-      margin-right: 15px;
-    }
+  @media (max-width: 800px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 600px) {
+    justify-content: space-between;
   }
 `;
 
@@ -58,10 +79,13 @@ export const Image = styled.div`
   display: block;
   text-align: center;
   cursor: pointer;
-
   border: 1px solid
     ${({ isClicked }) =>
       isClicked ? `${colors.pink.primary}` : `${colors.white.primary}`};
+
+  :not(:last-child) {
+    margin-bottom: 15px;
+  }
 
   :hover {
     border: 1px solid ${colors.pink.primary};
@@ -71,6 +95,17 @@ export const Image = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  @media (max-width: 800px) {
+    justify-content: center;
+    padding: 0;
+    margin-right: 10px;
+  }
+
+  @media (max-width: 600px) {
+    margin: 5px;
+    margin-top: 0px;
   }
 `;
 
@@ -89,5 +124,15 @@ export const ModalCloseWrapper = styled.span`
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+
+  @media (max-width: 800px) {
+    top: 5px;
+    right: 5px;
+  }
+
+  @media (max-width: 500px) {
+    width: 24px;
+    height: 24px;
   }
 `;

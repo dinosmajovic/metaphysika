@@ -10,10 +10,10 @@ const Item = styled.span`
 const Navigation = () => {
   const navigationItems = [
     { label: 'ABOUT US', link: '/about' },
-    { label: 'CONTACT US', link: '/' },
-    { label: 'TERMS OF SERVICE', link: '/' },
-    { label: 'PRIVACY POLICY', link: '/' },
-    { label: 'RETURN POLICY', link: '/' }
+    { label: 'CONTACT US', link: '/faq' },
+    { label: 'TERMS OF SERVICE', link: '/terms-of-service' },
+    { label: 'PRIVACY POLICY', link: '/privacy-policy' },
+    { label: 'RETURN POLICY', link: '/return-policy' }
   ];
 
   return (

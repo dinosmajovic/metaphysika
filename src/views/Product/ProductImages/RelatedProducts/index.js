@@ -1,33 +1,49 @@
 import { useHistory } from 'react-router-dom';
 import { Title, RelatedProductsWrapper, RelatedProduct } from './styled';
+import axios from 'axios';
 
 const RelatedProducts = ({ relatedProducts }) => {
   const history = useHistory();
 
-  const onGoToRelatedProduct = (brandPath, productPath) => {
-    history.push(`${brandPath}${productPath}`);
+  const onGoToRelatedProduct = async (relatedProduct) => {
+    const brandId = relatedProduct.brandId;
+
+    try {
+      const brand = await axios.get('/getBrand', {
+        params: {
+          brandId
+        }
+      });
+
+      history.push(`/brands/${brand.data.path}/${relatedProduct.path}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  return (
-    relatedProducts.length > 0 && (
-      <div>
-        <Title>Related products</Title>
-        <RelatedProductsWrapper>
-          {relatedProducts.map((item) => {
-            return (
-              <RelatedProduct
-                key={item.productPath}
-                onClick={() =>
-                  onGoToRelatedProduct(item.brandPath, item.productPath)
-                }
-              >
-                <img src={item.defaultImage} alt="Product" />
-              </RelatedProduct>
-            );
-          })}
-        </RelatedProductsWrapper>
-      </div>
-    )
-  );
+
+  if (relatedProducts) {
+    return (
+      relatedProducts.length > 0 && (
+        <div>
+          <Title>Related products</Title>
+          <RelatedProductsWrapper>
+            {relatedProducts.map((relatedProduct) => {
+              return (
+                <RelatedProduct
+                  key={relatedProduct.path}
+                  onClick={() => onGoToRelatedProduct(relatedProduct)}
+                >
+                  <img src={relatedProduct.mainImg} alt="Product" />
+                </RelatedProduct>
+              );
+            })}
+          </RelatedProductsWrapper>
+        </div>
+      )
+    );
+  } else {
+    return null;
+  }
 };
 
 export default RelatedProducts;

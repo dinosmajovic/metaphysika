@@ -3,24 +3,57 @@ import styled from 'styled-components';
 import { colors } from 'styles';
 
 export const ProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   > p {
     font-size: 20px;
   }
 `;
 
 export const Picture = styled.div`
-  padding: 30px;
+  padding: 10px;
   position: relative;
-  height: 290px;
   display: block;
   text-align: center;
   margin-bottom: 20px;
   cursor: pointer;
+  background-color: white;
+  width: 250px;
+  height: 250px;
 
-  :active,
-  :focus {
-    border: 1px solid ${colors.pink.primary};
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
+
+  @media (max-width: 600px) {
+    width: 170px;
+    height: 170px;
+  }
+
+  @media (max-width: 400px) {
+    width: 130px;
+    height: 130px;
+  }
+
+  @media (max-width: 330px) {
+    width: 200px;
+    height: 200px;
+  }
+`;
+
+export const Heart = styled.div`
+  height: 26px;
+  width: 26px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: 10;
 
   > img {
     width: 100%;
@@ -29,20 +62,14 @@ export const Picture = styled.div`
   }
 `;
 
-export const Heart = styled.div`
-  height: 23px;
-  width: 23px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: absolute;
-  right: 10px;
-  bottom: 8px;
-  z-index: 10;
-`;
-
-export const Label = styled.p`
+export const Label = styled.span`
+  display: block;
   margin-bottom: 10px;
+  font-size: 20px;
+
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
 
 export const PictureContainer = styled.div`
@@ -64,6 +91,10 @@ export const OldPrice = styled.span`
 
 export const Price = styled.span`
   font-size: 19px;
+
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
 
 export const Percentage = styled.span`

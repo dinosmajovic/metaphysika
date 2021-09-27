@@ -22,6 +22,7 @@ import AddressForm from 'components/molecules/AddressForm';
 import CheckBox from 'components/atoms/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPayment } from 'state/payment';
+import axios from 'axios';
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const Payment = () => {
   const totalPrice = useSelector((state) => state.bag.total);
   const deliveryPrice = useSelector((state) => state.bag.deliveryPrice);
   const subtotalPrice = useSelector((state) => state.bag.subtotal);
+  const shippingDetails = useSelector(
+    (state) => state.checkout.shippingDetails
+  );
+  const products = useSelector((state) => state.bag.products);
 
   const cardFormik = useFormik({
     initialValues: {
@@ -61,6 +66,47 @@ const Payment = () => {
 
   const onCloseError = () => {
     dispatch(setPayment(-1));
+  };
+
+  const makePurchase = () => {
+    // setLoading(true);
+
+    const body = {
+      products,
+      shippingDetails,
+      subtotalPrice
+    };
+
+    axios
+      .post('/checkout/confirmation', body)
+      .then((res) => {
+        history.push('/checkout/confirmation');
+        // setTimeout(() => {
+        //   history.push('/checkout/confirmation');
+        // }, 5000);
+
+        // const isSuccessful = res.data.isSuccessful;
+
+        // if (isSuccessful) {
+        //   setLoading(false);
+        //   setErrorMessage(false);
+        //   const deliveryPrice = res.data.deliveryPrice;
+        //   const totalPrice = res.data.total;
+        //   const isPaymentStep = res.data.isPaymentStep;
+        //   const shippingDetails = res.data.shippingDetails;
+
+        //   dispatch(setTotal(totalPrice));
+        //   dispatch(setDeliveryPrice(deliveryPrice));
+        //   dispatch(setIsPaymentStep(isPaymentStep));
+        //   dispatch(setShippingDetails(shippingDetails));
+
+        //   history.push('/checkout/payment');
+        // } else {
+        //   setLoading(false);
+        //   setErrorMessage(res.data.message);
+        // }
+      })
+      .catch((err) => history.push('/404'));
   };
 
   if (isPaymentStep) {
@@ -117,6 +163,7 @@ const Payment = () => {
                   // addressFormik.submitForm();
                 } else {
                   setIsErrorMessage(false);
+                  makePurchase();
                   // addressFormik.submitForm();
                 }
               }}

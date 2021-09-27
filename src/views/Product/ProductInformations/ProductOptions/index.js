@@ -23,14 +23,16 @@ const ProductOptions = ({
               </div>
             </Dropdown>
             <DropdownMenu isOpened={option.isOpened}>
-              {option.values.map((value) => (
-                <span
-                  key={value}
-                  onClick={() => onOptionValueClick(value, option.label)}
-                >
-                  {value}
-                </span>
-              ))}
+              {option.values.map((value) => {
+                return (
+                  <span
+                    key={value}
+                    onClick={() => onOptionValueClick(value, option.label)}
+                  >
+                    {value}
+                  </span>
+                );
+              })}
             </DropdownMenu>
           </div>
         </Option>

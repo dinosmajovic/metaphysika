@@ -40,5 +40,3 @@ export const Button = styled.div`
       isClicked ? `${colors.white.primary}` : `${colors.pink.primary}`};
   }
 `;
-
-// isClicked

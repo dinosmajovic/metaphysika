@@ -5,37 +5,28 @@ import {
   SubCategory,
   Line,
   SubcategoriesTitle,
-  StyledLink
+  StyledLink,
+  SubcategoriesWrapper,
+  MobileFilters,
+  FilterButton,
+  ApplyFiltersButton
 } from './styled';
 import Button from 'components/atoms/Button';
 import Filters from '../Filters';
 import { useState } from 'react';
+import Backdrop from 'components/atoms/Backdrop/';
+import { useParams } from 'react-router-dom';
 
 const Sidebar = ({
   onApplyFilters,
-  filters,
-  categoryName,
-  subCategories,
-  setSubCategories
+  subcategories,
+  setSubcategories,
+  allFilters,
+  setAllFilters
 }) => {
-  const FILTERS = [
-    {
-      name: 'size',
-      label: 'SIZE',
-      filters: filters.sizes
-    },
-    {
-      name: 'brand',
-      label: 'BRAND',
-      filters: filters.brands
-    },
-    {
-      name: 'color',
-      label: 'COLOR',
-      filters: filters.colors
-    }
-  ];
+  const [isMobileFiltersMenu, setIsMobileFiltersMenu] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
+  const { categoryName } = useParams();
 
   const onSelectFilter = (name, filter) => {
     let filters = { ...appliedFilters };
@@ -52,45 +43,67 @@ const Sidebar = ({
   };
 
   const onSubcategoryClick = (path) => {
-    const newSubCategories = subCategories.map((subCategory) => {
+    const newSubCategories = subcategories.map((subcategory) => {
       return {
-        ...subCategory,
+        ...subcategory,
         isClicked: false
       };
     });
-
-    const index = newSubCategories.findIndex((subCategory) => {
-      return subCategory.path === path;
+    const index = newSubCategories.findIndex((subcategory) => {
+      return subcategory.path === path;
     });
 
     newSubCategories[index].isClicked = true;
+    setSubcategories(newSubCategories);
+  };
 
-    setSubCategories(newSubCategories);
+  const onCloseFiltersMenu = () => {
+    setIsMobileFiltersMenu(false);
+  };
+
+  const onOpenFilterMenu = () => {
+    setIsMobileFiltersMenu(true);
   };
 
   return (
     <SidebarWrapper>
+      {isMobileFiltersMenu && <Backdrop onBackdropClick={onCloseFiltersMenu} />}
+      <MobileFilters isOpen={isMobileFiltersMenu}>
+        <Filters
+          setAllFilters={setAllFilters}
+          allFilters={allFilters}
+          onSelectFilter={onSelectFilter}
+          appliedFilters={appliedFilters}
+          areMobileFilters={true}
+        />
+        <ApplyFiltersButton onClick={() => onApplyFilters(appliedFilters)}>
+          APPLY FILTERS
+        </ApplyFiltersButton>
+      </MobileFilters>
       <Filters
-        filters={FILTERS}
-        appliedFilters={appliedFilters}
+        setAllFilters={setAllFilters}
+        allFilters={allFilters}
         onSelectFilter={onSelectFilter}
+        appliedFilters={appliedFilters}
+        areMobileFilters={false}
       />
-
       <ButtonWrapper>
         <Button onClick={() => onApplyFilters(appliedFilters)}>
           Apply filter
         </Button>
       </ButtonWrapper>
-
-      {categoryName && (
-        <>
-          <SubcategoriesTitle>SUBCATEGORIES</SubcategoriesTitle>
-          <Line />
+      <FilterButton onClick={onOpenFilterMenu}>FILTER</FilterButton>
+      {subcategories ? (
+        <SubcategoriesWrapper>
+          <SubcategoriesTitle>
+            <span>SUBCATEGORIES</span>
+            <Line />
+          </SubcategoriesTitle>
           <Subcategories>
-            {subCategories?.map((subcategory) => {
+            {subcategories?.map((subcategory) => {
               return (
                 <StyledLink
-                  to={subcategory.path}
+                  to={`/categories/${categoryName}/${subcategory.path}`}
                   key={subcategory.path}
                   onClick={() => onSubcategoryClick(subcategory.path)}
                 >
@@ -101,8 +114,8 @@ const Sidebar = ({
               );
             })}
           </Subcategories>
-        </>
-      )}
+        </SubcategoriesWrapper>
+      ) : null}
     </SidebarWrapper>
   );
 };

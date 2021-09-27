@@ -3,7 +3,7 @@ import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
 export const ProductInfo = styled.div`
-  width: 50%;
+  width: 600px;
 
   > p {
     font-size: 17px;
@@ -11,9 +11,9 @@ export const ProductInfo = styled.div`
     margin-bottom: 20px;
   }
 
-  @media (max-width: 910px) {
-    margin-bottom: 30px;
-    width: 70%;
+  @media (max-width: 950px) {
+    padding: 20px;
+    width: 100%;
   }
 `;
 
@@ -23,6 +23,10 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   width: 100%;
   position: relative;
+
+  @media (max-width: 950px) {
+    margin-top: 50px;
+  }
 `;
 
 export const Description = styled.div`
@@ -55,10 +59,6 @@ export const Button = styled.button`
 
   :active {
     background-color: ${colors.pink.dark};
-  }
-
-  @media (max-width: 910px) {
-    display: none;
   }
 `;
 

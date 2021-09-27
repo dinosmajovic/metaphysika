@@ -30,9 +30,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       {isLogInModal && (
-        <Backdrop
-          onBackdropCloseModal={(event) => onBackdropCloseLoginModal(event)}
-        >
+        <Backdrop onBackdropClick={(event) => onBackdropCloseLoginModal(event)}>
           <LogInModal
             setIsLogInModal={setIsLogInModal}
             setIsSignUpModal={setIsSignUpModal}
@@ -42,7 +40,7 @@ const Header = () => {
 
       {isSignUpModal && (
         <Backdrop
-          onBackdropCloseModal={(event) => onBackdropCloseSignUpModal(event)}
+          onBackdropClick={(event) => onBackdropCloseSignUpModal(event)}
         >
           <SignUpModal
             setIsSignUpModal={setIsSignUpModal}

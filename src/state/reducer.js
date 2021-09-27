@@ -10,6 +10,7 @@ import payment from './payment';
 import bag from './bag';
 import wishlist from './wishlist';
 import checkout from './checkout';
+import product from './product';
 
 // ================== Global app state ================== //
 
@@ -24,7 +25,8 @@ const appReducer = combineReducers({
   payment,
   bag,
   wishlist,
-  checkout
+  checkout,
+  product
 });
 
 const rootReducer = (state, action) => {

@@ -74,8 +74,17 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
+  position: relative;
 `;
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
+`;
+
+export const ErrorMessage = styled.span`
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  right: 18px;
+  bottom: 0px;
 `;

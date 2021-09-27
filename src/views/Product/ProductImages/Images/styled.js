@@ -5,6 +5,11 @@ export const Wrapper = styled.div`
   display: flex;
   margin-right: 20px;
   margin-bottom: 40px;
+
+  @media (max-width: 550px) {
+    flex-direction: column-reverse;
+    margin-right: 0px;
+  }
 `;
 
 export const MainImage = styled.div`
@@ -21,6 +26,14 @@ export const MainImage = styled.div`
     height: 100%;
     object-fit: contain;
   }
+
+  @media (max-width: 550px) {
+    width: 100%;
+    height: 350px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border: none;
+  }
 `;
 
 export const ImagesContainer = styled.div`
@@ -28,7 +41,17 @@ export const ImagesContainer = styled.div`
     :not(:last-child) {
       margin-bottom: 10px;
       margin-right: 15px;
+
+      @media (max-width: 550px) {
+        margin-right: 0px;
+      }
     }
+  }
+
+  @media (max-width: 550px) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 `;
 

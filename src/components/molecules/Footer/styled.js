@@ -14,6 +14,10 @@ export const FooterContainer = styled.footer`
     justify-content: center;
     margin-bottom: 30px;
   }
+
+  @media (max-width: 400px) {
+    display: none;
+  }
 `;
 
 export const Line = styled.div`

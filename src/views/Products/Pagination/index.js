@@ -1,13 +1,17 @@
 import { ButtonsWrapper, Button } from './styled';
+const Pagination = ({
+  totalProductsCount,
+  productsPerPage,
+  paginate,
+  currentPage
+}) => {
+  const buttonNumbers = [];
 
-const Buttons = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
+  for (let i = 1; i <= Math.ceil(totalProductsCount / productsPerPage); i++) {
+    buttonNumbers.push(i);
   }
 
-  const numbers = pageNumbers.map((num) => {
+  const numbers = buttonNumbers.map((num) => {
     return {
       number: num,
       isClicked: false
@@ -35,4 +39,4 @@ const Buttons = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   );
 };
 
-export default Buttons;
+export default Pagination;

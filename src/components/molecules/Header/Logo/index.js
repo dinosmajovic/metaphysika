@@ -6,6 +6,7 @@ const LogoContainer = styled.div`
   justify-content: center;
   padding-bottom: 5px;
   padding-top: 10px;
+  position: relative;
 
   > img {
     width: 550px;
@@ -19,12 +20,46 @@ const LogoContainer = styled.div`
       height: 60px;
     }
   }
+
+  @media (max-width: 600px) {
+    > img {
+      width: 250px;
+      height: 60px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    > img {
+      width: 220px;
+      height: 60px;
+    }
+  }
+`;
+
+const MenuButton = styled.div`
+  display: none;
+  width: 30px;
+  height: 30px;
+  background-color: black;
+  position: absolute;
+  right: 0px;
+  top: 30%;
+
+  @media (max-width: 600px) {
+    display: block;
+  }
+
+  @media (max-width: 400px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const Logo = () => {
   return (
     <LogoContainer>
       <img src={metaphysikaLogo} alt="Metaphysika logo" />
+      <MenuButton />
     </LogoContainer>
   );
 };

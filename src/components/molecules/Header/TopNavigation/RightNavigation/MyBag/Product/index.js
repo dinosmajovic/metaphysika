@@ -10,8 +10,7 @@ import {
   DeleteWrapper,
   ProductOptions,
   ProductPrice,
-  LikeWrapper,
-  StyledLink
+  LikeWrapper
 } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { calculateSubtotal, deleteProduct } from 'state/bag';
@@ -19,9 +18,12 @@ import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
 import { addOrDeleteFromWishlist } from 'state/wishlist';
 import reduceTitleLength from 'constants/reduceTitleLength';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const Product = ({ products, type }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onProductDelete = (id) => {
     dispatch(deleteProduct(id));
@@ -30,6 +32,22 @@ const Product = ({ products, type }) => {
 
   const onAddOrDeleteFromWishlist = (product) => {
     dispatch(addOrDeleteFromWishlist(product));
+  };
+
+  const onGoToProduct = async (product) => {
+    const brandId = product.brandId;
+
+    try {
+      const brand = await axios.get('/getBrand', {
+        params: {
+          brandId
+        }
+      });
+
+      history.push(`/brands/${brand.data.path}/${product.path}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const wishlistProducts = useSelector((state) => state.wishlist.products);
@@ -45,17 +63,17 @@ const Product = ({ products, type }) => {
     } else {
       productIsInWishlist = false;
     }
+
     return (
       <Wrapper key={product.bagId}>
         <DeleteWrapper onClick={() => onProductDelete(product.bagId)}>
           <img src={xIcon} alt="x icon" />
         </DeleteWrapper>
         <ProductWrapper>
-          <StyledLink to={product.productPath}>
-            <ProductImage>
-              <img src={product.mainImg} alt="product" />
-            </ProductImage>
-          </StyledLink>
+          <ProductImage onClick={() => onGoToProduct(product)}>
+            <img src={product.mainImg} alt="product" />
+          </ProductImage>
+
           <ProductInfo type={type}>
             <ProductName>
               {reduceTitleLength(transformProductName(product.name), 20)}

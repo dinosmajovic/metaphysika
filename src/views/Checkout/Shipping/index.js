@@ -41,7 +41,8 @@ const Shipping = (props) => {
 
       const body = {
         products,
-        shippingDetails: values
+        shippingDetails: values,
+        subtotal
       };
 
       axios

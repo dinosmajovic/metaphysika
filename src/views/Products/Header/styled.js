@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   grid-area: sort;
   width: 100%;
   cursor: pointer;
+  z-index: 15;
 
   > h1 {
     font-size: 25px;
@@ -28,19 +29,24 @@ export const SortOptions = styled.div`
   border-radius: 3px;
   display: none;
 
-  > span {
-    padding: 5px;
-    font-size: 14px;
-    cursor: pointer;
-
-    :hover {
-      background-color: ${colors.gray.hover};
-      color: ${colors.pink.primary};
-    }
-  }
-
   > :not(:last-child) {
     margin-bottom: 5px;
+  }
+`;
+
+export const SortOption = styled.span`
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  color: ${({ isClicked }) => (isClicked ? `${colors.pink.primary}` : null)};
+  background-color: ${({ isClicked }) =>
+    isClicked ? `${colors.gray.hover}` : null};
+
+  :hover,
+  :active,
+  :focus {
+    background-color: ${colors.gray.hover};
+    color: ${colors.pink.primary};
   }
 `;
 
@@ -50,14 +56,14 @@ export const SortContainer = styled.div`
   align-items: flex-start;
   position: relative;
 
-  @media (max-width: 1200px) {
-    display: none;
-  }
-
   :hover {
     > ${SortOptions} {
       display: flex;
     }
+  }
+
+  @media (max-width: 330px) {
+    margin-left: 30px;
   }
 `;
 
@@ -85,4 +91,10 @@ export const IconWrapper = styled.div`
   align-items: center;
   width: 15px;
   height: 15px;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
