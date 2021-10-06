@@ -12,13 +12,15 @@ const ProductsGrid = ({ products, setLoading }) => {
     return (
       <Container>
         <ProductsContainer>
-          {products?.map((product, i) => (
-            <Product
-              key={product.id + i}
-              product={product}
-              setLoading={setLoading}
-            />
-          ))}
+          {products.map((product, i) => {
+            return (
+              <Product
+                key={product.id + i}
+                product={product}
+                setLoading={setLoading}
+              />
+            );
+          })}
         </ProductsContainer>
       </Container>
     );

@@ -38,9 +38,7 @@ const Product = ({ product }) => {
 
   description = transformProductDescription(description);
 
-  const onAddOrDeleteFromWishlist = (product) => {
-    dispatch(addOrDeleteFromWishlist(product));
-  };
+  const onAddOrDeleteFromWishlist = (product) => {};
 
   return (
     <Wrapper>

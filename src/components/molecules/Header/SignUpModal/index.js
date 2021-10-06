@@ -11,15 +11,55 @@ import {
   Terms,
   Buttons,
   LogIn,
-  StyledLink,
+  StyledSpan,
   TermsErrorMessage
 } from './styled';
 import Button from 'components/atoms/Button';
 import { termsOfService, privacyPolicyPath } from 'constants/routes';
+import { useHistory } from 'react-router-dom';
+import ErrorMessage from 'components/atoms/ErrorMessage/index';
+import { logInUser } from 'state/user';
+import { useDispatch } from 'react-redux';
+import Loader from 'components/atoms/Loader';
+import axios from 'axios';
+import { setWishlistProducts } from 'state/wishlist';
 
 const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [isAgreedToTerms, setIsAgreedToTerms] = useState(false);
-  const [isTermsErrorMessage, setIsTermsErrorMessage] = useState(false);
+  // const [isTermsErrorMessage, setIsTermsErrorMessage] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorDescription, setErrorDescription] = useState('');
+  const [errorTitle, setErrorTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const signUpUser = async (email, password, userData) => {
+    try {
+      const user = await axios.post('/signUpUser', {
+        email,
+        password,
+        userData
+      });
+
+      const { refreshToken, tokenExpirationTime, token, wishlistProducts } =
+        user.data;
+
+      dispatch(setWishlistProducts(wishlistProducts));
+      dispatch(
+        logInUser({ token, userData, refreshToken, tokenExpirationTime })
+      );
+      setIsLoading(false);
+      setIsSignUpModal(false);
+    } catch (error) {
+      const errorTitle = error.response.data.title;
+      const errorDescription = error.response.data.description;
+      setErrorTitle(errorTitle);
+      setErrorDescription(errorDescription);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -38,13 +78,26 @@ const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
       }
     },
     validationSchema: validation,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (isAgreedToTerms) {
-        console.log('sign up user');
-        setIsSignUpModal(false);
-        setIsTermsErrorMessage(!isAgreedToTerms);
+        setIsLoading(true);
+
+        const email = values.email;
+        const password = values.password;
+        const userData = {
+          address: values.address,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNumber: values.phoneNumber
+        };
+
+        signUpUser(email, password, userData);
       } else {
-        setIsTermsErrorMessage(!isAgreedToTerms);
+        setErrorTitle('Terms not accepted');
+        setErrorDescription(
+          'Please accept our terms of service and privacy policy to continue'
+        );
+        setIsError(true);
       }
     }
   });
@@ -62,55 +115,77 @@ const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
     setIsLogInModal(true);
   };
 
-  return (
-    <Container>
-      {isTermsErrorMessage && (
-        <TermsErrorMessage>
-          Please accept the terms of service first
-        </TermsErrorMessage>
-      )}
-      <h1>Sign up</h1>
-      <LogIn>
-        Already have an account?
-        <span onClick={onSetSignUpModal}>Log in.</span>
-      </LogIn>
+  const onGoToTerms = () => {
+    setIsSignUpModal(false);
+    history.push(termsOfService);
+  };
 
-      <AddressForm formik={formik} />
+  const onGoToPolicy = () => {
+    setIsSignUpModal(false);
+    history.push(privacyPolicyPath);
+  };
 
-      <FormRow>
-        <Input
-          label="Password"
-          name="password"
-          formik={formik}
-          type="password"
-        />
-        <Input
-          label="Repeat password"
-          name="passwordConfirmation"
-          formik={formik}
-          type="password"
-        />
-      </FormRow>
+  const onCloseError = () => {
+    setIsError(false);
+    setErrorTitle('');
+    setErrorDescription('');
+  };
 
-      <Terms>
-        <CheckBox onBoxClick={onBoxClick}>
-          {isAgreedToTerms && <img src={checkmark} alt={'checkmark'} />}
-        </CheckBox>
-        <div>
-          I agree to
-          <StyledLink to={termsOfService}>Terms of service</StyledLink>and
-          <StyledLink to={privacyPolicyPath}>Privacy policy</StyledLink>.
-        </div>
-      </Terms>
-
-      <Buttons>
-        <span onClick={onCloseModal}>Cancel</span>
-        <Button size="medium" onClick={formik.submitForm}>
-          Sign up
-        </Button>
-      </Buttons>
-    </Container>
-  );
+  if (isLoading) {
+    return (
+      <Container>
+        <Loader />
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <h1>Sign up</h1>
+        {isError && (
+          <ErrorMessage
+            errorTitle={errorTitle}
+            errorDescription={errorDescription}
+            onCloseError={onCloseError}
+          />
+        )}
+        <LogIn>
+          Already have an account?
+          <span onClick={onSetSignUpModal}>Log in.</span>
+        </LogIn>
+        <AddressForm formik={formik} />
+        <FormRow>
+          <Input
+            label="Password"
+            name="password"
+            formik={formik}
+            type="password"
+          />
+          <Input
+            label="Repeat password"
+            name="passwordConfirmation"
+            formik={formik}
+            type="password"
+          />
+        </FormRow>
+        <Terms>
+          <CheckBox onBoxClick={onBoxClick}>
+            {isAgreedToTerms && <img src={checkmark} alt={'checkmark'} />}
+          </CheckBox>
+          <div>
+            I agree to
+            <StyledSpan onClick={onGoToTerms}>Terms of service</StyledSpan>and
+            <StyledSpan onClick={onGoToPolicy}>Privacy policy</StyledSpan>.
+          </div>
+        </Terms>
+        <Buttons>
+          <span onClick={onCloseModal}>Cancel</span>
+          <Button size="medium" onClick={formik.submitForm}>
+            Sign up
+          </Button>
+        </Buttons>
+      </Container>
+    );
+  }
 };
 
 export default SignUpModal;

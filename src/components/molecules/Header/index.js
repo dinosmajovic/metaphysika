@@ -1,7 +1,7 @@
 import Logo from './Logo';
 import TopNavigation from './TopNavigation';
 import BottomNavigation from './BottomNavigation';
-import { HeaderWrapper } from './styled';
+import { HeaderWrapper, SideMenu } from './styled';
 import { useState } from 'react';
 import Backdrop from 'components/atoms/Backdrop';
 import LogInModal from './LogInModal';
@@ -10,6 +10,7 @@ import SignUpModal from './SignUpModal';
 const Header = () => {
   const [isLogInModal, setIsLogInModal] = useState(false);
   const [isSignUpModal, setIsSignUpModal] = useState(false);
+  const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
 
   const onLogInModal = () => {
     setIsLogInModal(true);
@@ -25,6 +26,10 @@ const Header = () => {
 
   const onBackdropCloseSignUpModal = (event) => {
     event.target.className.includes('backdrop') && setIsSignUpModal(false);
+  };
+
+  const onHamburgerToggle = () => {
+    setHamburgerIsOpen(!hamburgerIsOpen);
   };
 
   return (
@@ -48,7 +53,12 @@ const Header = () => {
           />
         </Backdrop>
       )}
+
+      {hamburgerIsOpen && <SideMenu></SideMenu>}
+
       <TopNavigation
+        isOpen={hamburgerIsOpen}
+        onMenuToggle={onHamburgerToggle}
         onLogInModal={onLogInModal}
         onSignUpModal={onSignUpModal}
       />

@@ -58,3 +58,71 @@ const product = createSlice({
 
 export const { setIsLoading, setProduct } = product.actions;
 export default product.reducer;
+
+// import { createSlice } from '@reduxjs/toolkit';
+
+// // ================== Reducers ================== //
+
+// const slice = createSlice({
+//   name: '/insurance/purchase',
+//   initialState: {
+//     paymentCard: {
+//       isLoading: false,
+//       error: null
+//     }
+//   },
+//   reducers: {
+//     // updatePaymentCard
+//     updatePaymentCardRequest: (state, { payload }) => {
+//       state.paymentCard.isLoading = true;
+//       state.paymentCard.error = null;
+//     },
+//     updatePaymentCardSuccess: (state, { payload }) => {
+//       state.paymentCard.isLoading = false;
+//     },
+//     updatePaymentCardFailure: (state, { payload }) => {
+//       state.paymentCard.isLoading = false;
+//       state.paymentCard.error = payload;
+//     },
+
+//     clearError: (state) => {
+//       state.paymentCard.error = null;
+//     }
+//   }
+// });
+
+// export default slice.reducer;
+
+// // ================== Actions ================== //
+
+// const { actions } = slice;
+
+// export const updatePaymentCard = (info, insuranceContractID) => {
+//   return async (dispatch, getState, { post }) => {
+//     dispatch(actions.updatePaymentCardRequest());
+
+//     const { paymentCard, address } = info || {};
+//     const expiryDate = paymentCard?.creditCardExpiryDate?.split('/');
+
+//     const body = {
+//       creditCardCCV: paymentCard?.creditCardCCV,
+//       creditCardExpiryMonth: expiryDate[0],
+//       creditCardExpiryYear: expiryDate[1],
+//       creditCardHolderName: paymentCard?.creditCardHolderName,
+//       creditCardNumber: paymentCard?.creditCardNumber?.replace(/\s/g, ''),
+//       creditCardType: paymentCard?.creditCardType,
+//       insuranceContractIDs: [insuranceContractID],
+//       address: address
+//     };
+
+//     try {
+//       await post('/insurance/ni/purchase/update-card', body);
+
+//       dispatch(actions.updatePaymentCardSuccess());
+//     } catch (error) {
+//       dispatch(actions.updatePaymentCardFailure(error));
+//     }
+//   };
+// };
+
+// export const { clearError } = actions;

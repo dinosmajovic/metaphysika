@@ -134,3 +134,14 @@ export const LikeWrapper = styled.div`
     object-fit: cover;
   }
 `;
+
+export const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const WishlistError = styled.span`
+  align-self: flex-end;
+  margin-top: 10px;
+  color: ${colors.pink.primary};
+`;

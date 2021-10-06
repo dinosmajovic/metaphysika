@@ -14,3 +14,13 @@ export const HeaderWrapper = styled.header`
     display: none;
   }
 `;
+
+export const SideMenu = styled.div`
+  width: 30%;
+  height: 100vh;
+  z-index: 20;
+  left: 0;
+  bottom: 0;
+  background-color: yellowgreen;
+  position: fixed;
+`;

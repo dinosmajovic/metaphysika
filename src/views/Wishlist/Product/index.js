@@ -8,7 +8,7 @@ import {
 import closeModalIcon from 'assets/icons/modalClose.svg';
 import { Link } from 'react-router-dom';
 import transformProductName from 'constants/transformProductName';
-import { addOrDeleteFromWishlist } from 'state/wishlist';
+
 import { useDispatch } from 'react-redux';
 import reduceTitleLength from 'constants/reduceTitleLength';
 
@@ -35,9 +35,7 @@ const Product = ({ product }) => {
 
   description = transformProductDescription(description);
 
-  const onAddOrDeleteFromWishlist = (product) => {
-    dispatch(addOrDeleteFromWishlist(product));
-  };
+  const onAddOrDeleteFromWishlist = (product) => {};
 
   return (
     <Container>

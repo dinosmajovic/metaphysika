@@ -16,6 +16,9 @@ export default Yup.object({
     city: Yup.string().required('Required'),
     line1: Yup.string().required('Required'),
     line2: Yup.string(),
-    zipCode: Yup.string().required('Required')
+    zipCode: Yup.string()
+      .matches(/^[0-9]+$/)
+      .min(5, '5 digits')
+      .required('Requried')
   })
 });

@@ -16,10 +16,18 @@ import Terms from 'views/Terms';
 import ReturnPolicy from 'views/Return-Policy';
 import PrivacyPolicy from 'views/Privacy-Policy/';
 import SizeGuide from 'views/Size-Guide';
+import myProfile from 'views/My-Profile';
+import resetPassword from 'views/Reset-Password';
+import { useSelector } from 'react-redux';
 
 const Routing = () => {
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <Switch>
+      {isAuthenticated && (
+        <Route exact path="/myProfile" component={myProfile} />
+      )}
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
       <Route exact path="/404" component={Error} />
@@ -28,12 +36,13 @@ const Routing = () => {
       <Route exact path="/checkout/payment" component={Payment} />
       <Route exact path="/checkout/confirmation" component={Confirmation} />
       <Route exact path="/bag" component={Bag} />
-      <Route exact path="/wishlist" component={Wishlist} />
+      {isAuthenticated && <Route exact path="/wishlist" component={Wishlist} />}
       <Route exact path="/faq" component={Faq} />
       <Route exact path="/terms-of-service" component={Terms} />
       <Route exact path="/return-policy" component={ReturnPolicy} />
       <Route exact path="/privacy-policy" component={PrivacyPolicy} />
       <Route exact path="/size-guide" component={SizeGuide} />
+      <Route exact path="/resetPassword/:token?" component={resetPassword} />
       <Route
         exact
         path="/brands/:brandName?/:productName?"
@@ -56,7 +65,6 @@ const Routing = () => {
         path="/categories/:categoryName?/:subcategoryName?"
         component={Products}
       />
-
       <Route path="*" exact component={Error} />
     </Switch>
   );

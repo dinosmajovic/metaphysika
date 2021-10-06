@@ -68,7 +68,7 @@ export const Buttons = styled.div`
   }
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledSpan = styled.span`
   text-decoration: none;
   font-weight: ${fonts.sfPro.fontWeight.light};
   color: ${colors.pink.dark};

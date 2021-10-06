@@ -1,45 +1,73 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const addOrDeleteFromWishlist = createAsyncThunk(
+  'addOrDeleteFromWishlist',
+  async (data, { rejectWithValue }) => {
+    const { isAuthenticated } = data;
+    const { token } = data;
+    const { productId } = data;
+
+    if (isAuthenticated) {
+      try {
+        const addOrDeleteFromWishlist = await axios.post(
+          '/addOrDeleteFromWishlist',
+          {
+            token,
+            productId
+          }
+        );
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    } else {
+      const errorMessage = {
+        title: 'Unauthorized',
+        description: 'Please log in to use wishlist'
+      };
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
 
 export const wishlist = createSlice({
   name: 'wishlist',
   initialState: {
-    products: []
+    test: '',
+    isLoading: false,
+    isError: false,
+    wishlistProducts: [],
+    errorMessage: {
+      title: '',
+      description: ''
+    }
   },
   reducers: {
-    addOrDeleteFromWishlist: (state, { payload }) => {
-      const productAlreadyInWishlist = state.products.filter((product) => {
-        return product.id === payload.id;
-      });
+    setWishlistProducts: (state, { payload }) => {
+      state.wishlistProducts = payload;
+    }
+  },
 
-      if (productAlreadyInWishlist.length > 0) {
-        const index = state.products.findIndex((product) => {
-          return product.id === payload.id;
-        });
-
-        const newProducts = [...state.products];
-
-        newProducts.splice(index, 1);
-
-        state.products = newProducts;
-      } else {
-        state.products.push(payload);
-      }
+  extraReducers: {
+    [addOrDeleteFromWishlist.pending]: (state) => {
+      state.isLoading = true;
     },
-
-    deleteProductFromWishlist: (state, { payload }) => {
-      const index = state.products.findIndex((product) => {
-        return product.bagId === payload;
-      });
-
-      const newProducts = [...state.products];
-      newProducts.splice(index, 1);
-
-      state.products = newProducts;
+    [addOrDeleteFromWishlist.fulfilled]: (state, { payload }) => {
+      state.wishlistProducts = payload;
+      state.isError = false;
+      state.isLoading = false;
+    },
+    [addOrDeleteFromWishlist.rejected]: (state, { payload }) => {
+      state.errorMessage = {
+        title: payload.title,
+        description: payload.description
+      };
+      state.isError = true;
+      state.isLoading = false;
     }
   }
 });
 
-export const { addOrDeleteFromWishlist, deleteProductFromWishlist } =
-  wishlist.actions;
+export const { setWishlistProducts } = wishlist.actions;
 
 export default wishlist.reducer;

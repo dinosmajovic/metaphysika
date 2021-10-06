@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { calculateSubtotal, deleteProduct } from 'state/bag';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
-import { addOrDeleteFromWishlist } from 'state/wishlist';
+
 import reduceTitleLength from 'constants/reduceTitleLength';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -30,9 +30,7 @@ const Product = ({ products, type }) => {
     dispatch(calculateSubtotal());
   };
 
-  const onAddOrDeleteFromWishlist = (product) => {
-    dispatch(addOrDeleteFromWishlist(product));
-  };
+  const onAddOrDeleteFromWishlist = (product) => {};
 
   const onGoToProduct = async (product) => {
     const brandId = product.brandId;
@@ -53,16 +51,17 @@ const Product = ({ products, type }) => {
   const wishlistProducts = useSelector((state) => state.wishlist.products);
 
   return products.map((product) => {
-    const productInWishlist = wishlistProducts.filter((p) => {
-      return product.id === p.id;
-    });
+    // const productInWishlist = wishlistProducts.filter((p) => {
+    //   return product.id === p.id;
+    // });
 
-    let productIsInWishlist = false;
-    if (productInWishlist.length > 0) {
-      productIsInWishlist = true;
-    } else {
-      productIsInWishlist = false;
-    }
+    // let productIsInWishlist = false;
+    // if (productInWishlist.length > 0) {
+    //   productIsInWishlist = true;
+    // } else {
+    //   productIsInWishlist = false;
+    // }
+    const productIsInWishlist = false;
 
     return (
       <Wrapper key={product.bagId}>

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import fonts from 'assets/fonts';
 import { colors } from 'styles';
 import { Link } from 'react-router-dom';
+import Hamburger from 'hamburger-react';
 
 const NavigationItem = styled(Link)`
   margin-right: 20px;
@@ -21,7 +22,18 @@ const NavigationItem = styled(Link)`
   }
 `;
 
-const LeftNavigation = () => {
+const HamburgerWrapper = styled.div`
+  z-index: 100;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+`;
+
+const LeftNavigation = ({ isOpen, onMenuToggle }) => {
   const navigationItems = [
     { label: 'HOME', link: '/' },
     { label: 'ABOUT', link: '/about' },
@@ -35,6 +47,10 @@ const LeftNavigation = () => {
 
   return (
     <nav>
+      <HamburgerWrapper>
+        <Hamburger toggled={isOpen} onToggle={onMenuToggle} />
+      </HamburgerWrapper>
+
       {navigationItems.map((item) => (
         <NavigationItem to={item.link} key={item.label}>
           {item.label}

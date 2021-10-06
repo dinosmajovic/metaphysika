@@ -13,10 +13,15 @@ const TopNavigationContainer = styled.div`
   }
 `;
 
-const TopNavigation = ({ onLogInModal, onSignUpModal }) => {
+const TopNavigation = ({
+  onLogInModal,
+  onSignUpModal,
+  isOpen,
+  onMenuToggle
+}) => {
   return (
     <TopNavigationContainer>
-      <LeftNavigation />
+      <LeftNavigation isOpen={isOpen} onMenuToggle={onMenuToggle} />
       <RightNavigation
         onLogInModal={onLogInModal}
         onSignUpModal={onSignUpModal}

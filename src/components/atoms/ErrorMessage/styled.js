@@ -3,7 +3,8 @@ import fonts from 'assets/fonts';
 
 export const Container = styled.div`
   position: relative;
-  background-color: rgb(246, 225, 203);
+  background-color: ${({ type }) =>
+    type === 'succes' ? '#3DCC91' : 'rgb(246, 225, 203)'};
   border-radius: 5px;
   width: 100%;
   padding: 10px 15px;
@@ -14,7 +15,7 @@ export const Container = styled.div`
 export const CloseMessageWrapper = styled.span`
   width: 15px;
   height: 15px;
-  display: flex;
+  display: ${({ type }) => (type === 'succes' ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -35,8 +36,8 @@ export const ErrorTitle = styled.span`
   margin-bottom: 5px;
 
   > span:first-child {
-    width: 12px;
-    height: 12px;
+    width: ${({ type }) => (type === 'succes' ? '21px' : '15px')};
+    height: ${({ type }) => (type === 'succes' ? '21px' : '15px')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +53,8 @@ export const ErrorTitle = styled.span`
   > span:nth-child(2) {
     font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.bold};
-    color: rgb(191, 115, 38);
+    color: ${({ type }) =>
+      type === 'succes' ? '#0D8050' : 'rgb(191, 115, 38)'};
   }
 `;
 

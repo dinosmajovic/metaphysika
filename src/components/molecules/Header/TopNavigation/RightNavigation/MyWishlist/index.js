@@ -17,7 +17,7 @@ const MyWishlist = () => {
 
   return (
     <>
-      <ArrowHoverWrapper />
+      {/* <ArrowHoverWrapper />
       <ArrowUp />
       <Title>
         <span>
@@ -36,7 +36,7 @@ const MyWishlist = () => {
             VIEW WISHLIST
           </Button>
         </StyledLink>
-      </Buttons>
+      </Buttons> */}
     </>
   );
 };

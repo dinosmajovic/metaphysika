@@ -13,7 +13,6 @@ import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
 import calculatePrecentage from 'constants/calculatePrecentage';
 import transformProductName from 'constants/transformProductName';
-import { addOrDeleteFromWishlist } from 'state/wishlist';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -23,9 +22,7 @@ const Product = ({ product, setLoading }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onAddOrDeleteFromWishlist = (product) => {
-    dispatch(addOrDeleteFromWishlist(product));
-  };
+  const onAddOrDeleteFromWishlist = (product) => {};
 
   const precentageDecrease = calculatePrecentage(
     product.price,
@@ -34,16 +31,7 @@ const Product = ({ product, setLoading }) => {
 
   const wishlistProducts = useSelector((state) => state.wishlist.products);
 
-  const productInWishlist = wishlistProducts.filter((p) => {
-    return product.id === p.id;
-  });
-
   let productIsInWishlist = false;
-  if (productInWishlist.length > 0) {
-    productIsInWishlist = true;
-  } else {
-    productIsInWishlist = false;
-  }
 
   const sizes = product.sizeIds;
 

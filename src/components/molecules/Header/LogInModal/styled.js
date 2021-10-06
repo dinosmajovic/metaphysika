@@ -14,6 +14,12 @@ export const Container = styled.div`
     margin-bottom: 10px;
     color: ${colors.gray.textLight};
   }
+
+  > h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: ${colors.gray.textLight};
+  }
 `;
 
 export const ForgotPassword = styled.span`

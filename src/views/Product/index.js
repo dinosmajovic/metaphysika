@@ -8,7 +8,6 @@ import { Redirect, useParams } from 'react-router-dom';
 import Loader from 'components/atoms/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from 'state/product';
-import axios from '../../../node_modules/axios/index';
 import { setProduct } from 'state/product';
 
 const Product = () => {

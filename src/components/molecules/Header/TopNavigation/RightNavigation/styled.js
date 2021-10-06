@@ -1,15 +1,13 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
+import { Link } from 'react-router-dom';
+import fonts from 'assets/fonts';
 
 export const RightNavigationContainer = styled.span`
   display: flex;
-
-  @media (max-width: 1100px) {
-    display: none;
-  }
 `;
 
-export const Icon = styled.span`
+export const Icon = styled(Link)`
   height: 22px;
   width: 22px;
   display: flex;
@@ -34,7 +32,7 @@ export const MyProfileMenu = styled.div`
   right: -3px;
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 15;
+  z-index: 30;
   width: 135px;
 `;
 
@@ -46,7 +44,7 @@ export const MyBagMenu = styled.div`
   box-shadow: 6px 6px 12px ${colors.gray.light};
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 15;
+  z-index: 30;
   top: 35px;
   right: -3px;
 `;
@@ -60,7 +58,7 @@ export const MyWishListMenu = styled.div`
   right: -3px;
   border-radius: 5px;
   border: 1px solid ${colors.gray.light};
-  z-index: 15;
+  z-index: 30;
   box-shadow: 6px 6px 12px ${colors.gray.light};
 `;
 
@@ -75,5 +73,22 @@ export const IconContainer = styled.div`
     > ${MyProfileMenu}, ${MyBagMenu}, ${MyWishListMenu} {
       display: block;
     }
+  }
+`;
+
+export const UserName = styled.span`
+  position: absolute;
+  width: max-content;
+  right: 30px;
+  top: 1px;
+
+  > :first-child {
+    color: ${colors.pink.dark};
+    margin-right: 5px;
+  }
+
+  > span {
+    font-size: 18px;
+    font-weight: ${fonts.sfPro.fontWeight.semibold};
   }
 `;

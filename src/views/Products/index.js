@@ -210,8 +210,6 @@ const Products = () => {
         sortType
       });
 
-      console.log(result);
-
       setLabel(result.data.brandName);
       setProducts(result.data.products);
       setTotalProductsCount(result.data.totalProductsCount);

@@ -9,13 +9,15 @@ import {
   PriceContainer,
   Price,
   ProductName,
-  LikeWrapper
+  LikeWrapper,
+  Buttons,
+  WishlistError
 } from './styled';
 import transformProductName from 'constants/transformProductName';
 import { useState } from 'react';
 import findItemIndex from 'constants/findItemIndex/index';
 import calculatePercentageDecrease from 'constants/calculatePrecentage/index';
-import { addProduct, calculateSubtotal } from 'state/bag';
+import { addProduct } from 'state/bag';
 import { useDispatch, useSelector } from 'react-redux';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
@@ -28,8 +30,11 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
   const [isQuantityErrorMessage, setIsQuantityErrorMessage] = useState(false);
   const dispatch = useDispatch();
   const bag = useSelector((state) => state.bag);
-  const wishlistProducts = useSelector((state) => state.wishlist.products);
   const [isAddedToBag, setIsAddedToBag] = useState(false);
+  const { token } = useSelector((state) => state.user);
+  const { isError } = useSelector((state) => state.wishlist);
+  const { errorMessage } = useSelector((state) => state.wishlist);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   const onAddToBag = () => {
     if (sizeIsClicked) {
@@ -146,20 +151,12 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
     }
   };
 
-  const onAddOrDeleteFromWishlist = (product) => {
-    dispatch(addOrDeleteFromWishlist(product));
+  const onAddOrDeleteFromWishlist = (productId) => {
+    // checks if product is in bag
+    dispatch(addOrDeleteFromWishlist({ isAuthenticated, token, productId }));
   };
+  const productIsInWishlist = false;
 
-  const productInWishlist = wishlistProducts.filter((p) => {
-    return product.id === p.id;
-  });
-
-  let productIsInWishlist = false;
-  if (productInWishlist.length > 0) {
-    productIsInWishlist = true;
-  } else {
-    productIsInWishlist = false;
-  }
   return (
     <ProductInfo>
       <ProductName>
@@ -190,27 +187,30 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
           ))}
         </ul>
       </Description>
-      <ButtonWrapper>
-        {isButtonErrorMessage && (
-          <InputError>Please select size first</InputError>
-        )}
-
-        <Button onClick={onAddToBag}>
-          {isAddedToBag
-            ? 'ADDED TO BAG'
-            : isQuantityErrorMessage
-            ? 'NOT AVAILABLE'
-            : 'ADD TO BAG'}
-        </Button>
-
-        <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product)}>
-          {productIsInWishlist ? (
-            <img src={likeHeartFilled} alt="Heart icon" />
-          ) : (
-            <img src={likeHeartOutlined} alt="Heart icon" />
+      <Buttons>
+        <ButtonWrapper>
+          {isButtonErrorMessage && (
+            <InputError>Please select size first</InputError>
           )}
-        </LikeWrapper>
-      </ButtonWrapper>
+
+          <Button onClick={onAddToBag}>
+            {isAddedToBag
+              ? 'ADDED TO BAG'
+              : isQuantityErrorMessage
+              ? 'NOT AVAILABLE'
+              : 'ADD TO BAG'}
+          </Button>
+
+          <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product.id)}>
+            {productIsInWishlist ? (
+              <img src={likeHeartFilled} alt="Heart icon" />
+            ) : (
+              <img src={likeHeartOutlined} alt="Heart icon" />
+            )}
+          </LikeWrapper>
+        </ButtonWrapper>
+        {isError && <WishlistError>{errorMessage.description}</WishlistError>}
+      </Buttons>
     </ProductInfo>
   );
 };

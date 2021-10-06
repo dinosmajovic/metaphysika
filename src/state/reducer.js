@@ -11,13 +11,15 @@ import bag from './bag';
 import wishlist from './wishlist';
 import checkout from './checkout';
 import product from './product';
+import signUp from './signUp';
+import user from './user';
 
 // ================== Global app state ================== //
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['bag', 'wishlist']
+  whitelist: ['bag', 'user']
 };
 
 const appReducer = combineReducers({
@@ -26,7 +28,9 @@ const appReducer = combineReducers({
   bag,
   wishlist,
   checkout,
-  product
+  product,
+  signUp,
+  user
 });
 
 const rootReducer = (state, action) => {

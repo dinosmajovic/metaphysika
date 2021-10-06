@@ -5,7 +5,8 @@ import {
   IconContainer,
   MyProfileMenu,
   MyBagMenu,
-  MyWishListMenu
+  MyWishListMenu,
+  UserName
 } from './styled';
 import heart from 'assets/icons/heart.svg';
 import basket from 'assets/icons/basket.svg';
@@ -13,12 +14,22 @@ import person from 'assets/icons/person.svg';
 import MyProfile from './MyProfile';
 import MyBag from './MyBag';
 import MyWishlist from './MyWishlist';
+import { useSelector } from 'react-redux';
 
 const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
+  const { isAuthenticated } = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
+
   return (
     <RightNavigationContainer>
       <IconContainer>
-        <Icon>
+        {isAuthenticated && (
+          <UserName>
+            <span>Hi</span>
+            <span>{userData.firstName}</span>
+          </UserName>
+        )}
+        <Icon to="/">
           <img src={person} alt="person icon" />
         </Icon>
         <MyProfileMenu>
@@ -30,7 +41,7 @@ const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
       </IconContainer>
 
       <IconContainer>
-        <Icon>
+        <Icon to="/bag">
           <img src={basket} alt="basket icon" />
         </Icon>
         <MyBagMenu>
@@ -39,7 +50,7 @@ const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
       </IconContainer>
 
       <IconContainer>
-        <Icon>
+        <Icon to="/wishlist">
           <img src={heart} alt="heart icon" />
         </Icon>
         <MyWishListMenu>
