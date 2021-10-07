@@ -14,7 +14,7 @@ import {
   WishlistError
 } from './styled';
 import transformProductName from 'constants/transformProductName';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import findItemIndex from 'constants/findItemIndex/index';
 import calculatePercentageDecrease from 'constants/calculatePrecentage/index';
 import { addProduct } from 'state/bag';
@@ -23,7 +23,13 @@ import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
 import { addOrDeleteFromWishlist } from 'state/wishlist';
 
-const ProductInformations = ({ product, options, setOptions, variants }) => {
+const ProductInformations = ({
+  product,
+  options,
+  setOptions,
+  isInWishlist,
+  setIsInWishlist
+}) => {
   const [sizeIsClicked, setSizeIsClicked] = useState(false);
   const [isButtonErrorMessage, setIsButtonErrorMessage] = useState(false);
   const [isInputErrorMessage, setIsInputErrorMessage] = useState(false);
@@ -31,10 +37,18 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
   const dispatch = useDispatch();
   const bag = useSelector((state) => state.bag);
   const [isAddedToBag, setIsAddedToBag] = useState(false);
-  const { token } = useSelector((state) => state.user);
-  const { isError } = useSelector((state) => state.wishlist);
-  const { errorMessage } = useSelector((state) => state.wishlist);
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { token, isAuthenticated } = useSelector((state) => state.user);
+  const { isError, actionType, errorMessage } = useSelector(
+    (state) => state.wishlist
+  );
+
+  useEffect(() => {
+    if (actionType === 'ADDED TO WISHLIST') {
+      setIsInWishlist(true);
+    } else if (actionType === 'REMOVED FROM WISHLIST') {
+      setIsInWishlist(false);
+    }
+  }, [actionType]);
 
   const onAddToBag = () => {
     if (sizeIsClicked) {
@@ -152,15 +166,13 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
   };
 
   const onAddOrDeleteFromWishlist = (productId) => {
-    // checks if product is in bag
     dispatch(addOrDeleteFromWishlist({ isAuthenticated, token, productId }));
   };
-  const productIsInWishlist = false;
 
   return (
     <ProductInfo>
       <ProductName>
-        <h1>{product.name}</h1>
+        <h1>{transformProductName(product.name)}</h1>
         {product.oldPrice && (
           <span>
             {calculatePercentageDecrease(product.price, product.oldPrice)}% OFF!
@@ -202,7 +214,7 @@ const ProductInformations = ({ product, options, setOptions, variants }) => {
           </Button>
 
           <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product.id)}>
-            {productIsInWishlist ? (
+            {isInWishlist ? (
               <img src={likeHeartFilled} alt="Heart icon" />
             ) : (
               <img src={likeHeartOutlined} alt="Heart icon" />

@@ -6,7 +6,6 @@ import personBlack from 'assets/icons/person.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { homePath, myProfilePath } from 'constants/routes/index';
 import { useHistory } from 'react-router';
-import { logOutUser } from 'state/user';
 
 const MyProfileMenu = ({ onLogInModal, onSignUpModal }) => {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -14,7 +13,7 @@ const MyProfileMenu = ({ onLogInModal, onSignUpModal }) => {
   const dispatch = useDispatch();
 
   const onLogOut = () => {
-    dispatch(logOutUser());
+    dispatch({ type: 'RESET_APP' });
     history.push(homePath);
   };
 

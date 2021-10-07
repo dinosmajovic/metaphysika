@@ -19,15 +19,14 @@ const user = createSlice({
       state.userData = payload.userData;
       state.isAuthenticated = true;
     },
-    logOutUser: (state) => {
-      state.token = null;
-      state.userData = null;
-      state.isAuthenticated = false;
-      state.refreshToken = null;
-    },
+
     setNewToken: (state, { payload }) => {
       state.token = payload.token;
       state.tokenExpirationTime = payload.expirationTime;
+    },
+
+    updateUser: (state, { payload }) => {
+      state.isAuthenticated = payload.isAuthenticated;
     }
   }
 });
@@ -51,9 +50,10 @@ export const refreshUserToken =
           })
         );
       } catch (error) {
-        console.log(error);
+        dispatch({ type: 'RESET_APP' });
       }
     }
   };
-export const { logInUser, logOutUser } = user.actions;
+
+export const { logInUser, updateUser } = user.actions;
 export default user.reducer;

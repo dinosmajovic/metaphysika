@@ -53,10 +53,9 @@ const BottomNavigation = () => {
 
   useEffect(() => {
     getBrandsAndCategories();
-  }, []);
+  }, [location.pathname]);
 
   const getBrandsAndCategories = async () => {
-    setLoading(true);
     await axios
       .get('/categories')
       .then((result) => {
@@ -90,43 +89,6 @@ const BottomNavigation = () => {
       });
 
     setLoading(false);
-  };
-
-  const getCategories = async () => {
-    axios
-      .get('/categories')
-      .then((result) => {
-        const mappedCategories = result.data.map((category) => {
-          return {
-            label: category.name,
-            path: category.path,
-            isClicked: false
-          };
-        });
-
-        setCategories(mappedCategories);
-      })
-      .catch((error) => {
-        history.push(errorPath);
-      });
-  };
-
-  const getBrands = async () => {
-    axios
-      .get('/brands')
-      .then((result) => {
-        const mappedBrands = result.data.map((brand) => {
-          return {
-            label: brand.name,
-            path: brand.path,
-            isClicked: false
-          };
-        });
-        setBrands(mappedBrands);
-      })
-      .catch((error) => {
-        history.push(errorPath);
-      });
   };
 
   const resetItems = (items) => {
@@ -163,7 +125,7 @@ const BottomNavigation = () => {
 
   if (loading) {
     return null;
-  } else {
+  } else if (categories && brands) {
     return (
       <BottomNavigationContainer>
         {!isCheckoutPage && (

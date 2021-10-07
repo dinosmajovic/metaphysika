@@ -7,7 +7,8 @@ const Wishlist = () => {
 
   return (
     <Container>
-      <Title>
+      wishlist
+      {/* <Title>
         My Wishlist (<span>{wishlistProducts.length}</span>)
       </Title>
 
@@ -15,7 +16,7 @@ const Wishlist = () => {
         {wishlistProducts.map((product) => (
           <Product product={product} key={product.id} />
         ))}
-      </Products>
+      </Products> */}
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Product from 'views/Product';
@@ -16,34 +17,109 @@ import Terms from 'views/Terms';
 import ReturnPolicy from 'views/Return-Policy';
 import PrivacyPolicy from 'views/Privacy-Policy/';
 import SizeGuide from 'views/Size-Guide';
-import myProfile from 'views/My-Profile';
+import MyProfile from 'views/My-Profile';
 import resetPassword from 'views/Reset-Password';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { initialize, clearError } from 'state/app';
+
+const PublicRoute = ({ component: Component, ...rest }) => {
+  // if there is a token in localstorage => show loading screen until you check the token and than render the page,
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isInitialized, isInitInProgress, error } = useSelector(
+    (state) => state.app
+  );
+
+  useEffect(() => {
+    if (!isInitialized && !isInitInProgress) {
+      dispatch(initialize());
+    }
+  }, [dispatch, isInitInProgress, isInitialized]);
+
+  useEffect(() => {
+    if (isInitialized && error) {
+      return (
+        <Route exact render={(props) => <Component {...props} />} {...rest} />
+      );
+    }
+
+    return () => {
+      dispatch(clearError());
+    };
+  }, [isInitialized, error, history]);
+
+  if (isInitialized && !isInitInProgress && !error) {
+    return (
+      <Route exact render={(props) => <Component {...props} />} {...rest} />
+    );
+  }
+
+  return <div>loading</div>;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isInitialized, isInitInProgress, error } = useSelector(
+    (state) => state.app
+  );
+
+  useEffect(() => {
+    if (!isInitialized && !isInitInProgress) {
+      dispatch(initialize());
+    }
+  }, [dispatch, isInitInProgress, isInitialized]);
+
+  useEffect(() => {
+    if (isInitialized && error) {
+      history.push('/?login=true');
+      history.push('/');
+    }
+
+    return () => {
+      dispatch(clearError());
+    };
+  }, [isInitialized, error, history]);
+
+  if (isInitialized && !isInitInProgress && !error) {
+    return (
+      <Route exact render={(props) => <Component {...props} />} {...rest} />
+    );
+  }
+
+  return <div>loading</div>;
+};
 
 const Routing = () => {
-  const { isAuthenticated } = useSelector((state) => state.user);
-
   return (
     <Switch>
-      {isAuthenticated && (
-        <Route exact path="/myProfile" component={myProfile} />
-      )}
-      <Route exact path="/" component={Home} />
-      <Route exact path="/about" component={About} />
-      <Route exact path="/404" component={Error} />
-      <Route exact path="/checkout" component={Checkout} />
-      <Route exact path="/checkout/shipping" component={Shipping} />
-      <Route exact path="/checkout/payment" component={Payment} />
-      <Route exact path="/checkout/confirmation" component={Confirmation} />
-      <Route exact path="/bag" component={Bag} />
-      {isAuthenticated && <Route exact path="/wishlist" component={Wishlist} />}
-      <Route exact path="/faq" component={Faq} />
-      <Route exact path="/terms-of-service" component={Terms} />
-      <Route exact path="/return-policy" component={ReturnPolicy} />
-      <Route exact path="/privacy-policy" component={PrivacyPolicy} />
-      <Route exact path="/size-guide" component={SizeGuide} />
-      <Route exact path="/resetPassword/:token?" component={resetPassword} />
-      <Route
+      <PrivateRoute path="/myProfile" component={MyProfile} />
+      <PrivateRoute path="/wishlist" component={Wishlist} />
+      <PublicRoute exact path="/" component={Home} />
+      <PublicRoute exact path="/about" component={About} />
+      <PublicRoute exact path="/404" component={Error} />
+      <PublicRoute exact path="/checkout" component={Checkout} />
+      <PublicRoute exact path="/checkout/shipping" component={Shipping} />
+      <PublicRoute exact path="/checkout/payment" component={Payment} />
+      <PublicRoute
+        exact
+        path="/checkout/confirmation"
+        component={Confirmation}
+      />
+      <PublicRoute exact path="/bag" component={Bag} />
+      <PublicRoute exact path="/faq" component={Faq} />
+      <PublicRoute exact path="/terms-of-service" component={Terms} />
+      <PublicRoute exact path="/return-policy" component={ReturnPolicy} />
+      <PublicRoute exact path="/privacy-policy" component={PrivacyPolicy} />
+      <PublicRoute exact path="/size-guide" component={SizeGuide} />
+      <PublicRoute
+        exact
+        path="/resetPassword/:token?"
+        component={resetPassword}
+      />
+      <PublicRoute
         exact
         path="/brands/:brandName?/:productName?"
         render={({ match }) => {
@@ -60,12 +136,12 @@ const Routing = () => {
           return <Error />;
         }}
       />
-      <Route
+      <PublicRoute
         exact
         path="/categories/:categoryName?/:subcategoryName?"
         component={Products}
       />
-      <Route path="*" exact component={Error} />
+      <PublicRoute path="*" exact component={Error} />
     </Switch>
   );
 };

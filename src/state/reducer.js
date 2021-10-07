@@ -5,7 +5,7 @@ import { persistReducer } from 'redux-persist';
 
 // ================== Reducers ================== //
 
-import brands from './brands';
+import app from './app';
 import payment from './payment';
 import bag from './bag';
 import wishlist from './wishlist';
@@ -19,11 +19,11 @@ import user from './user';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['bag', 'user']
+  whitelist: ['app', 'bag', 'user', 'wishlist']
 };
 
 const appReducer = combineReducers({
-  brands,
+  app,
   payment,
   bag,
   wishlist,
@@ -35,7 +35,8 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_APP') {
-    state = undefined;
+    localStorage.clear();
+    return appReducer(undefined, action);
   }
 
   return appReducer(state, action);

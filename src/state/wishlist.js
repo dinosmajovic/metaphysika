@@ -17,6 +17,8 @@ export const addOrDeleteFromWishlist = createAsyncThunk(
             productId
           }
         );
+
+        return addOrDeleteFromWishlist.data;
       } catch (error) {
         return rejectWithValue(error.response.data);
       }
@@ -33,10 +35,9 @@ export const addOrDeleteFromWishlist = createAsyncThunk(
 export const wishlist = createSlice({
   name: 'wishlist',
   initialState: {
-    test: '',
     isLoading: false,
+    actionType: null,
     isError: false,
-    wishlistProducts: [],
     errorMessage: {
       title: '',
       description: ''
@@ -53,7 +54,7 @@ export const wishlist = createSlice({
       state.isLoading = true;
     },
     [addOrDeleteFromWishlist.fulfilled]: (state, { payload }) => {
-      state.wishlistProducts = payload;
+      state.actionType = payload;
       state.isError = false;
       state.isLoading = false;
     },

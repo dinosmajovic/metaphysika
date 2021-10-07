@@ -1,128 +1,62 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-export const fetchProduct = createAsyncThunk(
-  'fetchProduct',
-  async (productName) => {
-    try {
-      const product = await axios.get('/getProduct', {
-        params: {
-          productName
-        }
-      });
-
-      try {
-        const fetchedRelatedProducts = await axios.post(
-          '/product/relatedProducts',
-          product
-        );
-
-        return { fetchedRelatedProducts, product };
-      } catch (error) {
-        throw error;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-);
 
 const product = createSlice({
   name: 'product',
   initialState: {
-    relatedProducts: null,
     product: null,
-    isError: false
+    isError: false,
+    errorMessage: {},
+    isLoading: true
   },
   reducers: {
-    setIsLoading: (state, { payload }) => {
-      state.isLoading = payload;
+    getProductRequest: (state) => {
+      state.isLoading = true;
     },
     setProduct: (state, { payload }) => {
       state.product = payload;
-    }
-  },
-  extraReducers: {
-    [fetchProduct.pending]: (state, action) => {},
-    [fetchProduct.fulfilled]: (state, action) => {
-      const relatedProducts = action.payload.fetchedRelatedProducts;
-      const product = action.payload.product;
-      state.relatedProducts = relatedProducts;
-      state.product = product;
     },
-    [fetchProduct.rejected]: (state, action) => {
+    getProductSuccess: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    getProductFailure: (state, { payload }) => {
+      state.errorMessage = payload;
       state.isError = true;
+      state.isLoading = false;
+    },
+    clearProduct: (state, { payload }) => {
+      state.product = null;
+      state.isError = false;
+      state.isLoading = true;
     }
   }
 });
 
-export const { setIsLoading, setProduct } = product.actions;
+const { actions } = product;
+
+export const getProduct = (payload) => async (dispatch, getState) => {
+  const { productPath, token } = payload;
+
+  dispatch(actions.getProductRequest());
+
+  try {
+    const fetchedProduct = await axios.get('/getProduct', {
+      params: {
+        productPath,
+        token
+      }
+    });
+
+    const product = fetchedProduct.data;
+    dispatch(actions.setProduct(product));
+  } catch (error) {
+    const errorMessage = {
+      title: error.response.data.title,
+      description: error.response.data.description
+    };
+    dispatch(actions.getProductFailure(errorMessage));
+  }
+};
+
+export const { clearProduct, getProductSuccess } = product.actions;
 export default product.reducer;
-
-// import { createSlice } from '@reduxjs/toolkit';
-
-// // ================== Reducers ================== //
-
-// const slice = createSlice({
-//   name: '/insurance/purchase',
-//   initialState: {
-//     paymentCard: {
-//       isLoading: false,
-//       error: null
-//     }
-//   },
-//   reducers: {
-//     // updatePaymentCard
-//     updatePaymentCardRequest: (state, { payload }) => {
-//       state.paymentCard.isLoading = true;
-//       state.paymentCard.error = null;
-//     },
-//     updatePaymentCardSuccess: (state, { payload }) => {
-//       state.paymentCard.isLoading = false;
-//     },
-//     updatePaymentCardFailure: (state, { payload }) => {
-//       state.paymentCard.isLoading = false;
-//       state.paymentCard.error = payload;
-//     },
-
-//     clearError: (state) => {
-//       state.paymentCard.error = null;
-//     }
-//   }
-// });
-
-// export default slice.reducer;
-
-// // ================== Actions ================== //
-
-// const { actions } = slice;
-
-// export const updatePaymentCard = (info, insuranceContractID) => {
-//   return async (dispatch, getState, { post }) => {
-//     dispatch(actions.updatePaymentCardRequest());
-
-//     const { paymentCard, address } = info || {};
-//     const expiryDate = paymentCard?.creditCardExpiryDate?.split('/');
-
-//     const body = {
-//       creditCardCCV: paymentCard?.creditCardCCV,
-//       creditCardExpiryMonth: expiryDate[0],
-//       creditCardExpiryYear: expiryDate[1],
-//       creditCardHolderName: paymentCard?.creditCardHolderName,
-//       creditCardNumber: paymentCard?.creditCardNumber?.replace(/\s/g, ''),
-//       creditCardType: paymentCard?.creditCardType,
-//       insuranceContractIDs: [insuranceContractID],
-//       address: address
-//     };
-
-//     try {
-//       await post('/insurance/ni/purchase/update-card', body);
-
-//       dispatch(actions.updatePaymentCardSuccess());
-//     } catch (error) {
-//       dispatch(actions.updatePaymentCardFailure(error));
-//     }
-//   };
-// };
-
-// export const { clearError } = actions;
