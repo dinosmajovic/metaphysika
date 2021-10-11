@@ -9,9 +9,10 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 20px;
   border: 1px solid ${colors.gray.light};
-
   justify-content: flex-start;
   align-items: center;
+  min-height: 434px;
+  min-width: 290px;
 `;
 
 export const ProductImage = styled.div`
@@ -57,4 +58,12 @@ export const DeleteProduct = styled.div`
     height: 100%;
     object-fit: cover;
   }
+`;
+
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

@@ -8,7 +8,7 @@ import ProductsGrid from './ProductsGrid';
 import { errorPath } from 'constants/routes';
 import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
-import { filter } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Products = () => {
   const history = useHistory();
@@ -46,7 +46,6 @@ const Products = () => {
       isClicked: false
     }
   ]);
-
   const [allFilters, setAllFilters] = useState([
     {
       name: 'size',
@@ -67,6 +66,7 @@ const Products = () => {
       isOpen: false
     }
   ]);
+  const { token, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     const isCategoryChanged = true;
@@ -74,7 +74,7 @@ const Products = () => {
     setCurrentPage(1);
     setLoading(true);
     fetchProducts(isCategoryChanged, 1, {});
-  }, [params]);
+  }, [params, isAuthenticated]);
 
   const fetchProducts = (
     isCategoryChanged,
@@ -110,7 +110,8 @@ const Products = () => {
         productsPerPage,
         isCategoryChanged,
         filters,
-        sortType
+        sortType,
+        token
       });
 
       setLabel(result.data.categoryName);

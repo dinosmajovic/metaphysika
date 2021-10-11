@@ -1,8 +1,7 @@
 import transformProductName from 'constants/transformProductName';
 import deleteIcon from 'assets/icons/modalClose.svg';
 import { Link } from 'react-router-dom';
-import { addOrDeleteFromWishlist } from 'state/wishlist';
-import { useDispatch } from 'react-redux';
+import { deleteFromWishlist } from 'state/wishlist';
 
 import {
   Wrapper,
@@ -14,46 +13,35 @@ import {
   ProductPrice,
   ProductDescription
 } from './styled';
+import shortenText from 'constants/reduceTitleLength';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.user);
 
-  const fullDescription = product.description?.split('<ul');
-
-  let description = fullDescription?.[0];
-
-  const transformProductDescription = (productDescription) => {
-    let transformedDescription = productDescription.replace(
-      /(<([^>]+)>)/gi,
-      ''
-    );
-
-    if (transformedDescription.length > 25) {
-      transformedDescription = transformedDescription.substring(0, 60) + '...';
-      return transformedDescription;
-    } else {
-      return transformedDescription;
-    }
+  const onAddOrDeleteFromWishlist = (productId) => {
+    dispatch(deleteFromWishlist({ productId, token }));
   };
-
-  description = transformProductDescription(description);
-
-  const onAddOrDeleteFromWishlist = (product) => {};
 
   return (
     <Wrapper>
-      <DeleteWrapper onClick={() => onAddOrDeleteFromWishlist(product)}>
-        <img src={deleteIcon} alt="x icon" />
+      <DeleteWrapper onClick={() => onAddOrDeleteFromWishlist(product.id)}>
+        <img src={deleteIcon} alt="delete from wishlist" />
       </DeleteWrapper>
       <ProductWrapper>
-        <Link to={`${product.brandPath}${product.path}`}>
+        <Link to={`/brands/${product.brand.path}/${product.path}`}>
           <ProductImage>
             <img src={product.mainImg} alt="product" />
           </ProductImage>
         </Link>
         <ProductInfo>
-          <ProductName>{transformProductName(product.name)}</ProductName>
-          <ProductDescription>{description}</ProductDescription>
+          <ProductName>
+            {shortenText(transformProductName(product.name), 14)}
+          </ProductName>
+          <ProductDescription>
+            {shortenText(product.description, 40)}
+          </ProductDescription>
           <ProductPrice>{product.price}</ProductPrice>
         </ProductInfo>
       </ProductWrapper>

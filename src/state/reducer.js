@@ -19,7 +19,7 @@ import user from './user';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['app', 'bag', 'user', 'wishlist']
+  whitelist: ['app', 'bag', 'user']
 };
 
 const appReducer = combineReducers({

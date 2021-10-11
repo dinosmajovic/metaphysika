@@ -17,21 +17,27 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
+import { useEffect, useState } from 'react';
+import Loader from 'components/atoms/Loader/index';
 
 const Product = ({ product, setLoading }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { token, isAuthenticated } = useSelector((state) => state.user);
+  const { isLoading } = useSelector((state) => state.wishlist);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
-  const onAddOrDeleteFromWishlist = (product) => {};
+  useEffect(() => {
+    if (!isLoading) {
+      setIsWishlistLoading(false);
+    }
+  }, [isLoading]);
 
   const precentageDecrease = calculatePrecentage(
     product.price,
     product.oldPrice
   );
-
-  const wishlistProducts = useSelector((state) => state.wishlist.products);
-
-  let productIsInWishlist = false;
 
   const sizes = product.sizeIds;
 
@@ -40,6 +46,22 @@ const Product = ({ product, setLoading }) => {
   for (var key in sizes) {
     mappedSizes.push(key);
   }
+
+  const onAddOrDeleteFromWishlist = (productId) => {
+    if (isAuthenticated) {
+      if (product.isInWishlist) {
+        setIsWishlistLoading(true);
+        dispatch(deleteFromWishlist({ productId, token }));
+        product.isInWishlist = false;
+      } else {
+        setIsWishlistLoading(true);
+        dispatch(addToWishlist({ productId, token }));
+        product.isInWishlist = true;
+      }
+    } else {
+      history.push('/?login=true');
+    }
+  };
 
   const onPushProduct = async (product, event) => {
     if (!event.target.className.includes('like')) {
@@ -76,15 +98,18 @@ const Product = ({ product, setLoading }) => {
           <Heart
             className="like"
             onClick={() => {
-              onAddOrDeleteFromWishlist(product);
+              onAddOrDeleteFromWishlist(product.id);
             }}
           >
-            {productIsInWishlist ? (
+            {isWishlistLoading ? (
+              <Loader size={25} />
+            ) : product.isInWishlist ? (
               <img src={likeHeartFilled} alt="Heart icon" className="like" />
             ) : (
               <img src={likeHeartOutlined} alt="Heart icon" className="like" />
             )}
           </Heart>
+
           <img src={product.mainImg} alt="Product" />
         </Picture>
       </PictureContainer>

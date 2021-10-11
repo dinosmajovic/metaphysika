@@ -15,6 +15,7 @@ export const ProductImage = styled.div`
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.gray.light};
+  background-color: ${colors.white.primary};
 
   > img {
     width: 100%;
@@ -36,10 +37,6 @@ export const ProductWrapper = styled.div`
 
   :hover {
     background-color: ${colors.gray.light};
-
-    > ${ProductImage} {
-      background-color: ${colors.white.primary};
-    }
   }
 `;
 

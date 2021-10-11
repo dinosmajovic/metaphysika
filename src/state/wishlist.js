@@ -1,74 +1,121 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-export const addOrDeleteFromWishlist = createAsyncThunk(
-  'addOrDeleteFromWishlist',
-  async (data, { rejectWithValue }) => {
-    const { isAuthenticated } = data;
-    const { token } = data;
-    const { productId } = data;
-
-    if (isAuthenticated) {
-      try {
-        const addOrDeleteFromWishlist = await axios.post(
-          '/addOrDeleteFromWishlist',
-          {
-            token,
-            productId
-          }
-        );
-
-        return addOrDeleteFromWishlist.data;
-      } catch (error) {
-        return rejectWithValue(error.response.data);
-      }
-    } else {
-      const errorMessage = {
-        title: 'Unauthorized',
-        description: 'Please log in to use wishlist'
-      };
-      return rejectWithValue(errorMessage);
-    }
-  }
-);
 
 export const wishlist = createSlice({
   name: 'wishlist',
   initialState: {
+    wishlistProducts: null,
     isLoading: false,
-    actionType: null,
-    isError: false,
-    errorMessage: {
-      title: '',
-      description: ''
-    }
+    isError: false
   },
   reducers: {
-    setWishlistProducts: (state, { payload }) => {
-      state.wishlistProducts = payload;
-    }
-  },
-
-  extraReducers: {
-    [addOrDeleteFromWishlist.pending]: (state) => {
+    // GET WISHLIST
+    getWishlistRequest: (state) => {
       state.isLoading = true;
-    },
-    [addOrDeleteFromWishlist.fulfilled]: (state, { payload }) => {
-      state.actionType = payload;
       state.isError = false;
+    },
+    getWishlistSuccess: (state, { payload }) => {
+      state.wishlistProducts = payload;
       state.isLoading = false;
     },
-    [addOrDeleteFromWishlist.rejected]: (state, { payload }) => {
-      state.errorMessage = {
-        title: payload.title,
-        description: payload.description
-      };
+    getWishlistFailure: (state) => {
       state.isError = true;
       state.isLoading = false;
+    },
+
+    // DELETE FROM WISHLIST
+    deleteFromWishlistRequest: (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    },
+    deleteFromWishlistSuccess: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    deleteFromWishlistFailure: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
+    // DELETE FROM WISHLIST
+    addToWishlistRequest: (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    },
+    addToWishlistSuccess: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    addToWishlistFailure: (state) => {
+      state.isLoading = false;
+      state.isError = true;
     }
   }
 });
 
-export const { setWishlistProducts } = wishlist.actions;
+const { actions } = wishlist;
+
+export const addToWishlist = (payload) => async (dispatch) => {
+  const { productId, token } = payload;
+
+  dispatch(actions.addToWishlistRequest());
+
+  try {
+    await axios.get('/addToWishlist', {
+      params: {
+        token,
+        productId
+      }
+    });
+
+    await dispatch(getWishlist({ token }));
+
+    dispatch(actions.addToWishlistSuccess());
+  } catch {
+    dispatch(actions.addToWishlistFailure());
+  }
+};
+
+export const deleteFromWishlist = (payload) => async (dispatch) => {
+  const { productId, token } = payload;
+
+  dispatch(actions.deleteFromWishlistRequest());
+
+  try {
+    await axios.get('/deleteFromWishlist', {
+      // delete(`/wishlist/${productId}`)
+      params: {
+        token,
+        productId
+      }
+    });
+
+    await dispatch(getWishlist({ token }));
+
+    dispatch(actions.deleteFromWishlistSuccess());
+  } catch {
+    dispatch(actions.deleteFromWishlistFailure());
+  }
+};
+
+export const getWishlist =
+  ({ token }) =>
+  async (dispatch) => {
+    dispatch(actions.getWishlistRequest());
+
+    try {
+      const getWishlist = await axios.get('/wishlist', {
+        params: {
+          token
+        }
+      });
+
+      const wishlistProducts = getWishlist.data;
+
+      dispatch(actions.getWishlistSuccess(wishlistProducts));
+    } catch (error) {
+      dispatch(actions.getWishlistFailure());
+    }
+  };
+
+export const { setWishlistProducts, clearError } = wishlist.actions;
 
 export default wishlist.reducer;

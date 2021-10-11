@@ -84,3 +84,10 @@ export const NoProductsContainer = styled.div`
 export const Container = styled.div`
   grid-area: productList;
 `;
+
+export const WishlistError = styled.span`
+  display: block;
+  color: ${colors.pink.primary};
+  font-size: 20px;
+  margin-bottom: 20px;
+`;

@@ -14,9 +14,8 @@ import { useState } from 'react';
 import closeModalIcon from 'assets/icons/modalClose.svg';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { logInUser, refreshUserToken } from 'state/user';
+import { logInUser } from 'state/user';
 import Loader from 'components/atoms/Loader/index';
-import { setWishlistProducts } from 'state/wishlist';
 import * as Yup from 'yup';
 
 const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
@@ -31,6 +30,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
 
   const onLogInUser = async (email, password) => {
     setIsLoading(true);
+    // remove geting wishlist on log in
 
     try {
       const user = await axios.post('/logInUser', {
@@ -38,13 +38,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
         password
       });
 
-      let {
-        token,
-        refreshToken,
-        tokenExpirationTime,
-        userData,
-        wishlistProducts
-      } = user.data;
+      let { token, refreshToken, tokenExpirationTime, userData } = user.data;
 
       tokenExpirationTime = parseInt(tokenExpirationTime);
 
@@ -52,7 +46,6 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
         logInUser({ token, userData, refreshToken, tokenExpirationTime })
       );
 
-      dispatch(setWishlistProducts(wishlistProducts));
       setIsLogInModal(false);
     } catch (error) {
       const errorTitle = error.response.data.title;

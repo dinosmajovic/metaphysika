@@ -39,9 +39,9 @@ const getToken = () => {
 };
 
 export const initialize = () => async (dispatch) => {
+  dispatch(actions.initializeRequest());
   try {
     if (!!getToken()) {
-      dispatch(actions.initializeRequest());
       const token = getToken();
 
       await axios.get(`/verifyToken?token=${token}`);

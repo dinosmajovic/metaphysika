@@ -22,10 +22,9 @@ import resetPassword from 'views/Reset-Password';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { initialize, clearError } from 'state/app';
+import Loader from 'components/atoms/Loader';
 
 const PublicRoute = ({ component: Component, ...rest }) => {
-  // if there is a token in localstorage => show loading screen until you check the token and than render the page,
-
   const history = useHistory();
   const dispatch = useDispatch();
   const { isInitialized, isInitInProgress, error } = useSelector(
@@ -56,7 +55,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
     );
   }
 
-  return <div>loading</div>;
+  return <Loader />;
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -75,7 +74,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   useEffect(() => {
     if (isInitialized && error) {
       history.push('/?login=true');
-      history.push('/');
     }
 
     return () => {

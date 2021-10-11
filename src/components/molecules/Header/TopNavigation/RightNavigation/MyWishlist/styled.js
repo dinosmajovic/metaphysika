@@ -76,3 +76,15 @@ export const Buttons = styled.div`
 export const StyledLink = styled(Link)`
   text-decoration: none;
 `;
+
+export const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > span {
+    color: ${colors.pink.primary};
+  }
+`;

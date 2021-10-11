@@ -18,21 +18,23 @@ const Shipping = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
+  console.log(userData);
 
   const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstName: userData.firstName || '',
+      lastName: userData.lastName || '',
       email: '',
-      phoneNumber: '',
+      phoneNumber: userData.phoneNumber || '',
       address: {
-        country: '',
-        city: '',
-        line1: '',
-        line2: '',
-        zipCode: ''
+        country: userData.address.country || '',
+        city: userData.address.city || '',
+        line1: userData.address.line1 || '',
+        line2: userData.address.line2 || '',
+        zipCode: userData.address.zipCode || ''
       }
     },
     validationSchema: validation,
