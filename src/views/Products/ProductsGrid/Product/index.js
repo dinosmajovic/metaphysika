@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
 import { useEffect, useState } from 'react';
 import Loader from 'components/atoms/Loader/index';
+import { onOpenLogInModal } from 'state/modal';
 
 const Product = ({ product, setLoading }) => {
   const history = useHistory();
@@ -59,7 +60,7 @@ const Product = ({ product, setLoading }) => {
         product.isInWishlist = true;
       }
     } else {
-      history.push('/?login=true');
+      dispatch(onOpenLogInModal());
     }
   };
 

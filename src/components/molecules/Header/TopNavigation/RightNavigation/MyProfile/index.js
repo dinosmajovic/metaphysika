@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowHoverWrapper, ArrowUp, ItemContainer } from './styled';
-import singUpBlack from 'assets/icons/singUp/singUpBlack.svg';
+import signUp from 'assets/icons/signUp/signUpBlack.svg';
 import logInBlack from 'assets/icons/logIn/logInBlack.svg';
 import personBlack from 'assets/icons/person.svg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,7 +53,7 @@ const MyProfileMenu = ({ onLogInModal, onSignUpModal }) => {
         </ItemContainer>
         <ItemContainer onClick={onSignUpModal}>
           <div>
-            <img src={singUpBlack} alt="icon" />
+            <img src={signUp} alt="icon" />
           </div>
           <span>Sign up</span>
         </ItemContainer>

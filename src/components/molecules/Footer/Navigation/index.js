@@ -1,10 +1,19 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Item = styled.span`
-  margin-right: 25px;
+const Wrapper = styled.div`
+  :not(:last-child) {
+    margin-right: 25px;
+  }
+`;
+
+const Item = styled(Link)`
   font-size: 12px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const Navigation = () => {
@@ -20,13 +29,15 @@ const Navigation = () => {
     <nav>
       {navigationItems.map((item) => {
         return (
-          <Link
-            to={item.link}
-            key={item.label}
-            style={{ textDecoration: 'none' }}
-          >
-            <Item>{item.label}</Item>
-          </Link>
+          <Wrapper>
+            <Item
+              to={item.link}
+              key={item.label}
+              style={{ textDecoration: 'none' }}
+            >
+              {item.label}
+            </Item>
+          </Wrapper>
         );
       })}
     </nav>

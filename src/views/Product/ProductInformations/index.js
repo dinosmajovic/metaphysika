@@ -1,4 +1,16 @@
 import ProductOptions from './ProductOptions';
+import uniqid from 'uniqid';
+import transformProductName from 'constants/transformProductName';
+import { useEffect, useState } from 'react';
+import findItemIndex from 'constants/findItemIndex/index';
+import calculatePercentageDecrease from 'constants/calculatePrecentage/index';
+import { addProduct } from 'state/bag';
+import { useDispatch, useSelector } from 'react-redux';
+import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
+import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
+import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
+import { useHistory, useParams } from 'react-router';
+import Loader from 'components/atoms/Loader/';
 import {
   ProductInfo,
   ButtonWrapper,
@@ -13,91 +25,44 @@ import {
   Buttons,
   WishlistError
 } from './styled';
-import transformProductName from 'constants/transformProductName';
-import { useState } from 'react';
-import findItemIndex from 'constants/findItemIndex/index';
-import calculatePercentageDecrease from 'constants/calculatePrecentage/index';
-import { addProduct } from 'state/bag';
-import { useDispatch, useSelector } from 'react-redux';
-import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
-import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
-import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
-import { useHistory } from 'react-router';
-import Loader from 'components/atoms/Loader/';
+import { setError } from 'state/bag';
+import { onOpenLogInModal } from 'state/modal';
 
 const ProductInformations = ({ product, options, setOptions }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [sizeIsClicked, setSizeIsClicked] = useState(false);
   const [isButtonErrorMessage, setIsButtonErrorMessage] = useState(false);
   const [isInputErrorMessage, setIsInputErrorMessage] = useState(false);
   const [isQuantityErrorMessage, setIsQuantityErrorMessage] = useState(false);
-  const dispatch = useDispatch();
-  const bag = useSelector((state) => state.bag);
-  const [isAddedToBag, setIsAddedToBag] = useState(false);
   const { token, isAuthenticated } = useSelector((state) => state.user);
   const { isError, isLoading } = useSelector((state) => state.wishlist);
   const [productIsInWishlist, setProductIsInWishlist] = useState(
     product.isInWishlist
   );
+  const { error } = useSelector((state) => state.bag);
+  const params = useParams();
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch(setError(false));
+      }, 2000);
+    }
+  }, [error]);
 
   const onAddToBag = () => {
     if (sizeIsClicked) {
-      const currentProduct = { ...product };
-      currentProduct.size = options[0].value;
-      currentProduct.quantity = options[1].value;
-      currentProduct.bagId = new Date().getTime() / 1000;
+      const addedProduct = { ...product };
+      addedProduct.size = options[0].value;
+      addedProduct.quantity = options[1].value;
+      addedProduct.bagId = uniqid();
+      addedProduct.pathToProduct = `/brands/${params.brandName}/${params.productName}`;
 
-      const bagProducts = bag.products;
-
-      // // checks if product already exist in the bag
-      const productInBag = bagProducts.filter((product) => {
-        return (
-          product.id == currentProduct.id && product.size == currentProduct.size
-        );
-      });
-
-      if (productInBag.length < 1) {
-        // add product to the bag
-        dispatch(addProduct(currentProduct));
-        setIsAddedToBag(true);
-        setTimeout(() => {
-          setIsAddedToBag(false);
-        }, 2000);
-      } else {
-        const clickedSize = product.sizes.filter((size) => {
-          return size.name === currentProduct.size;
-        });
-
-        // RETURNS STOCK NUMBER OF SELECTED VARIANT
-        const clickedSizeStock = clickedSize[0].stock;
-
-        // // RETURNS STOCK NUMBER OF SELECTED PRODUCT IN BAG
-        const alreadyAddedQuantity = productInBag
-          .map((product) => {
-            return parseInt(product.quantity);
-          })
-          .reduce((a, b) => a + b, 0);
-
-        // // RETURNS SELECTED STOCK NUMBER OF VARIANT
-
-        const currentQuantity = currentProduct.quantity;
-
-        if (clickedSizeStock >= alreadyAddedQuantity + currentQuantity) {
-          // ADDS PRODUCT INTO THE BAG
-          dispatch(addProduct(currentProduct));
-          setIsAddedToBag(true);
-          setTimeout(() => {
-            setIsAddedToBag(false);
-          }, 2000);
-        } else {
-          // THROWS AN ERROR
-          setIsQuantityErrorMessage(true);
-        }
-      }
+      dispatch(addProduct(addedProduct));
     } else {
       setIsButtonErrorMessage(true);
     }
-    // dispatch(calculateSubtotal());
   };
 
   const onDropDownInputClick = (option) => {
@@ -128,7 +93,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
 
       const sizeStockList = [];
       for (var i = 1; i <= sizeStock; i++) {
-        sizeStockList.push(i.toString());
+        sizeStockList.push(i);
       }
 
       newOptions[1].values = sizeStockList;
@@ -165,9 +130,17 @@ const ProductInformations = ({ product, options, setOptions }) => {
         setProductIsInWishlist(true);
       }
     } else {
-      history.push('/?login=true');
+      dispatch(onOpenLogInModal());
     }
   };
+
+  let buttonName;
+
+  if (error) {
+    buttonName = error;
+  } else {
+    buttonName = 'ADD TO BAG';
+  }
 
   return (
     <ProductInfo>
@@ -205,13 +178,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
             <InputError>Please select size first</InputError>
           )}
 
-          <Button onClick={onAddToBag}>
-            {isAddedToBag
-              ? 'ADDED TO BAG'
-              : isQuantityErrorMessage
-              ? 'NOT AVAILABLE'
-              : 'ADD TO BAG'}
-          </Button>
+          <Button onClick={onAddToBag}>{buttonName}</Button>
 
           <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product.id)}>
             {!isLoading ? (

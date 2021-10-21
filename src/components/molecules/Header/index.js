@@ -3,30 +3,44 @@ import Logo from './Logo';
 import { useLocation } from 'react-router';
 import TopNavigation from './TopNavigation';
 import BottomNavigation from './BottomNavigation';
-import { HeaderWrapper, SideMenu } from './styled';
-import queryString from 'query-string';
+import { HeaderWrapper } from './styled';
 import { useState } from 'react';
 import Backdrop from 'components/atoms/Backdrop';
 import LogInModal from './LogInModal';
 import SignUpModal from './SignUpModal';
+import HamburgerMenu from './HamburgerMenu';
+import { getBrandsAndCategories } from 'state/header';
+import { useDispatch, useSelector } from 'react-redux';
+import { onOpenLogInModal, onCloseLogInModal } from 'state/modal';
+import HamburgerIcon from 'hamburger-react';
+import { HamburgerIconWrapper } from './HamburgerMenu/styled';
 
 const Header = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  const [isLogInModal, setIsLogInModal] = useState(false);
   const [isSignUpModal, setIsSignUpModal] = useState(false);
   const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
-
-  const { login } = queryString.parse(location.search);
+  const navigationInfo = [
+    { label: 'Home', link: '/' },
+    { label: 'About', link: '/about' },
+    { label: 'Terms of service', link: '/terms-of-service' },
+    { label: 'Privact Policy', link: '/privacy-policy' },
+    { label: 'Contact', link: 'faq' },
+    { label: 'Return policy', link: '/return-policy' },
+    { label: 'Size guide', link: '/size-guide' },
+    { label: 'Faq', link: '/faq' }
+  ];
+  const { isLogInModal } = useSelector((state) => state.modal);
+  const { categories, brands } = useSelector((state) => state.header);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (Boolean(login)) {
-      setIsLogInModal(true);
-    }
-  }, [login]);
+    dispatch(getBrandsAndCategories());
+  }, [isAuthenticated]);
 
   const onLogInModal = () => {
-    setIsLogInModal(true);
+    dispatch(onOpenLogInModal());
   };
 
   const onSignUpModal = () => {
@@ -34,25 +48,34 @@ const Header = () => {
   };
 
   const onBackdropCloseLoginModal = (event) => {
-    event.target.className.includes('backdrop') && setIsLogInModal(false);
+    event.target.className.includes('backdrop') &&
+      dispatch(onCloseLogInModal());
   };
 
   const onBackdropCloseSignUpModal = (event) => {
     event.target.className.includes('backdrop') && setIsSignUpModal(false);
   };
 
-  const onHamburgerToggle = () => {
+  const onHamburgerToggle = (type = 'navigationItem') => {
     setHamburgerIsOpen(!hamburgerIsOpen);
+
+    if (type !== 'hamburgerIcon') {
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
     <HeaderWrapper>
+      <HamburgerIconWrapper>
+        <HamburgerIcon
+          size={25}
+          onToggle={() => onHamburgerToggle('hamburgerIcon')}
+          toggled={hamburgerIsOpen}
+        />
+      </HamburgerIconWrapper>
       {isLogInModal && (
         <Backdrop onBackdropClick={(event) => onBackdropCloseLoginModal(event)}>
-          <LogInModal
-            setIsLogInModal={setIsLogInModal}
-            setIsSignUpModal={setIsSignUpModal}
-          />
+          <LogInModal setIsSignUpModal={setIsSignUpModal} />
         </Backdrop>
       )}
 
@@ -60,23 +83,25 @@ const Header = () => {
         <Backdrop
           onBackdropClick={(event) => onBackdropCloseSignUpModal(event)}
         >
-          <SignUpModal
-            setIsSignUpModal={setIsSignUpModal}
-            setIsLogInModal={setIsLogInModal}
-          />
+          <SignUpModal setIsSignUpModal={setIsSignUpModal} />
         </Backdrop>
       )}
 
-      {hamburgerIsOpen && <SideMenu></SideMenu>}
-
-      <TopNavigation
-        isOpen={hamburgerIsOpen}
+      <HamburgerMenu
+        navigationInfo={navigationInfo}
+        hamburgerIsOpen={hamburgerIsOpen}
         onMenuToggle={onHamburgerToggle}
+        categories={categories}
+        brands={brands}
+        setIsSignUpModal={setIsSignUpModal}
+      />
+      <TopNavigation
+        navigationInfo={navigationInfo}
         onLogInModal={onLogInModal}
         onSignUpModal={onSignUpModal}
       />
       <Logo />
-      <BottomNavigation />
+      <BottomNavigation categories={categories} brands={brands} />
     </HeaderWrapper>
   );
 };

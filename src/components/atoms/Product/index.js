@@ -1,5 +1,5 @@
 import transformProductName from 'constants/transformProductName';
-import { Link } from 'react-router-dom';
+
 import xIcon from 'assets/icons/modalClose.svg';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 
@@ -24,7 +24,7 @@ const Product = ({ product, onProductDelete, type }) => {
           <img src={xIcon} alt="x icon" />
         </DeleteWrapper>
       )}
-      <StyledLink to={product.productPath}>
+      <StyledLink to={product.path}>
         <ProductWrapper>
           <ProductImage>
             <img src={product.mainImg} alt="Product"></img>

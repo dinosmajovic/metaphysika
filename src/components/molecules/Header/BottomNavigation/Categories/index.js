@@ -1,15 +1,11 @@
 import { CategoriesContainer, CategoryItem } from './styled';
 
-const Categories = ({ categories, onCategoryClick }) => {
+const Categories = ({ categories }) => {
   return (
     <CategoriesContainer>
-      {categories.map((category) => (
-        <CategoryItem
-          isClicked={category.isClicked}
-          onClick={() => onCategoryClick(category.label, category.path)}
-          key={category.label}
-        >
-          {category.label}
+      {categories?.map((category) => (
+        <CategoryItem key={category.path} to={`/categories/${category.path}`}>
+          {category.name}
         </CategoryItem>
       ))}
     </CategoriesContainer>

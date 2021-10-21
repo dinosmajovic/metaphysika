@@ -13,6 +13,8 @@ import checkout from './checkout';
 import product from './product';
 import signUp from './signUp';
 import user from './user';
+import header from './header';
+import modal from './modal';
 
 // ================== Global app state ================== //
 
@@ -30,7 +32,9 @@ const appReducer = combineReducers({
   checkout,
   product,
   signUp,
-  user
+  user,
+  header,
+  modal
 });
 
 const rootReducer = (state, action) => {

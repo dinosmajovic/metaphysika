@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
+import { Link } from 'react-router-dom';
 
 export const Menu = styled.div`
   position: absolute;
@@ -11,24 +12,29 @@ export const Menu = styled.div`
   z-index: 4;
   border-radius: 5px;
   border: solid 1px ${colors.gray.light};
-  white-space: nowrap;
   background-color: ${colors.white.primary};
+  white-space: nowrap;
+  z-index: 50;
 `;
 
-export const BrandName = styled.p`
+export const BrandName = styled(Link)`
   padding: 10px 20px;
   color: ${({ isClicked }) => (isClicked ? `${colors.pink.dark}` : '')};
+  display: block;
+  text-decoration: none;
 
+  :active,
   :hover {
     background-color: ${colors.gray.hover};
-    color: ${colors.pink.dark};
+    color: ${colors.pink.primary};
   }
 `;
 
 export const Dropdown = styled.div`
   cursor: pointer;
   position: relative;
-  padding: 10px 0;
+  margin-right: 45px;
+  padding: 15px 0px;
 
   :hover {
     > ${Menu} {
@@ -36,11 +42,7 @@ export const Dropdown = styled.div`
     }
   }
 
-  :not(:last-child) {
-    margin-right: 40px;
-  }
-
-  @media (max-width: 600px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;

@@ -7,6 +7,7 @@ export const SelectContainer = styled.div`
   height: 41px;
   width: 100%;
   margin-bottom: 20px;
+  overflow: hidden;
 `;
 
 export const Label = styled.label`
@@ -17,6 +18,10 @@ export const Label = styled.label`
   padding: 4px;
   transition: all 0.2s;
   color: #80868b;
+
+  @media (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 
 export const StyledSelect = styled.select`

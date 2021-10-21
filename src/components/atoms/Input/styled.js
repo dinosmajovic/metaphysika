@@ -17,6 +17,10 @@ export const Label = styled.label`
   padding: 4px;
   transition: all 0.2s;
   color: #80868b;
+
+  @media (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 
 export const StyledInput = styled.input`
@@ -31,7 +35,6 @@ export const StyledInput = styled.input`
   padding-left: 16px;
   background: none;
   z-index: 1;
-  font-size: 16;
 
   :-webkit-autofill {
     -webkit-background-clip: text;
@@ -69,4 +72,6 @@ export const InputError = styled.span`
   bottom: -17px;
   right: 10px;
   font-weight: ${fonts.sfPro.fontWeight.regular};
+  display: flex;
+  flex-wrap: wrap;
 `;

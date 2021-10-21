@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import fonts from 'assets/fonts';
+import { colors } from 'styles';
 
 export const Container = styled.div`
   position: relative;
+  border: ${({ type }) =>
+    type === 'succes' ? `1px solid ${colors.pink.primary}` : 'none'};
   background-color: ${({ type }) =>
-    type === 'succes' ? '#3DCC91' : 'rgb(246, 225, 203)'};
+    type === 'succes' ? 'white' : 'rgb(246, 225, 203)'};
   border-radius: 5px;
   width: 100%;
   padding: 10px 15px;
@@ -54,7 +57,7 @@ export const ErrorTitle = styled.span`
     font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.bold};
     color: ${({ type }) =>
-      type === 'succes' ? '#0D8050' : 'rgb(191, 115, 38)'};
+      type === 'succes' ? `${colors.pink.primary}` : 'rgb(191, 115, 38)'};
   }
 `;
 

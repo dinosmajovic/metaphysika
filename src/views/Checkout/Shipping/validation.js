@@ -13,6 +13,6 @@ export default Yup.object({
     zipCode: Yup.string()
       .matches(/^[0-9]+$/)
       .min(5, '5 digits')
-      .required('This field is requried')
+      .required('Required')
   })
 });

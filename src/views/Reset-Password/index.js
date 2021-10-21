@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Container, FormContainer, LoaderWrapper } from './styled';
 import Input from 'components/atoms/Input';
 import { useFormik } from 'formik';
@@ -18,6 +18,7 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [passwordIsChanged, setpasswordIsChanged] = useState(false);
+  const history = useHistory();
 
   const onPasswordReset = async (password) => {
     const token = params.token;
@@ -70,7 +71,7 @@ const ResetPassword = () => {
   if (isLoading) {
     return (
       <Container>
-        <h2>Enter your email address</h2>
+        <h2>Change password</h2>
         <LoaderWrapper>
           <Loader />
         </LoaderWrapper>
@@ -87,6 +88,13 @@ const ResetPassword = () => {
     return (
       <Container>
         <h3>{confirmationMessage}</h3>
+        <Button
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          Home
+        </Button>
       </Container>
     );
   } else {

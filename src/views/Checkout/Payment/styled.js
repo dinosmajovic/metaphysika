@@ -2,10 +2,6 @@ import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
-export const Billing = styled.div`
-  margin-bottom: 30px;
-`;
-
 export const BillingCheckbox = styled.span`
   display: flex;
   align-items: center;
@@ -71,7 +67,7 @@ export const OnlinePayment = styled.span`
     }
 
     > :nth-child(2) {
-      color: red;
+      color: ${colors.pink.primary};
     }
   }
 `;

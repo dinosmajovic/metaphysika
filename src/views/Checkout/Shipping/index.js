@@ -1,103 +1,168 @@
 import CheckoutLayout from '../CheckoutLayout';
 import { useHistory } from 'react-router-dom';
 import Button from 'components/atoms/Button';
-import { Container, Buttons, ErrorMessage, Wrapper } from './styled';
+import {
+  Container,
+  Buttons,
+  Wrapper,
+  ShippingAddress,
+  BillingAddress,
+  Addresses,
+  BillingCheckbox
+} from './styled';
 import { useFormik } from 'formik';
 import validation from './validation';
 import AddressForm from 'components/molecules/AddressForm';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { useState } from 'react';
 import Loader from 'components/atoms/Loader';
-import { setTotal, setDeliveryPrice } from 'state/bag';
-import { setIsPaymentStep, setShippingDetails } from 'state/checkout';
+import {
+  setIsPaymentStep,
+  closeError,
+  onCalculateShipping
+} from 'state/checkout';
+import ErrorMessage from 'components/atoms/ErrorMessage';
+import checkmark from 'assets/icons/checkmark.svg';
+import CheckBox from 'components/atoms/CheckBox';
+import { useEffect, useState } from 'react';
+import { Redirect } from 'react-router';
 
-const Shipping = (props) => {
-  const subtotal = useSelector((state) => state.bag.subtotal);
-  const products = useSelector((state) => state.bag.products);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
+const Shipping = () => {
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.user);
-  console.log(userData);
-
   const history = useHistory();
+
+  const [billingAddressIsShipping, setBillingAddressIsShipping] =
+    useState(true);
+  const { subtotal, products } = useSelector((state) => state.bag);
+  const { userData } = useSelector((state) => state.user);
+  const { isLoading, isError, errorMessage, isPaymentStep } = useSelector(
+    (state) => state.checkout
+  );
+  const [shippingAddres, setShippingAddress] = useState();
 
   const formik = useFormik({
     initialValues: {
-      firstName: userData.firstName || '',
-      lastName: userData.lastName || '',
-      email: '',
-      phoneNumber: userData.phoneNumber || '',
+      firstName: userData?.firstName || '',
+      lastName: userData?.lastName || '',
+      email: userData?.email || '',
+      phoneNumber: userData?.phoneNumber || '',
       address: {
-        country: userData.address.country || '',
-        city: userData.address.city || '',
-        line1: userData.address.line1 || '',
-        line2: userData.address.line2 || '',
-        zipCode: userData.address.zipCode || ''
+        country: userData?.address.country || '',
+        city: userData?.address.city || '',
+        line1: userData?.address.line1 || '',
+        line2: userData?.address.line2 || '',
+        zipCode: userData?.address.zipCode || ''
       }
     },
     validationSchema: validation,
     onSubmit: (values) => {
-      setLoading(true);
-
-      const body = {
-        products,
-        shippingDetails: values,
-        subtotal
-      };
-
-      axios
-        .post('/checkout/payment', body)
-        .then((res) => {
-          const isSuccessful = res.data.isSuccessful;
-
-          if (isSuccessful) {
-            setLoading(false);
-            setErrorMessage(false);
-            const deliveryPrice = res.data.deliveryPrice;
-            const totalPrice = res.data.total;
-            const isPaymentStep = res.data.isPaymentStep;
-            const shippingDetails = res.data.shippingDetails;
-
-            dispatch(setTotal(totalPrice));
-            dispatch(setDeliveryPrice(deliveryPrice));
-            dispatch(setIsPaymentStep(isPaymentStep));
-            dispatch(setShippingDetails(shippingDetails));
-
-            history.push('/checkout/payment');
-          } else {
-            setLoading(false);
-            setErrorMessage(res.data.message);
-          }
-        })
-        .catch((err) => history.push('/404'));
+      if (billingAddressIsShipping) {
+        dispatch(
+          onCalculateShipping({
+            shippingInfo: values,
+            billingInfo: values,
+            bagProducts: products
+          })
+        );
+      } else {
+        setShippingAddress(values);
+        billingFormik.submitForm();
+      }
     }
   });
 
-  if (loading) {
+  const billingFormik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      address: {
+        country: '',
+        city: '',
+        line1: '',
+        line2: '',
+        zipCode: ''
+      }
+    },
+    validationSchema: validation,
+    onSubmit: (values, test) => {
+      dispatch(
+        onCalculateShipping({
+          shippingInfo: shippingAddres,
+          billingInfo: values,
+          bagProducts: products
+        })
+      );
+    }
+  });
+
+  useEffect(() => {
+    return () => {
+      dispatch(closeError());
+    };
+  }, []);
+
+  const onCloseError = () => {
+    dispatch(closeError());
+  };
+
+  const onSetBillingAddress = () => {
+    setBillingAddressIsShipping(!billingAddressIsShipping);
+  };
+
+  if (isLoading) {
     return (
       <Wrapper>
         <Loader />
       </Wrapper>
     );
-  } else {
-    return (
-      <CheckoutLayout subtotalPrice={subtotal} type={'subTotal'}>
-        <Container>
-          <h1>Enter shipping address</h1>
-          <AddressForm formik={formik} />
-          <Buttons>
-            <Button type="white" onClick={() => history.push('/bag')}>
-              Back
-            </Button>
-            <Button onClick={formik.submitForm}>Next</Button>
-          </Buttons>
-          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        </Container>
-      </CheckoutLayout>
-    );
   }
+
+  if (isPaymentStep) {
+    return <Redirect to="/checkout/payment" />;
+  }
+
+  return (
+    <CheckoutLayout subtotalPrice={subtotal} type={'subTotal'}>
+      <Addresses>
+        <ShippingAddress>
+          <Container>
+            <h1>Enter shipping address</h1>
+            {isError && (
+              <ErrorMessage
+                errorTitle={errorMessage.title}
+                errorDescription={errorMessage.description}
+                onCloseError={onCloseError}
+              />
+            )}
+            <AddressForm formik={formik} />
+            <Buttons>
+              <Button type="white" onClick={() => history.push('/bag')}>
+                Back
+              </Button>
+              <Button onClick={formik.submitForm}>Next</Button>
+            </Buttons>
+          </Container>
+        </ShippingAddress>
+        <BillingAddress>
+          <Container>
+            <h3>Billing address</h3>
+            <BillingCheckbox onClick={onSetBillingAddress}>
+              <CheckBox>
+                {billingAddressIsShipping && (
+                  <img src={checkmark} alt={'checkmark'} />
+                )}
+              </CheckBox>
+              <span>Same as shipping address</span>
+            </BillingCheckbox>
+            {!billingAddressIsShipping && (
+              <AddressForm formik={billingFormik} />
+            )}
+          </Container>
+        </BillingAddress>
+      </Addresses>
+    </CheckoutLayout>
+  );
 };
 
 export default Shipping;

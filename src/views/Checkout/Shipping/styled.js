@@ -46,13 +46,6 @@ export const Buttons = styled.div`
   }
 `;
 
-export const ErrorMessage = styled.span`
-  display: block;
-  color: red;
-  margin-top: 20px;
-  font-size: 20px;
-`;
-
 export const Wrapper = styled.div`
   position: fixed;
   display: flex;
@@ -60,4 +53,27 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+`;
+
+export const ShippingAddress = styled.div``;
+
+export const BillingAddress = styled.div`
+  margin-top: 30px;
+  padding-bottom: 30px;
+`;
+
+export const Addresses = styled.div`
+  flex-direction: column;
+`;
+
+export const BillingCheckbox = styled.span`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 10px;
+
+  > span {
+    font-size: 16px;
+    font-weight: ${fonts.sfPro.fontWeight.light};
+  }
 `;

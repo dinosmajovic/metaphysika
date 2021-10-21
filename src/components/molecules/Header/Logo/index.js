@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 import metaphysikaLogo from 'assets/icons/metaphysikaLogo.svg';
+import { useHistory } from 'react-router';
 
 const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-bottom: 5px;
-  padding-top: 10px;
-  position: relative;
 
   > img {
     width: 550px;
@@ -14,52 +12,44 @@ const LogoContainer = styled.div`
   }
 
   @media (max-width: 1024px) {
-    padding: 0px;
     > img {
-      width: 460px;
-      height: 60px;
+      height: 70px;
     }
   }
 
   @media (max-width: 600px) {
     > img {
-      width: 250px;
-      height: 60px;
+      display: flex;
+      height: 40px;
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 390px) {
     > img {
-      width: 220px;
-      height: 60px;
+      height: 30px;
+      width: fit-content;
     }
   }
-`;
 
-const MenuButton = styled.div`
-  display: none;
-  width: 30px;
-  height: 30px;
-  background-color: black;
-  position: absolute;
-  right: 0px;
-  top: 30%;
-
-  @media (max-width: 600px) {
-    display: block;
-  }
-
-  @media (max-width: 400px) {
-    width: 30px;
-    height: 30px;
+  @media (max-width: 320px) {
+    justify-content: flex-end;
+    > img {
+      height: 30px;
+      width: fit-content;
+    }
   }
 `;
 
 const Logo = () => {
+  const history = useHistory();
+
+  const onLogo = () => {
+    history.push('/');
+  };
+
   return (
-    <LogoContainer>
+    <LogoContainer onClick={onLogo}>
       <img src={metaphysikaLogo} alt="Metaphysika logo" />
-      <MenuButton />
     </LogoContainer>
   );
 };

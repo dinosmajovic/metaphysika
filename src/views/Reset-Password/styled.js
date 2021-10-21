@@ -13,17 +13,29 @@ export const Container = styled.div`
     font-size: 25px;
     margin-bottom: 20px;
     color: ${colors.gray.textLight};
+
+    @media (max-width: 400px) {
+      font-size: 20px;
+    }
   }
 
   > h3 {
     font-size: 23px;
     margin-bottom: 20px;
     color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 18px;
+    }
   }
 `;
 
 export const FormContainer = styled.div`
   width: 380px;
+
+  @media (max-width: 400px) {
+    width: 290px;
+  }
 `;
 
 export const LoaderWrapper = styled.div`

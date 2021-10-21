@@ -91,12 +91,11 @@ export const EmptyBag = styled.div`
   > span {
     font-size: 23px;
     color: ${colors.pink.primary};
-    font-weight: ${fonts.sfPro.fontWeight.regular};
   }
 `;
 
 export const ErrorMessage = styled.p`
   margin-top: 5px;
-  color: rgba(246, 71, 71, 1);
+  color: ${colors.pink.primary};
   font-size: 15px;
 `;

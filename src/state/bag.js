@@ -7,36 +7,27 @@ export const bag = createSlice({
     subtotal: 0,
     total: 0,
     deliveryPrice: 0,
-    isPaymentStep: false,
-    shippingDetails: null
+    error: false
   },
   reducers: {
-    addProduct: (state, { payload }) => {
-      state.products.push(payload);
+    setProducts: (state, { payload }) => {
+      state.products = payload;
     },
 
-    deleteProduct: (state, { payload }) => {
-      const index = state.products.findIndex((product) => {
-        return product.bagId === payload;
-      });
-
-      const newProducts = [...state.products];
-      newProducts.splice(index, 1);
-
-      state.products = newProducts;
+    setError: (state, { payload }) => {
+      state.error = payload;
     },
 
-    updateProduct: (state, action) => {
-      state.count = state.count - 1;
-    },
-
-    calculateSubtotal: (state, action) => {
+    calculateSubtotal: (state, { payload }) => {
       const subtotalCount = state.products
         .map((product) => {
-          return product.price;
+          if (product.quantity === 1) {
+            return product.price;
+          } else {
+            return product.price * product.quantity;
+          }
         })
         .reduce((a, b) => a + b, 0);
-
       state.subtotal = subtotalCount;
     },
 
@@ -46,17 +37,79 @@ export const bag = createSlice({
 
     setDeliveryPrice: (state, { payload }) => {
       state.deliveryPrice = payload;
+    },
+
+    setSubtotal: (state, { payload }) => {
+      state.subtotal = payload;
+    },
+
+    resetBag: (state, { payload }) => {
+      state.subtotal = 0;
+      state.total = 0;
+      state.deliveryPrice = 0;
+      state.products = [];
+      state.error = false;
     }
   }
 });
 
-export const {
-  addProduct,
-  deleteProduct,
-  updateProduct,
-  calculateSubtotal,
-  setTotal,
-  setDeliveryPrice
-} = bag.actions;
+const { actions } = bag;
+
+export const addProduct = (product) => (dispatch, getState, setState) => {
+  const state = getState().bag;
+
+  const bagProducts = [...state.products];
+
+  const earlierAddedProduct = bagProducts.filter(
+    (p) => p.id === product.id && p.size === product.size
+  )[0];
+
+  if (!earlierAddedProduct) {
+    bagProducts.push(product);
+    dispatch(actions.setProducts(bagProducts));
+    dispatch(actions.calculateSubtotal());
+    dispatch(actions.setError('ADDED'));
+  } else {
+    const totalStock = product.sizes.filter(
+      (size) => size.name === product.size
+    )[0].stock;
+
+    const earlierAddedStock = earlierAddedProduct.quantity;
+
+    const stockForAdding = product.quantity;
+
+    if (totalStock >= earlierAddedStock + stockForAdding) {
+      const { bagId } = earlierAddedProduct;
+
+      const productIndex = bagProducts.findIndex((p) => p.bagId === bagId);
+
+      const newProduct = { ...bagProducts[productIndex] };
+      newProduct.quantity = earlierAddedStock + stockForAdding;
+
+      bagProducts[productIndex] = newProduct;
+      dispatch(actions.setProducts(bagProducts));
+      dispatch(actions.calculateSubtotal());
+      dispatch(actions.setError('ADDED'));
+    } else {
+      dispatch(actions.setError('NOT AVAILABLE'));
+    }
+  }
+};
+
+export const deleteProduct = (bagId) => (dispatch, getState) => {
+  const state = getState().bag;
+
+  const bagProducts = [...state.products];
+
+  const index = state.products.findIndex((product) => product.bagId === bagId);
+
+  bagProducts.splice(index, 1);
+
+  dispatch(actions.setProducts(bagProducts));
+  dispatch(actions.calculateSubtotal());
+};
+
+export const { setTotal, setDeliveryPrice, setError, setSubtotal, resetBag } =
+  bag.actions;
 
 export default bag.reducer;

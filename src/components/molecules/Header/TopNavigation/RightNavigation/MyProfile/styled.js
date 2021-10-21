@@ -12,8 +12,8 @@ export const ArrowHoverWrapper = styled.span`
 
 export const ArrowUp = styled.span`
   position: absolute;
-  right: 0px;
-  top: -2px;
+  right: -1px;
+  top: -1px;
 
   :before {
     content: '';
@@ -36,11 +36,11 @@ export const ArrowUp = styled.span`
     width: 15px;
     height: 15px;
     border-radius: 2px;
-
     border-right: 1px solid ${colors.gray.light};
     border-bottom: 1px solid ${colors.gray.light};
     transform: rotate(-135deg);
     right: 5px;
+    background-color: white;
   }
 `;
 

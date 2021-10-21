@@ -15,6 +15,11 @@ export const Container = styled.div`
     color: ${colors.gray.textLight};
     margin-bottom: 10px;
   }
+
+  @media (max-width: 500px) {
+    padding: 15px;
+    height: 100vh;
+  }
 `;
 
 export const LogIn = styled.span`
@@ -41,15 +46,26 @@ export const FormRow = styled.div`
   > div {
     width: calc(50% - 10px);
   }
+
+  > div {
+    @media (max-width: 500px) {
+      width: calc(50% - 5px);
+    }
+  }
 `;
 
 export const Terms = styled.span`
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  margin-top: 15px;
 
   > div {
     font-weight: ${fonts.sfPro.fontWeight.light};
+  }
+
+  @media (max-width: 400px) {
+    font-size: 14px;
   }
 `;
 

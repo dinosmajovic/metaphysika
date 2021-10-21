@@ -7,16 +7,14 @@ export const ArrowHoverWrapper = styled.span`
   height: 23px;
   display: block;
   position: absolute;
-  right: 3px;
   top: -15px;
   opacity: 0;
-  background-color: red;
 `;
 
 export const ArrowUp = styled.span`
   position: absolute;
   right: 0px;
-  top: -2px;
+  top: -1px;
 
   :before {
     content: '';
@@ -30,7 +28,8 @@ export const ArrowUp = styled.span`
   }
 
   :after {
-    background-color: ${colors.white.primary};
+    background-color: ${(props) =>
+      props.isHovered ? `${colors.gray.light}` : 'none'};
     content: '';
     display: block;
     position: absolute;
@@ -38,11 +37,11 @@ export const ArrowUp = styled.span`
     width: 15px;
     height: 15px;
     border-radius: 2px;
-
     border-right: 1px solid ${colors.gray.light};
     border-bottom: 1px solid ${colors.gray.light};
     transform: rotate(-135deg);
     right: 5px;
+    background-color: white;
   }
 `;
 

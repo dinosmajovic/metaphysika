@@ -11,8 +11,7 @@ import {
   Terms,
   Buttons,
   LogIn,
-  StyledSpan,
-  TermsErrorMessage
+  StyledSpan
 } from './styled';
 import Button from 'components/atoms/Button';
 import { termsOfService, privacyPolicyPath } from 'constants/routes';
@@ -22,13 +21,14 @@ import { logInUser } from 'state/user';
 import { useDispatch } from 'react-redux';
 import Loader from 'components/atoms/Loader';
 import axios from 'axios';
-import { setWishlistProducts } from 'state/wishlist';
+import { onOpenLogInModal } from 'state/modal';
+import { ModalCloseWrapper } from '../LogInModal/styled';
+import closeModalIcon from 'assets/icons/modalClose.svg';
 
-const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
+const SignUpModal = ({ setIsSignUpModal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isAgreedToTerms, setIsAgreedToTerms] = useState(false);
-  // const [isTermsErrorMessage, setIsTermsErrorMessage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorDescription, setErrorDescription] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
@@ -42,12 +42,17 @@ const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
         userData
       });
 
-      const { refreshToken, tokenExpirationTime, token, wishlistProducts } =
-        user.data;
+      const userDataFromServer = user.data.userData;
 
-      dispatch(setWishlistProducts(wishlistProducts));
+      const { refreshToken, tokenExpirationTime, token } = user.data;
+
       dispatch(
-        logInUser({ token, userData, refreshToken, tokenExpirationTime })
+        logInUser({
+          token,
+          userData: userDataFromServer,
+          refreshToken,
+          tokenExpirationTime
+        })
       );
       setIsLoading(false);
       setIsSignUpModal(false);
@@ -112,7 +117,7 @@ const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
 
   const onSetSignUpModal = () => {
     setIsSignUpModal(false);
-    setIsLogInModal(true);
+    dispatch(onOpenLogInModal());
   };
 
   const onGoToTerms = () => {
@@ -140,6 +145,9 @@ const SignUpModal = ({ setIsSignUpModal, setIsLogInModal }) => {
   } else {
     return (
       <Container>
+        <ModalCloseWrapper onClick={onCloseModal}>
+          <img src={closeModalIcon} alt="close icon" />
+        </ModalCloseWrapper>
         <h1>Sign up</h1>
         {isError && (
           <ErrorMessage

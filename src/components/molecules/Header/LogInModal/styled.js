@@ -20,6 +20,12 @@ export const Container = styled.div`
     margin-bottom: 10px;
     color: ${colors.gray.textLight};
   }
+
+  @media (max-width: 530px) {
+    padding: 30px;
+    width: 100%;
+    height: 100vh;
+  }
 `;
 
 export const ForgotPassword = styled.span`
@@ -36,9 +42,13 @@ export const ForgotPassword = styled.span`
 
 export const FormContainer = styled.div`
   width: 380px;
+
+  @media (max-width: 530px) {
+    width: 100%;
+  }
 `;
 
-export const SingUp = styled.span`
+export const SignUp = styled.span`
   display: flex;
   margin-bottom: 15px;
 
@@ -66,8 +76,8 @@ export const ModalCloseWrapper = styled.span`
   width: 23px;
   height: 23px;
   position: absolute;
-  right: 13px;
-  top: 13px;
+  right: 8px;
+  top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,5 +87,14 @@ export const ModalCloseWrapper = styled.span`
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+`;
+
+export const ResetPasswordTitle = styled.h3`
+  font-size: 22px;
+  margin-bottom: 15px;
+
+  @media (max-width: 530px) {
+    font-size: 18px;
   }
 `;

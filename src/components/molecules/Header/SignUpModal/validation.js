@@ -10,7 +10,7 @@ export default Yup.object({
     .min(6, 'Must be at least 6 digits'),
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Repeating password is required'),
+    .required('Required'),
   address: Yup.object().shape({
     country: Yup.string().required('Required'),
     city: Yup.string().required('Required'),

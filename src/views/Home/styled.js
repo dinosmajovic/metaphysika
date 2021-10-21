@@ -58,18 +58,18 @@ export const Wrapper = styled.div`
   padding-top: 10px;
   width: 100%;
   display: grid;
-  grid-gap: 50px;
+  grid-gap: 30px;
 
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(3, auto);
 
-  @media screen and (max-width: 1050px) {
+  /* @media screen and (max-width: 1050px) {
     grid-gap: 30px;
   }
 
   @media screen and (max-width: 800px) {
     grid-gap: 20px;
-  }
+  } */
 `;
 
 export const Item1 = styled.div`
@@ -91,7 +91,7 @@ export const Item1 = styled.div`
       font-size: 30px;
       font-weight: ${fonts.sfPro.fontWeight.bold};
 
-      @media screen and (max-width: 1050px) {
+      /* @media screen and (max-width: 1050px) {
         font-size: 24px;
       }
 
@@ -101,7 +101,7 @@ export const Item1 = styled.div`
 
       @media screen and (max-width: 800px) {
         display: none;
-      }
+      } */
     }
   }
 `;
@@ -113,7 +113,7 @@ export const Item2 = styled.div`
   grid-template-rows: repeat(1, auto);
   grid-gap: 50px;
 
-  @media screen and (max-width: 1050px) {
+  /* @media screen and (max-width: 1050px) {
     margin: 0px 30px;
     grid-gap: 30px;
   }
@@ -126,7 +126,7 @@ export const Item2 = styled.div`
   @media screen and (max-width: 700px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(3, auto);
-  }
+  } */
 `;
 export const Item3 = styled.div`
   grid-row: 3/-2;
@@ -137,7 +137,7 @@ export const Item3 = styled.div`
   grid-template-rows: repeat(1, auto);
   grid-gap: 50px;
 
-  @media screen and (max-width: 1050px) {
+  /* @media screen and (max-width: 1050px) {
     margin: 0px 30px;
     margin-bottom: 30px;
     grid-gap: 30px;
@@ -147,7 +147,7 @@ export const Item3 = styled.div`
     margin: 0px 20px;
     margin-bottom: 20px;
     grid-gap: 20px;
-  }
+  } */
 `;
 export const Item21 = styled.div`
   background-image: url(${({ url }) => url});

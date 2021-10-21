@@ -77,8 +77,8 @@ export default Home;
 //   brandId: 'qjietmBihqLVY57OF16r',
 //   categoryIds: ['NQmcVdpkxwUEdZuysHwv'],
 //   subcategoryIds: ['mVXjDNLzWRdYOHy4vF1O'],
-//   name: 'The Death Star - black/white',
-//   path: 'the-death-star-black-white',
+//   name: 'Testing product 1 - black/white',
+//   path: 'testing-product-1-black-white',
 //   price: 778,
 //   color: 'black/white',
 //   description: `Imperial March in to winter in these striking ankle boots featuring black metallic patterned leather and unique curved platform soles. With Stormtrooper and Darth Vader heels, this pair will ensure that your allegiance to the Galactic Empire is made abundantly clear.`,
@@ -86,20 +86,12 @@ export default Home;
 //   sku: '4259-01A',
 //   sizes: [
 //     {
-//       stock: 1,
-//       name: '37'
+//       stock: 5,
+//       name: '39'
 //     },
 //     {
-//       stock: 2,
+//       stock: 4,
 //       name: '38'
-//     },
-//     {
-//       stock: 2,
-//       name: '40'
-//     },
-//     {
-//       stock: 1,
-//       name: '41'
 //     }
 //   ],
 //   images: [

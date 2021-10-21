@@ -7,20 +7,16 @@ import {
   HoverHelpLine
 } from './styled';
 
-const BrandsDropdown = ({ brands, onBrandClick, brandIsClicked }) => {
+const BrandsDropdown = ({ brands }) => {
   return (
     <Dropdown>
-      <Label brandIsClicked={brandIsClicked}>Brands</Label>
+      <Label>{brands ? 'Brands' : ''}</Label>
       <Menu>
         <ArrowUp />
         <HoverHelpLine />
-        {brands.map((brand) => (
-          <BrandName
-            isClicked={brand.isClicked}
-            key={brand.label}
-            onClick={() => onBrandClick(brand.label, brand.path)}
-          >
-            {brand.label}
+        {brands?.map((brand) => (
+          <BrandName key={brand.path} to={`/brands/${brand.path}`}>
+            {brand.name}
           </BrandName>
         ))}
       </Menu>

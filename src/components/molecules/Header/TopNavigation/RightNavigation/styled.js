@@ -5,9 +5,13 @@ import fonts from 'assets/fonts';
 
 export const RightNavigationContainer = styled.span`
   display: flex;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
-export const Icon = styled(Link)`
+export const Icon = styled.span`
   height: 22px;
   width: 22px;
   display: flex;
@@ -34,6 +38,7 @@ export const MyProfileMenu = styled.div`
   border: 1px solid ${colors.gray.light};
   z-index: 30;
   width: 135px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 export const MyBagMenu = styled.div`
@@ -41,12 +46,11 @@ export const MyBagMenu = styled.div`
   position: absolute;
   width: 300px;
   background-color: ${colors.white.primary};
-  box-shadow: 6px 6px 12px ${colors.gray.light};
   border-radius: 5px;
-  border: 1px solid ${colors.gray.light};
   z-index: 30;
   top: 35px;
   right: -3px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 export const MyWishListMenu = styled.div`
@@ -57,9 +61,8 @@ export const MyWishListMenu = styled.div`
   top: 35px;
   right: -3px;
   border-radius: 5px;
-  border: 1px solid ${colors.gray.light};
   z-index: 30;
-  box-shadow: 6px 6px 12px ${colors.gray.light};
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 export const IconContainer = styled.div`

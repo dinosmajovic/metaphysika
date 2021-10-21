@@ -55,7 +55,7 @@ const Bag = () => {
           <span>Summary</span>
           <Subtotal>
             <span>Subtotal</span>
-            <span>{subTotal}</span>
+            <span>{subTotal} KM</span>
           </Subtotal>
           <Button size={'big'} type={'pink'} onClick={onGoToCheckout}>
             CHECKOUT

@@ -14,7 +14,7 @@ export const ArrowHoverWrapper = styled.span`
 export const ArrowUp = styled.span`
   position: absolute;
   right: 0px;
-  top: -2px;
+  top: -1px;
 
   :before {
     content: '';
@@ -41,6 +41,7 @@ export const ArrowUp = styled.span`
     border-bottom: 1px solid ${colors.gray.light};
     transform: rotate(-135deg);
     right: 5px;
+    background-color: white;
   }
 `;
 
@@ -73,8 +74,8 @@ export const SubTotal = styled.div`
 export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 15px;
   position: relative;
+  padding: 20px;
 `;
 
 export const StyledLink = styled(Link)`
@@ -82,9 +83,9 @@ export const StyledLink = styled(Link)`
 `;
 
 export const ErrorMessage = styled.span`
-  color: red;
-  font-size: 12px;
+  color: ${colors.pink.primary};
   position: absolute;
-  right: 18px;
-  bottom: 0px;
+  font-size: 12px;
+  right: 24px;
+  bottom: 4px;
 `;

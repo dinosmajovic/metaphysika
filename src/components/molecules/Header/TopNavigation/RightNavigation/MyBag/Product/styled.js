@@ -94,22 +94,6 @@ export const DeleteWrapper = styled.div`
   }
 `;
 
-export const LikeWrapper = styled.div`
-  width: 20px;
-  height: 20px;
-  display: flex;
-  position: absolute;
-  right: 10px;
-  bottom: 16px;
-  cursor: pointer;
-
-  > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
 export const StyledLink = styled(Link)`
   text-decoration: none;
 `;

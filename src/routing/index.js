@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { initialize, clearError } from 'state/app';
 import Loader from 'components/atoms/Loader';
+import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
+import { onOpenLogInModal } from 'state/modal';
 
 const PublicRoute = ({ component: Component, ...rest }) => {
   const history = useHistory();
@@ -55,7 +57,11 @@ const PublicRoute = ({ component: Component, ...rest }) => {
     );
   }
 
-  return <Loader />;
+  return (
+    <LoaderWrapper>
+      <Loader />
+    </LoaderWrapper>
+  );
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -73,7 +79,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   useEffect(() => {
     if (isInitialized && error) {
-      history.push('/?login=true');
+      dispatch(onOpenLogInModal());
+      history.push('/');
     }
 
     return () => {
@@ -87,7 +94,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     );
   }
 
-  return <div>loading</div>;
+  return (
+    <LoaderWrapper>
+      <Loader />
+    </LoaderWrapper>
+  );
 };
 
 const Routing = () => {

@@ -1,6 +1,5 @@
 import transformProductName from 'constants/transformProductName';
 import xIcon from 'assets/icons/modalClose.svg';
-
 import {
   Wrapper,
   ProductWrapper,
@@ -9,28 +8,22 @@ import {
   ProductName,
   DeleteWrapper,
   ProductOptions,
-  ProductPrice,
-  LikeWrapper
+  ProductPrice
 } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { calculateSubtotal, deleteProduct } from 'state/bag';
-import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
-import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
+import { deleteProduct } from 'state/bag';
 
-import reduceTitleLength from 'constants/reduceTitleLength';
+import shortenText from 'constants/reduceTitleLength';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-const Product = ({ products, type }) => {
+const Product = ({ product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onProductDelete = (id) => {
-    dispatch(deleteProduct(id));
-    dispatch(calculateSubtotal());
+  const onProductDelete = (bagId) => {
+    dispatch(deleteProduct(bagId));
   };
-
-  const onAddOrDeleteFromWishlist = (product) => {};
 
   const onGoToProduct = async (product) => {
     const brandId = product.brandId;
@@ -48,56 +41,28 @@ const Product = ({ products, type }) => {
     }
   };
 
-  const wishlistProducts = useSelector((state) => state.wishlist.products);
-
-  return products.map((product) => {
-    // const productInWishlist = wishlistProducts.filter((p) => {
-    //   return product.id === p.id;
-    // });
-
-    // let productIsInWishlist = false;
-    // if (productInWishlist.length > 0) {
-    //   productIsInWishlist = true;
-    // } else {
-    //   productIsInWishlist = false;
-    // }
-    const productIsInWishlist = false;
-
-    return (
-      <Wrapper key={product.bagId}>
-        <DeleteWrapper onClick={() => onProductDelete(product.bagId)}>
-          <img src={xIcon} alt="x icon" />
-        </DeleteWrapper>
-        <ProductWrapper>
-          <ProductImage onClick={() => onGoToProduct(product)}>
-            <img src={product.mainImg} alt="product" />
-          </ProductImage>
-
-          <ProductInfo type={type}>
-            <ProductName>
-              {reduceTitleLength(transformProductName(product.name), 20)}
-            </ProductName>
-
-            <ProductOptions>
-              <span>Size: {product.size}</span>
-              <span>Quantity: {product.quantity}</span>
-            </ProductOptions>
-            <ProductPrice>
-              {product.price} {product.currencyCode}
-            </ProductPrice>
-
-            <LikeWrapper onClick={() => onAddOrDeleteFromWishlist(product)}>
-              {productIsInWishlist ? (
-                <img src={likeHeartFilled} alt="Heart icon" />
-              ) : (
-                <img src={likeHeartOutlined} alt="Heart icon" />
-              )}
-            </LikeWrapper>
-          </ProductInfo>
-        </ProductWrapper>
-      </Wrapper>
-    );
-  });
+  return (
+    <Wrapper>
+      <DeleteWrapper onClick={() => onProductDelete(product.bagId)}>
+        <img src={xIcon} alt="x icon" />
+      </DeleteWrapper>
+      <ProductWrapper>
+        <ProductImage onClick={() => onGoToProduct(product)}>
+          <img src={product.mainImg} alt="product" />
+        </ProductImage>
+        <ProductInfo>
+          <ProductName>
+            {shortenText(transformProductName(product.name), 14)}
+          </ProductName>
+          <ProductOptions>
+            <span>Size: {product.size}</span>
+            <span>Quantity: {product.quantity}</span>
+          </ProductOptions>
+          <ProductPrice>{product.price} BAM</ProductPrice>
+        </ProductInfo>
+      </ProductWrapper>
+    </Wrapper>
+  );
 };
 
 export default Product;

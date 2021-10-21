@@ -33,7 +33,7 @@ const Product = () => {
     },
     {
       label: 'Quantity',
-      value: '1',
+      value: 1,
       values: [],
       isOpened: false
     }
@@ -64,7 +64,7 @@ const Product = () => {
       const newOptions = [...options];
       newOptions[0].values = sizeNames;
       newOptions[0].value = 'Select';
-      newOptions[1].value = '1';
+      newOptions[1].value = 1;
       setOptions(newOptions);
       setMainImage(product.mainImg);
       setImages(mappedImages);

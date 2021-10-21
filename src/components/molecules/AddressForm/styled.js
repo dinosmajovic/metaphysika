@@ -16,4 +16,10 @@ export const FormRow = styled.div`
   > div {
     width: calc(50% - 10px);
   }
+
+  > div {
+    @media (max-width: 500px) {
+      width: calc(50% - 5px);
+    }
+  }
 `;

@@ -11,6 +11,7 @@ const NavigationItem = styled(Link)`
   cursor: pointer;
   font-weight: ${fonts.sfPro.fontWeight.semibold};
   text-decoration: none;
+  text-transform: uppercase;
 
   :active,
   :hover {
@@ -22,36 +23,10 @@ const NavigationItem = styled(Link)`
   }
 `;
 
-const HamburgerWrapper = styled.div`
-  z-index: 100;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-
-  @media (min-width: 1024px) {
-    display: none;
-  }
-`;
-
-const LeftNavigation = ({ isOpen, onMenuToggle }) => {
-  const navigationItems = [
-    { label: 'HOME', link: '/' },
-    { label: 'ABOUT', link: '/about' },
-    { label: 'TERMS OF SERVICE', link: '/terms-of-service' },
-    { label: 'PRIVACY POLICY', link: '/privacy-policy' },
-    { label: 'CONTACT', link: 'faq' },
-    { label: 'RETURN POLICY', link: '/return-policy' },
-    { label: 'SIZE GUIDE', link: '/size-guide' },
-    { label: 'FAQ', link: '/faq' }
-  ];
-
+const LeftNavigation = ({ navigationInfo }) => {
   return (
     <nav>
-      <HamburgerWrapper>
-        <Hamburger toggled={isOpen} onToggle={onMenuToggle} />
-      </HamburgerWrapper>
-
-      {navigationItems.map((item) => (
+      {navigationInfo.map((item) => (
         <NavigationItem to={item.link} key={item.label}>
           {item.label}
         </NavigationItem>

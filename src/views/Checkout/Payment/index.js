@@ -1,62 +1,46 @@
 import CheckoutLayout from '../CheckoutLayout';
 import { useHistory } from 'react-router-dom';
 import Button from 'components/atoms/Button';
-import Card from './Card';
-import { useFormik } from 'formik';
-import validation from './validation';
-import addressvalidation from './addressvalidation';
+
 import {
   Title,
-  BillingCheckbox,
   Buttons,
   Container,
   OfflinePayment,
   OnlinePayment,
-  PaymentMethods,
-  Billing,
-  ErrorMessage
+  PaymentMethods
 } from './styled';
 import checkmark from 'assets/icons/checkmark.svg';
-import { useState } from 'react';
-import AddressForm from 'components/molecules/AddressForm';
+import { useEffect, useState } from 'react';
 import CheckBox from 'components/atoms/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPayment } from 'state/payment';
-import axios from 'axios';
+import { closeError, setIsPaymentStep, onPurchase } from 'state/checkout';
+import Loader from 'components/atoms/Loader/index';
+import { Redirect } from 'react-router';
+import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
+import ErrorMessage from 'components/atoms/ErrorMessage';
 
 const Payment = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isOnlinePayment, setIsOnlinePayment] = useState(false);
-  const [isErrorMessage, setIsErrorMessage] = useState(false);
 
-  const paymentIsAccepted = useSelector(
-    (state) => state.payment.paymentIsAccepted
-  );
-  const isPaymentStep = useSelector((state) => state.checkout.isPaymentStep);
-  const totalPrice = useSelector((state) => state.bag.total);
-  const deliveryPrice = useSelector((state) => state.bag.deliveryPrice);
-  const subtotalPrice = useSelector((state) => state.bag.subtotal);
-  const shippingDetails = useSelector(
-    (state) => state.checkout.shippingDetails
-  );
-  const products = useSelector((state) => state.bag.products);
+  const {
+    billingInfo,
+    shippingInfo,
+    isPaymentStep,
+    isLoading,
+    isError,
+    errorMessage,
+    isPaymentSuccessfulStep
+  } = useSelector((state) => state.checkout);
 
-  const cardFormik = useFormik({
-    initialValues: {
-      cardNumber: '',
-      cardName: '',
-      expirationDate: '',
-      cvv: ''
-    },
-    validationSchema: validation,
-    onSubmit: (values) => {
-      setIsErrorMessage(true);
-    }
-  });
+  const { products, deliveryPrice, subtotal, total } = useSelector(
+    (state) => state.bag
+  );
+  const { token } = useSelector((state) => state.user);
 
   const onOfflinePayment = () => {
-    setIsErrorMessage(false);
     setIsOnlinePayment(false);
   };
 
@@ -65,62 +49,56 @@ const Payment = () => {
   };
 
   const onCloseError = () => {
-    dispatch(setPayment(-1));
+    dispatch(closeError());
   };
 
   const makePurchase = () => {
-    // setLoading(true);
-
-    const body = {
-      products,
-      shippingDetails,
-      subtotalPrice
-    };
-
-    axios
-      .post('/checkout/confirmation', body)
-      .then((res) => {
-        history.push('/checkout/confirmation');
-        // setTimeout(() => {
-        //   history.push('/checkout/confirmation');
-        // }, 5000);
-
-        // const isSuccessful = res.data.isSuccessful;
-
-        // if (isSuccessful) {
-        //   setLoading(false);
-        //   setErrorMessage(false);
-        //   const deliveryPrice = res.data.deliveryPrice;
-        //   const totalPrice = res.data.total;
-        //   const isPaymentStep = res.data.isPaymentStep;
-        //   const shippingDetails = res.data.shippingDetails;
-
-        //   dispatch(setTotal(totalPrice));
-        //   dispatch(setDeliveryPrice(deliveryPrice));
-        //   dispatch(setIsPaymentStep(isPaymentStep));
-        //   dispatch(setShippingDetails(shippingDetails));
-
-        //   history.push('/checkout/payment');
-        // } else {
-        //   setLoading(false);
-        //   setErrorMessage(res.data.message);
-        // }
+    dispatch(
+      onPurchase({
+        isOnlinePayment,
+        token,
+        billingInfo,
+        shippingInfo,
+        bagProducts: products
       })
-      .catch((err) => history.push('/404'));
+    );
   };
+
+  const onGoBack = () => {
+    dispatch(setIsPaymentStep({ isPaymentStep: false, shippingInfo: null }));
+    history.push('/checkout/shipping');
+  };
+
+  if (products.length < 1) {
+    dispatch(setIsPaymentStep({ isPaymentStep: false }));
+  }
+
+  if (isLoading) {
+    return (
+      <LoaderWrapper>
+        <Loader />
+      </LoaderWrapper>
+    );
+  }
 
   if (isPaymentStep) {
     return (
       <CheckoutLayout
         type={'total'}
-        totalPrice={totalPrice}
-        subtotalPrice={subtotalPrice}
+        totalPrice={total}
+        subtotalPrice={subtotal}
         deliveryPrice={deliveryPrice}
       >
         <Container>
           <PaymentMethods>
             <Title>Payment methods</Title>
-
+            {isError && (
+              <ErrorMessage
+                errorTitle={errorMessage.title}
+                errorDescription={errorMessage.description}
+                onCloseError={onCloseError}
+              />
+            )}
             <OnlinePayment onClick={onOnlinePayment}>
               <CheckBox>
                 {isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
@@ -131,16 +109,6 @@ const Payment = () => {
               </span>
             </OnlinePayment>
 
-            {paymentIsAccepted === false ? (
-              <ErrorMessage
-                errorTitle="Payment failed"
-                errorDescription="Please try again. If you continue to have issues, try another payment method."
-                onCloseError={onCloseError}
-              />
-            ) : null}
-
-            {isOnlinePayment && <Card formik={cardFormik} />}
-
             <OfflinePayment onClick={onOfflinePayment}>
               <CheckBox>
                 {!isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
@@ -149,78 +117,27 @@ const Payment = () => {
             </OfflinePayment>
           </PaymentMethods>
           <Buttons>
-            <Button
-              type="white"
-              onClick={() => history.push('/checkout/shipping')}
-            >
+            <Button type="white" onClick={onGoBack}>
               Back
             </Button>
             <Button
               onClick={() => {
-                if (isOnlinePayment) {
-                  setIsErrorMessage(true);
-                  // cardFormik.submitForm();
-                  // addressFormik.submitForm();
-                } else {
-                  setIsErrorMessage(false);
-                  makePurchase();
-                  // addressFormik.submitForm();
-                }
+                makePurchase();
               }}
             >
               Buy
             </Button>
-            {isErrorMessage && (
-              <ErrorMessage>ONLINE PAYMENT IS COMING SOON</ErrorMessage>
-            )}
           </Buttons>
         </Container>
       </CheckoutLayout>
     );
-  } else {
-    return <div>{history.push('/checkout/shipping')}</div>;
   }
+
+  if (isPaymentSuccessfulStep) {
+    return <Redirect to="/checkout/confirmation" />;
+  }
+
+  return <Redirect to="/checkout/shipping" />;
 };
 
 export default Payment;
-
-// const addressFormik = useFormik({
-//   initialValues: {
-//     firstName: shippingAddress.firstName,
-//     lastName: shippingAddress.lastName,
-//     email: shippingAddress.email,
-//     phoneNumber: shippingAddress.phoneNumber,
-//     address: {
-//       country: shippingAddress.address.country,
-//       city: shippingAddress.address.city,
-//       line1: shippingAddress.address.line1,
-//       line2: shippingAddress.address.line2,
-//       zipCode: shippingAddress.address.zipCode
-//     }
-//   },
-//   validationSchema: addressvalidation,
-//   onSubmit: (values) => {
-//     history.push('/checkout/confirmation');
-//     console.log(values);
-//   }
-// });
-
-/* <Billing>
-<Title>Billing Address</Title>
-<BillingCheckbox onClick={onSetBillingAddress}>
-  <CheckBox>
-    {billingAddressIsShipping && (
-      <img src={checkmark} alt={'checkmark'} />
-    )}
-  </CheckBox>
-  <span>Same as shipping address</span>
-</BillingCheckbox>
-{!billingAddressIsShipping && <AddressForm formik={addressFormik} />}
-</Billing> */
-
-// const onSetBillingAddress = () => {
-//   setBillingAddressIsShipping(!billingAddressIsShipping);
-// };
-
-// const [billingAddressIsShipping, setBillingAddressIsShipping] =
-// useState(true);

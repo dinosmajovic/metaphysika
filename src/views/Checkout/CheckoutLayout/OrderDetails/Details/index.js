@@ -9,9 +9,9 @@ const Details = ({ products }) => {
         Order Details (<span>{products.length}</span>)
       </Title>
       <div>
-        {products.map((p) => (
-          <Product key={p.bagId} product={p} type={'checkout'} />
-        ))}
+        {products.map((p) => {
+          return <Product key={p.bagId} product={p} type={'checkout'} />;
+        })}
       </div>
     </DetailsContainer>
   );

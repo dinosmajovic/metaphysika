@@ -1,9 +1,10 @@
 import {
   Container,
   FormContainer,
-  SingUp,
+  SignUp,
   ForgotPassword,
-  ModalCloseWrapper
+  ModalCloseWrapper,
+  ResetPasswordTitle
 } from './styled';
 import Input from 'components/atoms/Input';
 import { useFormik } from 'formik';
@@ -17,8 +18,10 @@ import { useDispatch } from 'react-redux';
 import { logInUser } from 'state/user';
 import Loader from 'components/atoms/Loader/index';
 import * as Yup from 'yup';
+import { onCloseLogInModal } from 'state/modal';
+import { Wrapper } from 'components/atoms/Loader/styledWrapper';
 
-const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
+const LogInModal = ({ setIsSignUpModal }) => {
   const [isError, setIsError] = useState(false);
   const [errorDescription, setErrorDescription] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
@@ -30,7 +33,6 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
 
   const onLogInUser = async (email, password) => {
     setIsLoading(true);
-    // remove geting wishlist on log in
 
     try {
       const user = await axios.post('/logInUser', {
@@ -46,7 +48,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
         logInUser({ token, userData, refreshToken, tokenExpirationTime })
       );
 
-      setIsLogInModal(false);
+      dispatch(onCloseLogInModal());
     } catch (error) {
       const errorTitle = error.response.data.title;
       const errorDescription = error.response.data.description;
@@ -59,7 +61,10 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
   };
 
   const onSendVerificationEmail = async (email) => {
+    setIsLoading(true);
     onCloseError();
+    setEmailIsSent(false);
+
     try {
       const result = await axios.post('/forgotUserPassword', {
         email
@@ -69,6 +74,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
 
       setConfirmationMessage(confirmationMessage);
       setEmailIsSent(true);
+      setIsLoading(false);
     } catch (error) {
       const errorTitle = error.response.data.errorTitle;
       const errorDescription = error.response.data.errorDescription;
@@ -76,6 +82,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
       setErrorTitle(errorTitle);
       setErrorDescription(errorDescription);
       setIsError(true);
+      setIsLoading(false);
     }
   };
 
@@ -102,12 +109,12 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
     }
   });
   const onSetSignUpModal = () => {
-    setIsLogInModal(false);
+    dispatch(onCloseLogInModal());
     setIsSignUpModal(true);
   };
 
   const onCloseModal = () => {
-    setIsLogInModal(false);
+    dispatch(onCloseLogInModal());
   };
 
   const onCloseError = () => {
@@ -123,9 +130,9 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
 
   if (isLoading) {
     return (
-      <Container>
+      <Wrapper>
         <Loader />
-      </Container>
+      </Wrapper>
     );
   } else if (passwordIsForgotten) {
     return (
@@ -133,7 +140,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
         <ModalCloseWrapper onClick={onCloseModal}>
           <img src={closeModalIcon} alt="close icon" />
         </ModalCloseWrapper>
-        <h2>Enter your email address</h2>
+        <ResetPasswordTitle>Enter your email address</ResetPasswordTitle>
         <FormContainer>
           {emailIsSent && (
             <ErrorMessage
@@ -156,7 +163,7 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
             resetPasswordFormik.submitForm();
           }}
         >
-          Verify
+          Send
         </Button>
       </Container>
     );
@@ -167,10 +174,10 @@ const LogInModal = ({ setIsLogInModal, setIsSignUpModal }) => {
           <img src={closeModalIcon} alt="close icon" />
         </ModalCloseWrapper>
         <h1>Log in</h1>
-        <SingUp>
+        <SignUp>
           <span>Don’t have an account?</span>
           <span onClick={onSetSignUpModal}>Sign up.</span>
-        </SingUp>
+        </SignUp>
         <FormContainer>
           {isError && (
             <ErrorMessage

@@ -17,13 +17,12 @@ import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
 const MyBagList = () => {
-  const bag = useSelector((state) => state.bag.products);
-  const subtotal = useSelector((state) => state.bag.subtotal);
-  const history = useHistory();
+  const { products, subtotal } = useSelector((state) => state.bag);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
+  const history = useHistory();
 
   const goToCheckout = () => {
-    if (bag.length > 0) {
+    if (products.length > 0) {
       history.push(checkoutPath);
     } else {
       setIsErrorMessage(true);
@@ -39,11 +38,13 @@ const MyBagList = () => {
       <ArrowUp />
       <Title>
         <span>
-          My Bag (<span>{bag.length}</span>)
+          My Bag (<span>{products?.length}</span>)
         </span>
       </Title>
       <Products>
-        <Product products={bag} />
+        {products.map((product) => (
+          <Product key={product.bagId} product={product} />
+        ))}
       </Products>
       <SubTotal>
         <span>Sub-total</span>

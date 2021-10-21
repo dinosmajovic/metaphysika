@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { initialize, clearError } from 'state/app';
+import { onOpenLogInModal } from 'state/modal';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const history = useHistory();
@@ -19,8 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   useEffect(() => {
     if (isInitialized && error) {
-      history.push('/?login=true');
-      history.push('/');
+      dispatch(onOpenLogInModal());
     }
 
     return () => {

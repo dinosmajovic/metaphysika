@@ -6,22 +6,22 @@ import styled from 'styled-components';
 const TopNavigationContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 15px;
-
-  @media (max-width: 600px) {
-    display: none;
-  }
 `;
 
 const TopNavigation = ({
   onLogInModal,
   onSignUpModal,
   isOpen,
-  onMenuToggle
+  onMenuToggle,
+  navigationInfo
 }) => {
   return (
     <TopNavigationContainer>
-      <LeftNavigation isOpen={isOpen} onMenuToggle={onMenuToggle} />
+      <LeftNavigation
+        isOpen={isOpen}
+        onMenuToggle={onMenuToggle}
+        navigationInfo={navigationInfo}
+      />
       <RightNavigation
         onLogInModal={onLogInModal}
         onSignUpModal={onSignUpModal}

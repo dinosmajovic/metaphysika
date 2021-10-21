@@ -7,16 +7,18 @@ import {
   LoaderWrapper
 } from './styled';
 import Product from './Product';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/atoms/Loader/index';
 import { Redirect } from 'react-router';
+import { onOpenLogInModal } from 'state/modal';
 
 const Wishlist = () => {
   const { wishlistProducts, isError } = useSelector((state) => state.wishlist);
   const { isAuthenticated } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   if (!isAuthenticated) {
-    return <Redirect to="/?login=true" />;
+    dispatch(onOpenLogInModal());
   }
 
   if (wishlistProducts) {

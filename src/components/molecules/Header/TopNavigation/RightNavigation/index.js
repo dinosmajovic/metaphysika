@@ -14,11 +14,33 @@ import person from 'assets/icons/person.svg';
 import MyProfile from './MyProfile';
 import MyBag from './MyBag';
 import MyWishlist from './MyWishlist';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { onOpenLogInModal } from 'state/modal';
 
 const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const { userData } = useSelector((state) => state.user);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onGoToBag = () => {
+    history.push('/bag');
+  };
+  const onGoToWishlist = () => {
+    if (isAuthenticated) {
+      history.push('/wishlist');
+    } else {
+      dispatch(onOpenLogInModal());
+    }
+  };
+  const onGoToMyProfile = () => {
+    if (isAuthenticated) {
+      history.push('/myProfile');
+    } else {
+      dispatch(onOpenLogInModal());
+    }
+  };
 
   return (
     <RightNavigationContainer>
@@ -29,7 +51,7 @@ const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
             <span>{userData.firstName}</span>
           </UserName>
         )}
-        <Icon to="/">
+        <Icon onClick={onGoToMyProfile}>
           <img src={person} alt="person icon" />
         </Icon>
         <MyProfileMenu>
@@ -42,7 +64,7 @@ const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
 
       <IconContainer>
         <Icon to="/bag">
-          <img src={basket} alt="basket icon" />
+          <img src={basket} alt="basket icon" onClick={onGoToBag} />
         </Icon>
         <MyBagMenu>
           <MyBag />
@@ -50,7 +72,7 @@ const RightNavigation = ({ onLogInModal, onSignUpModal }) => {
       </IconContainer>
 
       <IconContainer>
-        <Icon to="/wishlist">
+        <Icon to="/wishlist" onClick={onGoToWishlist}>
           <img src={heart} alt="heart icon" />
         </Icon>
         <MyWishListMenu>
