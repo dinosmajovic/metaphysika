@@ -24,7 +24,7 @@ const Product = ({ product, onProductDelete, type }) => {
           <img src={xIcon} alt="x icon" />
         </DeleteWrapper>
       )}
-      <StyledLink to={product.path}>
+      <StyledLink to={product.pathToProduct}>
         <ProductWrapper>
           <ProductImage>
             <img src={product.mainImg} alt="Product"></img>
@@ -36,9 +36,7 @@ const Product = ({ product, onProductDelete, type }) => {
               <span>Size: {product.size}</span>
               <span>Quantity: {product.quantity}</span>
             </ProductOptions>
-            <ProductPrice>
-              {product.price} {product.currencyCode}
-            </ProductPrice>
+            <ProductPrice>{product.price} BAM</ProductPrice>
             {type === 'checkout' ? null : (
               <LikeWrapper>
                 <img src={likeHeartOutlined} alt="like icon" />

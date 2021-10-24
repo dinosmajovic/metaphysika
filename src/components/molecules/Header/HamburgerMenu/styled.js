@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import fonts from 'assets/fonts/index';
 import { colors } from 'styles';
 
-export const MenuWrapper = styled.div``;
-
 export const Menu = styled.div`
   padding: 20px;
   z-index: 26;
@@ -12,14 +10,13 @@ export const Menu = styled.div`
   display: ${({ hamburgerIsOpen }) => (hamburgerIsOpen ? 'block' : 'none')};
   background-color: ${colors.white.primary};
   border: 1px solid ${colors.gray.light};
-  height: 100vh;
-  top: 0;
+  height: 100%;
+  top: 0px;
   left: 0;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   width: 300px;
-  max-height: 100vh;
   overflow: scroll;
 
   @media (max-width: 541px) {
@@ -51,7 +48,7 @@ export const NavigationItem = styled(Link)`
 `;
 
 export const HamburgerIconWrapper = styled.div`
-  position: fixed;
+  position: ${({ type }) => (type === 'menu' ? 'fixed' : 'absolute')};
   display: none;
   z-index: 30;
   left: 10px;

@@ -4,7 +4,7 @@ import { colors } from 'styles';
 export const SummaryContainer = styled.div`
   width: 400px;
   border: solid 1px ${colors.gray.light};
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;

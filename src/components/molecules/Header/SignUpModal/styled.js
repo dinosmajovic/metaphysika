@@ -16,9 +16,11 @@ export const Container = styled.div`
     margin-bottom: 10px;
   }
 
-  @media (max-width: 500px) {
-    padding: 15px;
-    height: 100vh;
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    align-self: flex-start;
   }
 `;
 
@@ -47,9 +49,11 @@ export const FormRow = styled.div`
     width: calc(50% - 10px);
   }
 
-  > div {
-    @media (max-width: 500px) {
-      width: calc(50% - 5px);
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    > div {
+      width: 100%;
     }
   }
 `;

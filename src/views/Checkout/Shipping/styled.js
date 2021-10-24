@@ -71,6 +71,7 @@ export const BillingCheckbox = styled.span`
   align-items: center;
   cursor: pointer;
   margin-top: 10px;
+  width: fit-content;
 
   > span {
     font-size: 16px;

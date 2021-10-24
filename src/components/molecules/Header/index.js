@@ -16,7 +16,6 @@ import HamburgerIcon from 'hamburger-react';
 import { HamburgerIconWrapper } from './HamburgerMenu/styled';
 
 const Header = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const [isSignUpModal, setIsSignUpModal] = useState(false);
@@ -64,6 +63,11 @@ const Header = () => {
     }
   };
 
+  const onBackdrop = (event) => {
+    event.target.className.includes('backdrop') &&
+      onHamburgerToggle('hamburgerIcon');
+  };
+
   return (
     <HeaderWrapper>
       <HamburgerIconWrapper>
@@ -87,14 +91,19 @@ const Header = () => {
         </Backdrop>
       )}
 
-      <HamburgerMenu
-        navigationInfo={navigationInfo}
-        hamburgerIsOpen={hamburgerIsOpen}
-        onMenuToggle={onHamburgerToggle}
-        categories={categories}
-        brands={brands}
-        setIsSignUpModal={setIsSignUpModal}
-      />
+      {hamburgerIsOpen && (
+        <Backdrop onBackdropClick={onBackdrop}>
+          <HamburgerMenu
+            navigationInfo={navigationInfo}
+            hamburgerIsOpen={hamburgerIsOpen}
+            onMenuToggle={onHamburgerToggle}
+            categories={categories}
+            brands={brands}
+            setIsSignUpModal={setIsSignUpModal}
+          />
+        </Backdrop>
+      )}
+
       <TopNavigation
         navigationInfo={navigationInfo}
         onLogInModal={onLogInModal}

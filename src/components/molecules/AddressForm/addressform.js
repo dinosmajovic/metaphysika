@@ -1,11 +1,11 @@
-import { FormContainer, FormRow } from './styled';
+import { FormRow } from './styled';
 import Input from 'components/atoms/Input';
 import Select from 'components/atoms/Select';
 import COUNTRIES from 'assets/data/countries';
 
 const AddressForm = ({ formik }) => {
   return (
-    <FormContainer>
+    <>
       <FormRow>
         <Input label="First name" name="firstName" formik={formik} />
         <Input label="Last name" name="lastName" formik={formik} />
@@ -37,11 +37,17 @@ const AddressForm = ({ formik }) => {
           name="phoneNumber"
           formik={formik}
           isMasked
-          mask="+999 99 999 999 999 999"
+          mask="+999 99 999 999 999"
         />
-        <Input label="Zip" name="address.zipCode" formik={formik} />
+        <Input
+          label="Zip"
+          name="address.zipCode"
+          formik={formik}
+          isMasked
+          mask="99999"
+        />
       </FormRow>
-    </FormContainer>
+    </>
   );
 };
 

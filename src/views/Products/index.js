@@ -72,7 +72,6 @@ const Products = () => {
     const isCategoryChanged = true;
     setAppliedFilters({});
     setCurrentPage(1);
-    setLoading(true);
     fetchProducts(isCategoryChanged, 1, {});
   }, [params, isAuthenticated]);
 
@@ -82,6 +81,7 @@ const Products = () => {
     filters = {},
     sortType = 'creation-time-descending'
   ) => {
+    setLoading(true);
     if (categoryName && !subcategoryName) {
       getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
     } else if (categoryName && subcategoryName) {
@@ -162,12 +162,17 @@ const Products = () => {
         productsPerPage,
         isCategoryChanged,
         filters,
-        sortType
+        sortType,
+        token
       });
 
       setLabel(result.data.subcategoryName);
       setProducts(result.data.products);
       setTotalProductsCount(result.data.totalProductsCount);
+
+      if (result.data.subcategories) {
+        setSubcategories(result.data.subcategories);
+      }
 
       if (result.data.allFilters) {
         const fetchedFilters = result.data.allFilters;
@@ -200,6 +205,7 @@ const Products = () => {
     filters,
     sortType
   ) => {
+    setSubcategories(null);
     try {
       let result = await axios.post('/products/brand', {
         brandName,
@@ -208,7 +214,8 @@ const Products = () => {
         productsPerPage,
         isCategoryChanged,
         filters,
-        sortType
+        sortType,
+        token
       });
 
       setLabel(result.data.brandName);

@@ -15,16 +15,13 @@ import validation from './validation';
 import AddressForm from 'components/molecules/AddressForm';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/atoms/Loader';
-import {
-  setIsPaymentStep,
-  closeError,
-  onCalculateShipping
-} from 'state/checkout';
+import { closeError, onCalculateShipping, resetCheckout } from 'state/checkout';
 import ErrorMessage from 'components/atoms/ErrorMessage';
 import checkmark from 'assets/icons/checkmark.svg';
 import CheckBox from 'components/atoms/CheckBox';
 import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
+import { bagPath } from 'constants/routes';
 
 const Shipping = () => {
   const dispatch = useDispatch();
@@ -34,23 +31,24 @@ const Shipping = () => {
     useState(true);
   const { subtotal, products } = useSelector((state) => state.bag);
   const { userData } = useSelector((state) => state.user);
-  const { isLoading, isError, errorMessage, isPaymentStep } = useSelector(
-    (state) => state.checkout
-  );
+  const { isLoading, isError, errorMessage, isPaymentStep, shippingInfo } =
+    useSelector((state) => state.checkout);
   const [shippingAddres, setShippingAddress] = useState();
 
   const formik = useFormik({
     initialValues: {
-      firstName: userData?.firstName || '',
-      lastName: userData?.lastName || '',
-      email: userData?.email || '',
-      phoneNumber: userData?.phoneNumber || '',
+      firstName: shippingInfo?.firstName || userData?.firstName || '',
+      lastName: shippingInfo?.lastName || userData?.lastName || '',
+      email: shippingInfo?.email || userData?.email || '',
+      phoneNumber: shippingInfo?.phoneNumber || userData?.phoneNumber || '',
       address: {
-        country: userData?.address.country || '',
-        city: userData?.address.city || '',
-        line1: userData?.address.line1 || '',
-        line2: userData?.address.line2 || '',
-        zipCode: userData?.address.zipCode || ''
+        country:
+          shippingInfo?.address?.country || userData?.address?.country || '',
+        city: shippingInfo?.address?.city || userData?.address?.city || '',
+        line1: shippingInfo?.address?.line1 || userData?.address?.line1 || '',
+        line2: shippingInfo?.address?.line2 || userData?.address?.line2 || '',
+        zipCode:
+          shippingInfo?.address?.zipCode || userData?.address?.zipCode || ''
       }
     },
     validationSchema: validation,
@@ -110,6 +108,11 @@ const Shipping = () => {
     setBillingAddressIsShipping(!billingAddressIsShipping);
   };
 
+  const onBack = () => {
+    dispatch(resetCheckout());
+    history.push(bagPath);
+  };
+
   if (isLoading) {
     return (
       <Wrapper>
@@ -137,7 +140,7 @@ const Shipping = () => {
             )}
             <AddressForm formik={formik} />
             <Buttons>
-              <Button type="white" onClick={() => history.push('/bag')}>
+              <Button type="white" onClick={onBack}>
                 Back
               </Button>
               <Button onClick={formik.submitForm}>Next</Button>

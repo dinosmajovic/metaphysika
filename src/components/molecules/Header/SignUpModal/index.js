@@ -137,11 +137,7 @@ const SignUpModal = ({ setIsSignUpModal }) => {
   };
 
   if (isLoading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   } else {
     return (
       <Container>

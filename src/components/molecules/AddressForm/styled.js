@@ -17,9 +17,11 @@ export const FormRow = styled.div`
     width: calc(50% - 10px);
   }
 
-  > div {
-    @media (max-width: 500px) {
-      width: calc(50% - 5px);
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    > div {
+      width: 100%;
     }
   }
 `;

@@ -8,6 +8,7 @@ export const Container = styled.div`
   position: fixed;
   padding: 40px;
   border-radius: 5px;
+  overflow: scroll;
 
   > h1 {
     font-size: 30px;
@@ -24,7 +25,7 @@ export const Container = styled.div`
   @media (max-width: 530px) {
     padding: 30px;
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
 `;
 

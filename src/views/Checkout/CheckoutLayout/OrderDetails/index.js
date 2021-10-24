@@ -1,6 +1,9 @@
-import { Container } from './styled';
+import { Container, PromoCodeWrapper, Input, ApplyButton } from './styled';
 import Summary from './Summary';
 import Details from './Details';
+import { onApplyCoupon } from 'state/checkout';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 
 const OrderDetails = ({
   subtotalPrice,
@@ -9,6 +12,21 @@ const OrderDetails = ({
   totalPrice,
   deliveryPrice
 }) => {
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      coupon: ''
+    },
+
+    onSubmit: (values) => {
+      const { coupon } = values;
+      if (coupon.length > 0) {
+        dispatch(onApplyCoupon({ coupon }));
+      }
+    }
+  });
+
   return (
     <Container>
       <Summary
@@ -17,6 +35,17 @@ const OrderDetails = ({
         totalPrice={totalPrice}
         deliveryPrice={deliveryPrice}
       />
+
+      {type === 'total' && (
+        <PromoCodeWrapper>
+          <Input
+            {...formik.getFieldProps('coupon')}
+            placeholder="Enter your coupon code"
+          />
+          <ApplyButton onClick={formik.submitForm}>Apply</ApplyButton>
+        </PromoCodeWrapper>
+      )}
+
       <Details products={products} />
     </Container>
   );

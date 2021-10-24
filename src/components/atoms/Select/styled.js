@@ -7,7 +7,6 @@ export const SelectContainer = styled.div`
   height: 41px;
   width: 100%;
   margin-bottom: 20px;
-  overflow: hidden;
 `;
 
 export const Label = styled.label`
