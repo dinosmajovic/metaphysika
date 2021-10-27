@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { colors } from 'styles';
 
 export const Container = styled.div`
-  margin-right: 200px;
+  width: 400px;
+  margin-right: 400px;
   cursor: default;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 
   > h1 {
     font-size: 25px;
@@ -12,13 +13,26 @@ export const Container = styled.div`
     margin-bottom: 15px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1300px) {
+    margin-right: 150px;
+  }
+
+  @media (max-width: 1000px) {
+    margin-right: 50px;
+  }
+
+  @media (max-width: 900px) {
     margin-right: 0px;
+  }
+
+  @media (max-width: 600px) {
+    width: 90%;
   }
 `;
 
 export const Card = styled.div`
-  width: fit-content;
+  width: 100%;
+  overflow: scroll;
   border: 1px solid ${colors.gray.light};
   padding: 30px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

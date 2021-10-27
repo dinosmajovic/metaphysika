@@ -10,7 +10,7 @@ const About = () => {
           introduce a refreshed, original, and unique view towards women’s
           fashion by representing the iconic British footwear brand, Irregular
           Choice. In 2005, Metaphysika became the leading distributor of
-          Irregular Choice for the Balkans.{' '}
+          Irregular Choice for the Balkans.
         </span>
         <span>
           Over time Metaphysika became a recognizable cultural club for local
@@ -19,7 +19,7 @@ const About = () => {
           creative projects. They have delivered various campaigns for
           international and local companies such as Disney UK; Philip Morris,
           Jägermeister, DM markets, Bosnalijek and many others, all led by the
-          creative Metaphysika team.{' '}
+          creative Metaphysika team.
         </span>
       </Item2>
       <Item3>

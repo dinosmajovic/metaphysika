@@ -8,7 +8,7 @@ import ProductsGrid from './ProductsGrid';
 import { errorPath } from 'constants/routes';
 import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Products = () => {
   const history = useHistory();

@@ -13,7 +13,8 @@ const user = createSlice({
     isError: false,
     errorMessage: '',
     isDeleted: false,
-    isPasswordChanged: false
+    isPasswordChanged: false,
+    profileIsEdited: false
   },
   reducers: {
     logInUser: (state, { payload }) => {
@@ -70,6 +71,31 @@ const user = createSlice({
     onCloseError: (state, { payload }) => {
       state.isError = false;
       state.errorMessage = '';
+    },
+
+    onEditProfileRequest: (state, { payload }) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.errorMessage = '';
+      state.profileIsEdited = false;
+    },
+
+    onEditProfileSuccess: (state, { payload }) => {
+      state.profileIsEdited = true;
+      state.isError = false;
+      state.isLoading = false;
+    },
+    onEditProfileFailure: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+
+    resetMyProfileMessages: (state) => {
+      state.isError = false;
+      state.isDeleted = false;
+      state.isPasswordChanged = false;
+      state.profileIsEdited = false;
     }
   }
 });
@@ -115,8 +141,6 @@ export const deleteUser =
         description: error.response.data.description
       };
 
-      console.log(errorMessage);
-
       dispatch(actions.deleteUserFailure(errorMessage));
     }
   };
@@ -127,12 +151,26 @@ export const changePassword =
     dispatch(actions.changePasswordRequest());
 
     try {
-      await axios.post('/changePassword', {
+      const changePassword = await axios.post('/changePassword', {
         currentPassword,
         newPassword,
         email: getState().user.userData.email
       });
 
+      const { token, refreshToken } = changePassword.data;
+      const { userData } = getState().user;
+      const tokenExpirationTime = parseInt(
+        changePassword.data.tokenExpirationTime
+      );
+
+      dispatch(
+        actions.logInUser({
+          token,
+          tokenExpirationTime,
+          refreshToken,
+          userData
+        })
+      );
       dispatch(actions.changePasswordSuccess());
     } catch (error) {
       const errorMessage = {
@@ -144,5 +182,40 @@ export const changePassword =
     }
   };
 
-export const { logInUser, updateUser, onCloseError } = user.actions;
+export const onEditProfile =
+  ({ form }) =>
+  async (dispatch, getState) => {
+    dispatch(actions.onEditProfileRequest());
+    const email = getState().user.userData.email;
+
+    try {
+      const changeData = await axios.post('/editProfile', {
+        form,
+        email
+      });
+
+      const { token, refreshToken, userData } = changeData.data;
+      const tokenExpirationTime = parseInt(changeData.data.tokenExpirationTime);
+
+      dispatch(
+        actions.logInUser({
+          token,
+          tokenExpirationTime,
+          refreshToken,
+          userData
+        })
+      );
+      dispatch(actions.onEditProfileSuccess());
+    } catch (error) {
+      const errorMessage = {
+        title: error.response.data.title,
+        description: error.response.data.description
+      };
+
+      dispatch(actions.onEditProfileFailure(errorMessage));
+    }
+  };
+
+export const { logInUser, updateUser, onCloseError, resetMyProfileMessages } =
+  user.actions;
 export default user.reducer;

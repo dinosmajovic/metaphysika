@@ -18,7 +18,9 @@ export const Label = styled.label`
   transition: all 0.2s;
   color: #80868b;
 
-  /* font-size: 14px; */
+  @media (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 
 export const StyledInput = styled.input`
@@ -34,6 +36,7 @@ export const StyledInput = styled.input`
   background: none;
   z-index: 1;
   font-size: 16;
+  appearance: none;
 
   :-webkit-autofill {
     -webkit-background-clip: text;

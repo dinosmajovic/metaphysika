@@ -3,10 +3,12 @@ import xIcon from 'assets/icons/modalClose.svg';
 import ChangePassword from './ChangePassword';
 import EditProfile from './EditProfile';
 import DeleteAccount from './DeleteAccount';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/atoms/Loader/index';
 import { Redirect } from 'react-router';
 import { homePath } from 'constants/routes';
+import { useEffect } from 'react';
+import { resetMyProfileMessages } from 'state/user';
 
 const Container = styled.div`
   padding: 30px;
@@ -41,6 +43,13 @@ const Icon = styled.div`
 
 const Modal = ({ onCloseModal, type }) => {
   const { isLoading, isDeleted } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetMyProfileMessages());
+    };
+  }, []);
 
   const switchModal = () => {
     switch (type) {
@@ -61,8 +70,6 @@ const Modal = ({ onCloseModal, type }) => {
   if (isDeleted) {
     return <Redirect to={homePath} />;
   }
-
-  console.log(isLoading);
 
   if (isLoading) {
     return <Loader />;

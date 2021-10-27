@@ -44,7 +44,7 @@ export const initialize = () => async (dispatch) => {
     if (!!getToken()) {
       const token = getToken();
 
-      await axios.get(`/verifyToken?token=${token}`);
+      const verifyToken = await axios.get(`/verifyToken?token=${token}`);
 
       dispatch(updateUser({ isAuthenticated: true }));
 

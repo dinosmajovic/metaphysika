@@ -1,10 +1,13 @@
 import * as Yup from 'yup';
 
 export default Yup.object({
-  firstName: Yup.string().max(15, 'max 15 letters').required('Reqeuired'),
-  lastName: Yup.string().max(30, 'max 30 letters').required('Required'),
+  firstName: Yup.string().max(15, 'max 15 letters').required('Required'),
+  lastName: Yup.string().max(25, 'max 25 letters').required('Required'),
   phoneNumber: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email address').required('Required'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(6, 'Must be at least 6 digits'),
   address: Yup.object().shape({
     country: Yup.string().required('Required'),
     city: Yup.string().required('Required'),
@@ -12,7 +15,7 @@ export default Yup.object({
     line2: Yup.string(),
     zipCode: Yup.string()
       .matches(/^[0-9]+$/, 'Character not allowed')
-      .max(10, 'max 10 digits')
-      .required('Required')
+      .min(5, '5 digits')
+      .required('Requried')
   })
 });

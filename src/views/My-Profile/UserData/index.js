@@ -18,7 +18,7 @@ import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { homePath } from 'constants/routes/index';
 
-const UserData = ({ onOpenModal }) => {
+const UserData = ({ onOpenModal, userData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -39,15 +39,15 @@ const UserData = ({ onOpenModal }) => {
       <Card>
         <CardItem>
           <span>First name:</span>
-          <span>Emir</span>
+          <span>{userData.firstName}</span>
         </CardItem>
         <CardItem>
           <span>Last name:</span>
-          <span>Seremet</span>
+          <span>{userData.lastName}</span>
         </CardItem>
         <CardItem>
           <span>Email:</span>
-          <span>seremetemir1@gmail.com</span>
+          <span>{userData.email}</span>
         </CardItem>
         <Address>
           <AddressTittle onClick={onToggleDropdown}>
@@ -63,23 +63,23 @@ const UserData = ({ onOpenModal }) => {
           <AddressItems addressDropdownIsOpen={addressDropdownIsOpen}>
             <AddressItem>
               <span>City:</span>
-              <span>Sarajevo</span>
+              <span>{userData.address.city}</span>
             </AddressItem>
             <AddressItem>
               <span>Country:</span>
-              <span>Bosnia and Herzegovina</span>
+              <span>{userData.address.country}</span>
             </AddressItem>
             <AddressItem>
               <span>Line1:</span>
-              <span>Kemala Kapetanovica 30</span>
+              <span>{userData.address.line1}</span>
             </AddressItem>
             <AddressItem>
               <span>Line2:</span>
-              <span></span>
+              <span>{userData.address.line2}</span>
             </AddressItem>
             <AddressItem>
               <span>Zip:</span>
-              <span>71000</span>
+              <span>{userData.address.zipCode}</span>
             </AddressItem>
           </AddressItems>
         </Address>

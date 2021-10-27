@@ -1,9 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import addressValidation from 'constants/addressValidation';
 import AddressFrom from 'components/molecules/AddressForm';
 import Button from 'components/atoms/Button/index';
 import styled from 'styled-components';
+import Input from 'components/atoms/Input/index';
+import validation from './validation';
+import { onEditProfile } from 'state/user';
+import { useDispatch, useSelector } from 'react-redux';
+import ErrorMessage from 'components/atoms/ErrorMessage/index';
 
 const Container = styled.div`
   display: flex;
@@ -15,6 +19,10 @@ const ButtonWrapper = styled.div`
 `;
 
 const EditProfile = () => {
+  const dispatch = useDispatch();
+  const { isError, errorMessage, profileIsEdited } = useSelector(
+    (state) => state.user
+  );
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -22,7 +30,6 @@ const EditProfile = () => {
       email: '',
       phoneNumber: '',
       password: '',
-      passwordConfirmation: '',
       address: {
         country: '',
         city: '',
@@ -31,15 +38,31 @@ const EditProfile = () => {
         zipCode: ''
       }
     },
-    validationSchema: addressValidation,
+    validationSchema: validation,
     onSubmit: async (values) => {
-      console.log('change user data');
+      const form = values;
+      dispatch(onEditProfile({ form }));
     }
   });
 
   return (
     <Container>
+      {isError && (
+        <ErrorMessage
+          errorTitle={errorMessage.title}
+          errorDescription={errorMessage.description}
+        />
+      )}
+      {profileIsEdited && (
+        <ErrorMessage
+          type="succes"
+          errorTitle={'Profile edited'}
+          errorDescription={'Your profile has been changed successfully'}
+        />
+      )}
+
       <AddressFrom formik={formik} />
+      <Input label="Password" name="password" formik={formik} type="password" />
       <ButtonWrapper>
         <Button onClick={formik.submitForm}>Save</Button>
       </ButtonWrapper>
