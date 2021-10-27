@@ -13,7 +13,7 @@ import {
 } from './styled';
 import Button from 'components/atoms/Button';
 import Filters from '../Filters';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Backdrop from 'components/atoms/Backdrop/';
 import { useParams } from 'react-router-dom';
 
@@ -22,11 +22,16 @@ const Sidebar = ({
   subcategories,
   setSubcategories,
   allFilters,
-  setAllFilters
+  setAllFilters,
+  passedInFilters
 }) => {
   const [isMobileFiltersMenu, setIsMobileFiltersMenu] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
   const { categoryName } = useParams();
+
+  useEffect(() => {
+    setAppliedFilters(passedInFilters);
+  }, [passedInFilters]);
 
   const onSelectFilter = (name, filter) => {
     let filters = { ...appliedFilters };

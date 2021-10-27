@@ -66,6 +66,7 @@ const Products = () => {
       isOpen: false
     }
   ]);
+
   const { token, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -74,8 +75,6 @@ const Products = () => {
     setCurrentPage(1);
     fetchProducts(isCategoryChanged, 1, {});
   }, [params, isAuthenticated]);
-
-  console.log(appliedFilters);
 
   const fetchProducts = (
     isCategoryChanged,
@@ -298,6 +297,7 @@ const Products = () => {
           setSubcategories={setSubcategories}
           setAllFilters={setAllFilters}
           allFilters={allFilters}
+          passedInFilters={appliedFilters}
         />
         <ProductsGrid products={products} setLoading={setLoading} />
         <Pagination
