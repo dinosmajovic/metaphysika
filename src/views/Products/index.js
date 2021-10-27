@@ -75,6 +75,8 @@ const Products = () => {
     fetchProducts(isCategoryChanged, 1, {});
   }, [params, isAuthenticated]);
 
+  console.log(appliedFilters);
+
   const fetchProducts = (
     isCategoryChanged,
     currentPage = 1,
@@ -82,6 +84,7 @@ const Products = () => {
     sortType = 'creation-time-descending'
   ) => {
     setLoading(true);
+
     if (categoryName && !subcategoryName) {
       getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
     } else if (categoryName && subcategoryName) {
@@ -248,9 +251,9 @@ const Products = () => {
   };
 
   const onApplyFilters = (filters) => {
+    setAppliedFilters(filters);
     const isCategoryChanged = false;
     setCurrentPage(1);
-    setAppliedFilters(filters);
     fetchProducts(isCategoryChanged, 1, filters);
   };
 
@@ -274,19 +277,6 @@ const Products = () => {
     fetchProducts(false, 1, {}, sortType);
   };
 
-  const onCloseFilters = (event) => {
-    if (!event.target.className.includes('sidebar')) {
-      const newFilters = allFilters.map((filter) => {
-        return {
-          ...filter,
-          isOpen: false
-        };
-      });
-
-      setAllFilters(newFilters);
-    }
-  };
-
   if (loading) {
     return (
       <Wrapper>
@@ -295,7 +285,7 @@ const Products = () => {
     );
   } else {
     return (
-      <ProductsWrapper onClick={(event) => onCloseFilters(event)}>
+      <ProductsWrapper>
         <Header
           label={label}
           sortOptions={sortOptions}
