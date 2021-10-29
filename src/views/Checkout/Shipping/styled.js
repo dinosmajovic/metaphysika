@@ -8,6 +8,11 @@ export const Container = styled.div`
     margin-bottom: 5px;
   }
 
+  @media (max-width: 1024px) {
+    width: 100%;
+    margin: auto;
+  }
+
   @media (max-width: 960px) {
     width: 55%;
   }
@@ -63,7 +68,9 @@ export const BillingAddress = styled.div`
 `;
 
 export const Addresses = styled.div`
-  flex-direction: column;
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 export const BillingCheckbox = styled.span`

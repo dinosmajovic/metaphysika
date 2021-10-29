@@ -5,33 +5,19 @@ import { colors } from 'styles';
 export const Container = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  margin-top: 30px;
-  padding: 20px 150px;
+  width: 90%;
+  max-width: 1900px;
+  margin: 30px 0px;
 
-  width: 100%;
-
-  @media (max-width: 1680px) {
-    padding: 20px 60px;
-  }
-
-  @media (max-width: 1400px) {
-    padding: 20px 30px;
-  }
-
-  @media (max-width: 1320px) {
+  @media (max-width: 1300px) {
     flex-direction: column-reverse;
-    justify-content: flex-start;
-    width: 760px;
-  }
-
-  @media (max-width: 820px) {
-    width: 579px;
+    align-items: center;
   }
 `;
 
@@ -47,8 +33,13 @@ export const ContactInfo = styled.div`
     }
   }
 
-  @media (max-width: 1320px) {
-    margin-bottom: 50px;
+  @media (max-width: 1300px) {
+    width: 550px;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
   }
 `;
 
@@ -69,7 +60,17 @@ export const Title = styled.h1`
   }
 `;
 
-export const Questions = styled.div``;
+export const Questions = styled.div`
+  max-width: 600px;
+
+  @media (max-width: 1400px) {
+    width: 550px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
 
 export const Question = styled.div`
   display: flex;
@@ -79,15 +80,17 @@ export const Question = styled.div`
   cursor: pointer;
 
   > span {
-    font-weight: ${fonts.sfPro.fontWeight.semibold};
     font-size: 17px;
 
     @media (max-width: 600px) {
-      font-size: 13px;
+      font-size: 15px;
+      margin-right: 7px;
+      width: fit-content;
     }
   }
 
   > div {
+    // icon
     width: 18px;
     height: 18px;
     display: flex;
@@ -110,14 +113,9 @@ export const Question = styled.div`
 export const QuestionAnswerContainer = styled.div`
   border-bottom: 1px solid ${colors.gray.light};
   padding: 20px 0px;
-  width: 700px;
-
-  @media (max-width: 820px) {
-    width: 540px;
-  }
 
   @media (max-width: 600px) {
-    width: 100%;
+    padding: 20px 0px;
   }
 `;
 
@@ -128,7 +126,7 @@ export const Answer = styled.p`
   line-height: 20px;
 
   @media (max-width: 600px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 
@@ -138,16 +136,18 @@ export const ContactInformation = styled.div`
   > :first-child {
     margin-right: 8px;
     font-size: 18px;
-    font-weight: ${fonts.sfPro.fontWeight.semibold};
+    font-weight: ${fonts.sfPro.fontWeight.medium};
 
     @media (max-width: 600px) {
-      font-size: 13px;
+      font-size: 16px;
     }
   }
 
   > :nth-child(2) {
+    font-weight: ${fonts.sfPro.fontWeight.regular};
+
     @media (max-width: 600px) {
-      font-size: 13px;
+      font-size: 15px;
     }
   }
 `;

@@ -163,7 +163,7 @@ const Faq = () => {
     {
       isOpened: false,
       question: `I have yet to receive my parcel within the stipulated time frame.
-      Whom can I contact?`,
+      Who can I contact?`,
       answer: `You may check the status of your parcel via “Track your order” at to find
       out why it might have been delayed. Alternatively, you may drop us an
       email at contact@metaphysika.ba and we will assist you further.`

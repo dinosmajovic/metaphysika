@@ -86,7 +86,7 @@ export const OldPrice = styled.span`
   margin-right: 10px;
   font-size: 19px;
   color: ${colors.pink.primary};
-  text-decoration: line-through;
+  text-decoration: line-through; ;
 `;
 
 export const Price = styled.span`
@@ -99,12 +99,12 @@ export const Price = styled.span`
 
 export const Percentage = styled.span`
   position: absolute;
-
   cursor: default;
   right: 20px;
   top: 20px;
   z-index: 2;
-  background-color: ${colors.gray.hover};
+  background-color: white;
+  border: 1px solid ${colors.gray.hover};
   padding: 9px;
   border-radius: 50px;
 

@@ -123,7 +123,7 @@ export const MobileFilters = styled.div`
   height: 100vh;
   top: 0px;
   right: 0px;
-  z-index: 26;
+  z-index: 40;
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   flex-direction: column;

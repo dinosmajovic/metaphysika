@@ -3,24 +3,35 @@ import fonts from 'assets/fonts';
 import { colors } from 'styles';
 
 export const Container = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
+  width: 100%;
+  margin: 10px 0px;
 
   > div {
-    width: 50%;
+    max-width: 2000px;
+    width: 90%;
 
     > span {
       font-size: 18px;
       font-weight: ${fonts.sfPro.fontWeight.regular};
+
+      @media (max-width: 600px) {
+        font-size: 16px;
+      }
     }
   }
 `;
 export const Title = styled.h1`
   font-size: 26px;
-  margin: 20px 0px;
   color: ${colors.pink.primary};
+  margin-bottom: 15px;
+
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 `;
 
 const PrivacyPolicy = () => {

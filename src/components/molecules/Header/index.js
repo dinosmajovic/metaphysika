@@ -24,11 +24,10 @@ const Header = () => {
     { label: 'Home', link: '/' },
     { label: 'About', link: '/about' },
     { label: 'Terms of service', link: '/terms-of-service' },
-    { label: 'Privact Policy', link: '/privacy-policy' },
-    { label: 'Contact', link: 'faq' },
+    { label: 'Privacy Policy', link: '/privacy-policy' },
+    { label: 'FAQ and contact', link: '/faq' },
     { label: 'Return policy', link: '/return-policy' },
-    { label: 'Size guide', link: '/size-guide' },
-    { label: 'Faq', link: '/faq' }
+    { label: 'Size guide', link: '/size-guide' }
   ];
   const { isLogInModal } = useSelector((state) => state.modal);
   const { categories, brands } = useSelector((state) => state.header);

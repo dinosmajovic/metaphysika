@@ -19,7 +19,7 @@ const Item = styled(Link)`
 const Navigation = () => {
   const navigationItems = [
     { label: 'ABOUT US', link: '/about' },
-    { label: 'CONTACT US', link: '/faq' },
+    { label: 'FAQ AND CONTACT', link: '/faq' },
     { label: 'TERMS OF SERVICE', link: '/terms-of-service' },
     { label: 'PRIVACY POLICY', link: '/privacy-policy' },
     { label: 'RETURN POLICY', link: '/return-policy' }

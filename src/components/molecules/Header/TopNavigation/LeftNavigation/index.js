@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
 import fonts from 'assets/fonts';
 import { colors } from 'styles';
 import { Link } from 'react-router-dom';
-import Hamburger from 'hamburger-react';
 
 const NavigationItem = styled(Link)`
   margin-right: 20px;
