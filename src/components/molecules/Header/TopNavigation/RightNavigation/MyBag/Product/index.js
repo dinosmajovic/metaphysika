@@ -10,7 +10,7 @@ import {
   ProductOptions,
   ProductPrice
 } from './styled';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteProduct } from 'state/bag';
 
 import shortenText from 'constants/reduceTitleLength';

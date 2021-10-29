@@ -146,7 +146,7 @@ const LogInModal = ({ setIsSignUpModal }) => {
             <ErrorMessage
               errorTitle="Email was sent succesfully"
               errorDescription={confirmationMessage}
-              type={'succes'}
+              type={'success'}
             />
           )}
           {isError && (

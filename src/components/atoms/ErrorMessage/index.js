@@ -1,6 +1,6 @@
 import alert from 'assets/icons/alert.svg';
 import errorClose from 'assets/icons/errorClose.svg';
-import succes from 'assets/icons/errorSucces.svg';
+import success from 'assets/icons/errorSucces.svg';
 
 import {
   Container,
@@ -18,11 +18,15 @@ const ErrorMessage = ({
   return (
     <Container type={type}>
       <CloseMessageWrapper onClick={onCloseError} type={type}>
-        <img src={errorClose} />
+        <img src={errorClose} alt="icon" />
       </CloseMessageWrapper>
       <ErrorTitle type={type}>
         <span>
-          {type === 'fail' ? <img src={alert} /> : <img src={succes} />}
+          {type === 'fail' ? (
+            <img src={alert} alt="icon" />
+          ) : (
+            <img src={success} alt="icon" />
+          )}
         </span>
         <span>{errorTitle}</span>
       </ErrorTitle>

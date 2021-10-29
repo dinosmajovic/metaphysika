@@ -55,7 +55,7 @@ const EditProfile = () => {
       )}
       {profileIsEdited && (
         <ErrorMessage
-          type="succes"
+          type="success"
           errorTitle={'Profile edited'}
           errorDescription={'Your profile has been changed successfully'}
         />

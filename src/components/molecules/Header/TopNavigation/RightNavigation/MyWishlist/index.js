@@ -1,8 +1,10 @@
 import Button from 'components/atoms/Button';
 import Product from './Product';
 import { myWishlistPath } from 'constants/routes';
-import { Redirect } from 'react-router';
 import Loader from 'components/atoms/Loader';
+import { useSelector, useDispatch } from 'react-redux';
+import { getWishlist } from 'state/wishlist';
+import { useEffect } from 'react';
 import {
   ArrowUp,
   ArrowHoverWrapper,
@@ -12,10 +14,6 @@ import {
   StyledLink,
   LoaderWrapper
 } from './styled';
-import { errorPath } from 'constants/routes/index';
-import { useSelector, useDispatch } from 'react-redux';
-import { getWishlist } from 'state/wishlist';
-import { useEffect } from 'react';
 
 const MyWishlist = () => {
   const dispatch = useDispatch();

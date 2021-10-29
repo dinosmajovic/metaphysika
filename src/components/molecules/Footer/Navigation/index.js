@@ -27,14 +27,10 @@ const Navigation = () => {
 
   return (
     <nav>
-      {navigationItems.map((item) => {
+      {navigationItems.map((item, i) => {
         return (
-          <Wrapper>
-            <Item
-              to={item.link}
-              key={item.label}
-              style={{ textDecoration: 'none' }}
-            >
+          <Wrapper key={item.label + i}>
+            <Item to={item.link} style={{ textDecoration: 'none' }}>
               {item.label}
             </Item>
           </Wrapper>

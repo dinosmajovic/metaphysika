@@ -24,11 +24,13 @@ const NavigationItem = styled(Link)`
 const LeftNavigation = ({ navigationInfo }) => {
   return (
     <nav>
-      {navigationInfo.map((item) => (
-        <NavigationItem to={item.link} key={item.label}>
-          {item.label}
-        </NavigationItem>
-      ))}
+      {navigationInfo.map((item) => {
+        return (
+          <NavigationItem to={item.link} key={item.label}>
+            {item.label}
+          </NavigationItem>
+        );
+      })}
     </nav>
   );
 };

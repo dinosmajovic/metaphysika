@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
-import { Link } from 'react-router-dom';
 import fonts from 'assets/fonts';
 
 export const RightNavigationContainer = styled.span`

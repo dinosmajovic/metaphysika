@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import Logo from './Logo';
-import { useLocation } from 'react-router';
 import TopNavigation from './TopNavigation';
 import BottomNavigation from './BottomNavigation';
 import { HeaderWrapper } from './styled';
@@ -35,7 +34,7 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getBrandsAndCategories());
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const onLogInModal = () => {
     dispatch(onOpenLogInModal());

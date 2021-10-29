@@ -112,7 +112,7 @@ const ReturnPolicy = () => {
             {policy.description && <span>{policy.description}</span>}
             <List>
               {policy.list?.map((p) => {
-                return <li>{p}</li>;
+                return <li key={p}>{p}</li>;
               })}
             </List>
           </div>

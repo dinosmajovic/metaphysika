@@ -57,7 +57,7 @@ const ChangePassword = ({ onCloseModal }) => {
       )}
       {isPasswordChanged && (
         <ErrorMessage
-          type="succes"
+          type="success"
           errorTitle={'Password changed'}
           errorDescription={'Your password has been  changed successfully'}
         />

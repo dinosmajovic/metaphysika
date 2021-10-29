@@ -5,9 +5,9 @@ import { colors } from 'styles';
 export const Container = styled.div`
   position: relative;
   border: ${({ type }) =>
-    type === 'succes' ? `1px solid ${colors.pink.primary}` : 'none'};
+    type === 'success' ? `1px solid ${colors.pink.primary}` : 'none'};
   background-color: ${({ type }) =>
-    type === 'succes' ? 'white' : 'rgb(246, 225, 203)'};
+    type === 'success' ? 'white' : 'rgb(246, 225, 203)'};
   border-radius: 5px;
   width: 100%;
   padding: 10px 15px;
@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const CloseMessageWrapper = styled.span`
   width: 15px;
   height: 15px;
-  display: ${({ type }) => (type === 'succes' ? 'none' : 'flex')};
+  display: ${({ type }) => (type === 'success' ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -39,8 +39,8 @@ export const ErrorTitle = styled.span`
   margin-bottom: 5px;
 
   > span:first-child {
-    width: ${({ type }) => (type === 'succes' ? '21px' : '15px')};
-    height: ${({ type }) => (type === 'succes' ? '21px' : '15px')};
+    width: ${({ type }) => (type === 'success' ? '21px' : '15px')};
+    height: ${({ type }) => (type === 'success' ? '21px' : '15px')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,7 +57,7 @@ export const ErrorTitle = styled.span`
     font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.bold};
     color: ${({ type }) =>
-      type === 'succes' ? `${colors.pink.primary}` : 'rgb(191, 115, 38)'};
+      type === 'success' ? `${colors.pink.primary}` : 'rgb(191, 115, 38)'};
   }
 `;
 

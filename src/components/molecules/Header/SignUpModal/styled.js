@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import fonts from 'assets/fonts';
 import { colors } from 'styles';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background-color: ${colors.white.primary};

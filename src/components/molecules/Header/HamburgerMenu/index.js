@@ -1,5 +1,5 @@
-import { MenuWrapper, Menu, UserName } from './styled';
-import Backdrop from 'components/atoms/ModalBackdrop';
+import { Menu, UserName } from './styled';
+
 import TopItems from './TopItems';
 import MiddleItems from './MiddleItems';
 import Info from './Info';
