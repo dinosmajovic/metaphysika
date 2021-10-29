@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
 import likeHeartFilled from 'assets/icons/likeHeart/likeHeartFilled.svg';
 import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import Loader from 'components/atoms/Loader/';
 import {
   ProductInfo,
@@ -29,12 +29,10 @@ import { setError } from 'state/bag';
 import { onOpenLogInModal } from 'state/modal';
 
 const ProductInformations = ({ product, options, setOptions }) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [sizeIsClicked, setSizeIsClicked] = useState(false);
   const [isButtonErrorMessage, setIsButtonErrorMessage] = useState(false);
   const [isInputErrorMessage, setIsInputErrorMessage] = useState(false);
-  const [isQuantityErrorMessage, setIsQuantityErrorMessage] = useState(false);
   const { token, isAuthenticated } = useSelector((state) => state.user);
   const { isError, isLoading } = useSelector((state) => state.wishlist);
   const [productIsInWishlist, setProductIsInWishlist] = useState(
@@ -49,7 +47,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
         dispatch(setError(false));
       }, 2000);
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   const onAddToBag = () => {
     if (sizeIsClicked) {
@@ -100,7 +98,6 @@ const ProductInformations = ({ product, options, setOptions }) => {
       newOptions[clickedOptionIndex].value = value;
       newOptions[clickedOptionIndex].isOpened = false;
       newOptions[1].value = 1;
-      setIsQuantityErrorMessage(false);
       setSizeIsClicked(true);
       setOptions(newOptions);
       setIsInputErrorMessage(false);

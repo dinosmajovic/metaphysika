@@ -49,7 +49,7 @@ const Modal = ({ onCloseModal, type }) => {
     return () => {
       dispatch(resetMyProfileMessages());
     };
-  }, []);
+  }, [dispatch]);
 
   const switchModal = () => {
     switch (type) {

@@ -1,5 +1,4 @@
 import xIcon from 'assets/icons/modalClose.svg';
-import { useState } from 'react';
 import {
   Container,
   DeleteWrapper,
@@ -12,20 +11,20 @@ import { deleteProduct } from 'state/bag';
 import { useDispatch } from 'react-redux';
 
 const Product = ({ product }) => {
-  const [options, setOptions] = useState([
+  const options = [
     {
       label: 'Size',
       value: `${product.size}`,
-      values: ['42', '43', '44'],
+      values: [],
       isOpened: false
     },
     {
       label: 'Quantity',
       value: `${product.quantity}`,
-      values: ['1', '2'],
+      values: [],
       isOpened: false
     }
-  ]);
+  ];
 
   const dispatch = useDispatch();
 

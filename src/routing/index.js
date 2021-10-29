@@ -49,7 +49,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
     return () => {
       dispatch(clearError());
     };
-  }, [isInitialized, error, history]);
+  }, [isInitialized, error, history, dispatch, rest]);
 
   if (isInitialized && !isInitInProgress && !error) {
     return (
@@ -86,7 +86,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     return () => {
       dispatch(clearError());
     };
-  }, [isInitialized, error, history]);
+  }, [isInitialized, error, history, dispatch]);
 
   if (isInitialized && !isInitInProgress && !error) {
     return (

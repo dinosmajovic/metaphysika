@@ -22,7 +22,7 @@ const Products = () => {
   const [subcategories, setSubcategories] = useState(null);
   const [filters, setFilters] = useState({});
   const [appliedFilters, setAppliedFilters] = useState({});
-  const [sortType, setSortType] = useState('creation-time-descending');
+  const [sortType, setSortType] = useState('creation-time-descending'); // eslint-disable-line
   const productsPerPage = 24;
   const [sortOptions, setSortOptions] = useState([
     {
@@ -74,7 +74,7 @@ const Products = () => {
     setAppliedFilters({});
     setCurrentPage(1);
     fetchProducts(isCategoryChanged, 1, {});
-  }, [params, isAuthenticated]);
+  }, [params, isAuthenticated]); // eslint-disable-line
 
   const fetchProducts = (
     isCategoryChanged,

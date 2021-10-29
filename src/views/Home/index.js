@@ -18,7 +18,7 @@ const Home = () => {
 
   useEffect(() => {
     getImages();
-  }, []);
+  }, []); // eslint-disable-line
 
   const getImages = async () => {
     try {
@@ -30,6 +30,7 @@ const Home = () => {
       history.push('/404');
     }
   };
+
   const goToPage = (path) => {
     history.push(path);
   };

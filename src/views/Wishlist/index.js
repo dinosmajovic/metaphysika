@@ -9,7 +9,6 @@ import {
 import Product from './Product';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'components/atoms/Loader/index';
-import { Redirect } from 'react-router';
 import { onOpenLogInModal } from 'state/modal';
 
 const Wishlist = () => {

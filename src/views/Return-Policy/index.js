@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Container, Title, List } from './styled';
 
 const ReturnPolicy = () => {
-  const [returnPolicy, setReturnPolicy] = useState([
+  const [returnPolicy] = [
     {
       title: `RETURN & EXCHANGES`,
       description: `We want you to be happy with your purchase and we apologize if it is not. For
@@ -100,7 +99,7 @@ const ReturnPolicy = () => {
       More information at contact@metaphysika.ba`,
       list: null
     }
-  ]);
+  ];
   return (
     <Container>
       <Title>RETURN POLICY</Title>

@@ -5,11 +5,9 @@ import {
   Dropdown,
   ProductPrice
 } from '../styled';
-
 import transformProductName from 'constants/transformProductName';
-import arrowDown from 'assets/icons/arrowDown.svg';
 
-const ProductInfo = ({ product, options, onInputClick, onValueClick }) => {
+const ProductInfo = ({ product, options }) => {
   return (
     <ProductInfoWrapper>
       <span>{transformProductName(product.name)}</span>

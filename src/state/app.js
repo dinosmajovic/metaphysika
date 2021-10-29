@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateUser } from './user';
-import axios from 'axios';
 
 const slice = createSlice({
   name: 'app',
@@ -42,12 +41,7 @@ export const initialize = () => async (dispatch) => {
   dispatch(actions.initializeRequest());
   try {
     if (!!getToken()) {
-      const token = getToken();
-
-      const verifyToken = await axios.get(`/verifyToken?token=${token}`);
-
       dispatch(updateUser({ isAuthenticated: true }));
-
       dispatch(actions.initializeSuccess());
     } else {
       dispatch(actions.initializeFailure('error'));

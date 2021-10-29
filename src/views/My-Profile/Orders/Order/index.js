@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { OrderWrapper, Title, IconContainer, Dropdown } from './styled';
 import Summary from './Summary';
 import Bag from './Bag';

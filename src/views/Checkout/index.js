@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+
 import { useHistory } from 'react-router-dom';
 
 const Checkout = () => {
@@ -7,7 +7,7 @@ const Checkout = () => {
 
   useEffect(() => {
     history.push('/checkout/shipping');
-  }, []);
+  }, [history]);
 
   return null;
 };

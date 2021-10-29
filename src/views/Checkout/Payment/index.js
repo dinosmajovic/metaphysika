@@ -11,7 +11,7 @@ import {
   PaymentMethods
 } from './styled';
 import checkmark from 'assets/icons/checkmark.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CheckBox from 'components/atoms/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeError, setIsPaymentStep, onPurchase } from 'state/checkout';

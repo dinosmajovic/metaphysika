@@ -95,10 +95,8 @@ const Shipping = () => {
   });
 
   useEffect(() => {
-    return () => {
-      dispatch(closeError());
-    };
-  }, []);
+    dispatch(closeError());
+  }, [dispatch]);
 
   const onCloseError = () => {
     dispatch(closeError());

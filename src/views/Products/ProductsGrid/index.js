@@ -11,7 +11,7 @@ const ProductsGrid = ({ products, setLoading }) => {
   const { isError } = useSelector((state) => state.wishlist);
 
   <span>cannot add to the wishlist</span>;
-  if (products.length == 0) {
+  if (products.length === 0) {
     return (
       <NoProductsContainer>
         <span>NO PRODUCTS FOUND</span>

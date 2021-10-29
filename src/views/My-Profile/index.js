@@ -21,9 +21,8 @@ const MyProfile = () => {
   const { token } = useSelector((state) => state.user);
 
   useEffect(() => {
-    // get  orders
     getOrders();
-  }, []);
+  }, []); // eslint-disable-line
 
   const getOrders = async () => {
     setIsLoading(true);

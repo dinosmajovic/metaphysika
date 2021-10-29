@@ -23,7 +23,7 @@ const RefreshToken = () => {
     if (isAuthenticated && refreshToken) {
       dispatch(refreshUserToken(refreshToken));
     }
-  }, [isAuthenticated]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, refreshToken, dispatch]);
 
   useEffect(() => {
     if (tokenExpirationTime) {
@@ -35,7 +35,7 @@ const RefreshToken = () => {
 
       return () => clearInterval(timer);
     }
-  }, [refreshToken]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refreshToken, dispatch, tokenExpirationTime]);
 
   return null;
 };

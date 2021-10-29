@@ -3,7 +3,7 @@ import Summary from './Summary';
 import Details from './Details';
 import { onApplyCoupon } from 'state/checkout';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const OrderDetails = ({
   subtotalPrice,

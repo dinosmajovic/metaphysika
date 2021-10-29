@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import fonts from 'assets/fonts/index';
 import { colors } from 'styles';
 
 export const Container = styled.div`

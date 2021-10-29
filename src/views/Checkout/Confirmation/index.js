@@ -2,18 +2,11 @@ import Button from 'components/atoms/Button';
 import checkCircle from 'assets/icons/checkCircle.svg';
 import { homePath } from 'constants/routes';
 import { Container, StyledLink } from './styled';
-import { useDispatch, useSelector } from 'react-redux';
-import Loader from 'components/atoms/Loader';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
 const Confirmation = () => {
-  const {
-    billingInfo,
-    shippingInfo,
-    isPaymentStep,
-    isLoading,
-    isPaymentSuccessfulStep
-  } = useSelector((state) => state.checkout);
+  const { isPaymentSuccessfulStep } = useSelector((state) => state.checkout);
 
   if (isPaymentSuccessfulStep) {
     return (

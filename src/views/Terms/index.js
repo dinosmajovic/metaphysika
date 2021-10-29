@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Container, Title } from './styled';
 
 const Terms = () => {
-  const [terms, setTerms] = useState([
+  const terms = [
     {
       termTitle: `THESE TERMS AND CONDITIONS MAY CHANGE`,
       termDesc: `We reserve the right to update or modify these terms and conditions at
@@ -142,7 +141,7 @@ const Terms = () => {
       termTitle: ``,
       termDesc: ``
     }
-  ]);
+  ];
   return (
     <Container>
       <Title>TERMS OF SERVICE</Title>
