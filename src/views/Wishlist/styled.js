@@ -36,7 +36,7 @@ export const EmptyWishlistWrapper = styled.div`
   }
 `;
 
-export const ErroMessage = styled.span`
+export const ErrorMessage = styled.span`
   display: block;
   margin-bottom: 20px;
   font-size: 20px;

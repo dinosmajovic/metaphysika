@@ -3,7 +3,7 @@ import {
   Title,
   Products,
   EmptyWishlistWrapper,
-  ErroMessage,
+  ErrorMessage,
   LoaderWrapper
 } from './styled';
 import Product from './Product';
@@ -26,7 +26,9 @@ const Wishlist = () => {
         <Title>
           My Wishlist (<span>{wishlistProducts?.length}</span>)
         </Title>
-        {isError && <ErroMessage>Error! Wishlist is not working.</ErroMessage>}
+        {isError && (
+          <ErrorMessage>Error! Wishlist is not working.</ErrorMessage>
+        )}
         <Products>
           {wishlistProducts?.length > 0 &&
             wishlistProducts.map((product) => {

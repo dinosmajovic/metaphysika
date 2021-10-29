@@ -1,7 +1,7 @@
 import { Container, Title, List } from './styled';
 
 const ReturnPolicy = () => {
-  const [returnPolicy] = [
+  const returnPolicy = [
     {
       title: `RETURN & EXCHANGES`,
       description: `We want you to be happy with your purchase and we apologize if it is not. For
@@ -103,12 +103,11 @@ const ReturnPolicy = () => {
   return (
     <Container>
       <Title>RETURN POLICY</Title>
-
       {returnPolicy.map((policy, index) => {
         return (
           <div key={policy.title + index}>
-            {policy.title && <span>{policy.title}</span>}
-            {policy.description && <span>{policy.description}</span>}
+            <span>{policy.title}</span>
+            <span>{policy.description}</span>
             <List>
               {policy.list?.map((p) => {
                 return <li key={p}>{p}</li>;
