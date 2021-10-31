@@ -7,15 +7,27 @@ import { useSelector } from 'react-redux';
 export const CheckoutContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Container = styled.div`
   display: flex;
+  width: 100%;
   justify-content: center;
+  max-width: 1900px;
 
-  @media (max-width: 960px) {
+  > :first-child {
+    margin-right: 150px;
+  }
+
+  @media (max-width: 1150px) {
+    width: fit-content;
     flex-direction: column;
-    align-items: center;
+
+    > :first-child {
+      margin-right: 0px;
+    }
   }
 `;
 

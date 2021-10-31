@@ -64,7 +64,6 @@ export const Products = styled.div`
 `;
 
 export const Buttons = styled.div`
-  /* background-color: red; */
   z-index: 50;
   border-top: 1px solid ${colors.gray.light};
   display: flex;

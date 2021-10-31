@@ -9,10 +9,10 @@ export const DetailsContainer = styled.div`
   align-items: center;
   max-height: 390px;
   margin-bottom: 40px;
+  width: 100%;
 
   > div {
     width: 100%;
-    overflow: scroll;
   }
 `;
 

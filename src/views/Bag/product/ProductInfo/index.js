@@ -2,32 +2,34 @@ import {
   ProductInfoWrapper,
   ProductOptions,
   ProductOption,
-  Dropdown,
-  ProductPrice
-} from '../styled';
+  ProductPrice,
+  DeleteWrapper,
+  Title
+} from './styled';
 import transformProductName from 'constants/transformProductName';
+import shortenText from 'constants/reduceTitleLength';
+import xIcon from 'assets/icons/modalClose.svg';
 
-const ProductInfo = ({ product, options }) => {
+const ProductInfo = ({ product, options, onProductDelete }) => {
   return (
     <ProductInfoWrapper>
-      <span>{transformProductName(product.name)}</span>
+      <Title>
+        <span>{shortenText(transformProductName(product.name), 25)}</span>
+        <DeleteWrapper onClick={() => onProductDelete(product)}>
+          <img src={xIcon} alt="x icon" />
+        </DeleteWrapper>
+      </Title>
       <ProductOptions>
         {options.map((option) => {
           return (
             <ProductOption key={option.label}>
               <h2>{option.label}</h2>
-              <div>
-                <Dropdown className="dropdown">
-                  <h2>{option.value}</h2>
-                </Dropdown>
-              </div>
+              <h2>{option.value}</h2>
             </ProductOption>
           );
         })}
       </ProductOptions>
-      <ProductPrice>
-        {product.priceValue} {product.priceCurrency}
-      </ProductPrice>
+      <ProductPrice>{product.price} KM</ProductPrice>
     </ProductInfoWrapper>
   );
 };

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { colors } from 'styles';
 
 export const SummaryContainer = styled.div`
-  width: 400px;
   border: solid 1px ${colors.gray.light};
   margin-bottom: 30px;
   display: flex;
@@ -10,10 +9,7 @@ export const SummaryContainer = styled.div`
   align-items: center;
   padding: 40px 40px;
   border-radius: 7px;
-
-  @media (max-width: 960px) {
-    width: 100%;
-  }
+  width: 100%;
 
   > h1 {
     font-size: 22px;

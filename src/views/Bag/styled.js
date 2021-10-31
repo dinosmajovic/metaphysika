@@ -4,8 +4,7 @@ import { colors } from 'styles';
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 40px 0px;
 `;
 
 export const Container = styled.div`
@@ -13,10 +12,17 @@ export const Container = styled.div`
   justify-content: center;
 
   @media (max-width: 1040px) {
-    width: 60%;
-    min-width: 600px;
+    width: 600px;
     flex-direction: column;
     align-items: center;
+  }
+
+  @media (max-width: 670px) {
+    width: 500px;
+  }
+
+  @media (max-width: 560px) {
+    width: 90%;
   }
 `;
 
@@ -55,11 +61,11 @@ export const Summary = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid ${colors.gray.light};
-  height: 250px;
-  padding: 20px;
+  padding: 30px;
   border-radius: 5px;
-  min-width: 320px;
+  border: 1px solid ${colors.gray.light};
+  width: 350px;
+  height: fit-content;
 
   > span {
     font-size: 20px;
@@ -85,11 +91,16 @@ export const EmptyBag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 193px;
+  min-height: 190px;
+  padding: 10px;
 
   > span {
     font-size: 23px;
     color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 18px;
+    }
   }
 `;
 

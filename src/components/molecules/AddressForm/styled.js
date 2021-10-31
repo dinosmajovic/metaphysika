@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FormContainer = styled.div`
   margin-top: 20px;
-  width: 480px;
+  width: 100%;
 
   @media (max-width: 960px) {
     width: 100%;

@@ -1,10 +1,4 @@
-import xIcon from 'assets/icons/modalClose.svg';
-import {
-  Container,
-  DeleteWrapper,
-  ProductWrapper,
-  ProductImage
-} from './styled';
+import { Container, ProductWrapper, ProductImage } from './styled';
 import ProductInfo from './ProductInfo';
 import { Link } from 'react-router-dom';
 import { deleteProduct } from 'state/bag';
@@ -34,16 +28,17 @@ const Product = ({ product }) => {
 
   return (
     <Container>
-      <DeleteWrapper onClick={() => onProductDelete(product)}>
-        <img src={xIcon} alt="x icon" />
-      </DeleteWrapper>
       <ProductWrapper>
         <Link to={product.pathToProduct}>
           <ProductImage>
-            <img src={product.mainImg} alt="Product"></img>
+            <img src={product.mainImg} alt="product" />
           </ProductImage>
         </Link>
-        <ProductInfo options={options} product={product} />
+        <ProductInfo
+          options={options}
+          product={product}
+          onProductDelete={onProductDelete}
+        />
       </ProductWrapper>
     </Container>
   );
