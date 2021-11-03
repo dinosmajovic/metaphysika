@@ -5,10 +5,16 @@ export const ProductContainer = styled.div`
   padding: 50px 20px;
   justify-content: center;
 
-  @media (max-width: 950px) {
+  @media (max-width: 1024px) {
+    padding: 20px;
+  }
+`;
+
+export const ProductDataWrapper = styled.div`
+  display: flex;
+
+  @media (max-width: 1024px) {
     flex-direction: column-reverse;
-    align-items: center;
-    padding: 10px 0px;
   }
 `;
 

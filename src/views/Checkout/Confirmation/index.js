@@ -2,23 +2,36 @@ import Button from 'components/atoms/Button';
 import checkCircle from 'assets/icons/checkCircle.svg';
 import { homePath } from 'constants/routes';
 import { Container, StyledLink } from './styled';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
+import useWindowSize from 'hooks/useWindowSize';
+import { useEffect } from 'react';
+import { setIsPaymentSuccessfulStep } from 'state/checkout';
 
 const Confirmation = () => {
   const { isPaymentSuccessfulStep } = useSelector((state) => state.checkout);
+  const windowWidth = useWindowSize().width;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(setIsPaymentSuccessfulStep(false));
+    };
+  }, [dispatch]);
 
   if (isPaymentSuccessfulStep) {
     return (
       <Container>
-        <span>
+        <div>
           <img src={checkCircle} alt="circle" />
-        </span>
+        </div>
         <h1>Thank you !</h1>
         <h3>Payment done successfully</h3>
 
         <StyledLink to={homePath}>
-          <Button size={'big'}>Back to Home</Button>
+          <Button size={windowWidth > 600 ? 'big' : 'medium'}>
+            Back to Home
+          </Button>
         </StyledLink>
       </Container>
     );

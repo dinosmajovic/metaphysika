@@ -7,9 +7,11 @@ const { colors } = theme;
 const GlobalStyle = createGlobalStyle`
 html {
   height: 100%;
-
+  background-color: white;
    > body {
-     height: 100%;
+    height: 100%;
+    background-color: white;
+
    }
 }
 
@@ -20,6 +22,7 @@ html {
     font-family: ${fonts.sfPro.fontFamily};
     font-weight: ${fonts.sfPro.fontWeight.medium};
     color: ${colors.gray.text};
+
   }
 
 `;

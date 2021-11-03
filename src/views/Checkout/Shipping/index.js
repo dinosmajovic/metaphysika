@@ -123,6 +123,10 @@ const Shipping = () => {
     return <Redirect to="/checkout/payment" />;
   }
 
+  if (products.length < 1) {
+    return <Redirect to="/bag" />;
+  }
+
   return (
     <CheckoutLayout subtotalPrice={subtotal} type={'subTotal'}>
       <Addresses>

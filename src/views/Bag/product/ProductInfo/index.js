@@ -9,12 +9,20 @@ import {
 import transformProductName from 'constants/transformProductName';
 import shortenText from 'constants/reduceTitleLength';
 import xIcon from 'assets/icons/modalClose.svg';
+import useWindowSize from 'hooks/useWindowSize';
 
 const ProductInfo = ({ product, options, onProductDelete }) => {
+  const windowWidth = useWindowSize().width;
+
   return (
     <ProductInfoWrapper>
       <Title>
-        <span>{shortenText(transformProductName(product.name), 25)}</span>
+        <span>
+          {shortenText(
+            transformProductName(product.name),
+            windowWidth > 600 ? 30 : 14
+          )}
+        </span>
         <DeleteWrapper onClick={() => onProductDelete(product)}>
           <img src={xIcon} alt="x icon" />
         </DeleteWrapper>

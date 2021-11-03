@@ -88,6 +88,10 @@ export const checkout = createSlice({
       state.errorMessage = '';
       state.couponName = null;
       state.couponValue = null;
+    },
+
+    setIsPaymentSuccessfulStep: (state, { payload }) => {
+      state.isPaymentSuccessfulStep = payload;
     }
   }
 });
@@ -191,6 +195,11 @@ export const onApplyCoupon =
     }
   };
 
-export const { setIsPaymentStep, closeError, resetCheckout } = checkout.actions;
+export const {
+  setIsPaymentStep,
+  closeError,
+  resetCheckout,
+  setIsPaymentSuccessfulStep
+} = checkout.actions;
 
 export default checkout.reducer;

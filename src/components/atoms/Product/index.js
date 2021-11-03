@@ -1,4 +1,6 @@
 import transformProductName from 'constants/transformProductName';
+import useWindowSize from 'hooks/useWindowSize';
+import shortenText from 'constants/reduceTitleLength';
 
 import xIcon from 'assets/icons/modalClose.svg';
 import likeHeartOutlined from 'assets/icons/likeHeart/likeHeartOutlined.svg';
@@ -17,6 +19,7 @@ import {
 } from './styled';
 
 const Product = ({ product, onProductDelete, type }) => {
+  const windowWidth = useWindowSize().width;
   return (
     <Wrapper type={type}>
       {type === 'checkout' ? null : (
@@ -30,7 +33,12 @@ const Product = ({ product, onProductDelete, type }) => {
             <img src={product.mainImg} alt="Product"></img>
           </ProductImage>
           <ProductInfo type={type}>
-            <ProductName>{transformProductName(product.name)}</ProductName>
+            <ProductName>
+              {shortenText(
+                transformProductName(product.name),
+                windowWidth > 600 ? 30 : 15
+              )}
+            </ProductName>
 
             <ProductOptions>
               <span>Size: {product.size}</span>

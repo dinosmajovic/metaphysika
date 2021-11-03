@@ -29,6 +29,11 @@ export const Container = styled.div`
       margin-right: 0px;
     }
   }
+
+  @media (max-width: 400px) {
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 const CheckoutLayout = ({

@@ -12,7 +12,9 @@ const product = createSlice({
   reducers: {
     getProductRequest: (state) => {
       state.isLoading = true;
+      state.isError = false;
     },
+
     setProduct: (state, { payload }) => {
       state.product = payload;
     },
@@ -48,6 +50,7 @@ export const getProduct = (payload) => async (dispatch, getState) => {
     });
 
     const product = fetchedProduct.data;
+
     dispatch(actions.setProduct(product));
   } catch (error) {
     const errorMessage = {

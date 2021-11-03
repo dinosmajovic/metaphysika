@@ -6,6 +6,10 @@ export const Container = styled.div`
   > h1 {
     font-size: 25px;
     margin-bottom: 5px;
+
+    @media (max-width: 600px) {
+      font-size: 20px;
+    }
   }
 `;
 

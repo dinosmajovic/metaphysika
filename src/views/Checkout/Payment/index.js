@@ -1,7 +1,6 @@
 import CheckoutLayout from '../CheckoutLayout';
 import { useHistory } from 'react-router-dom';
 import Button from 'components/atoms/Button';
-
 import {
   Title,
   Buttons,
@@ -137,7 +136,7 @@ const Payment = () => {
     return <Redirect to="/checkout/confirmation" />;
   }
 
-  return <Redirect to="/checkout/shipping" />;
+  return <Redirect to="/bag" />;
 };
 
 export default Payment;

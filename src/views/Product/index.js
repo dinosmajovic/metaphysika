@@ -1,9 +1,8 @@
 /* eslint-disable */
-
 import { useEffect, useState } from 'react';
 import ProductImages from './ProductImages';
 import ProductInformations from './ProductInformations';
-import { ProductContainer, Wrapper } from './styled';
+import { ProductContainer, Wrapper, ProductDataWrapper } from './styled';
 import Backdrop from 'components/atoms/Backdrop/index';
 import Modal from './Modal';
 import { useParams } from 'react-router-dom';
@@ -140,31 +139,26 @@ const Product = () => {
             />
           </Backdrop>
         )}
-        <ProductImages
-          relatedProducts={product.relatedProducts}
-          images={images}
-          mainImage={mainImage}
-          onOpenModal={onOpenModal}
-          onImageClick={onImageClick}
-        />
-        <ProductInformations
-          product={product}
-          sizeIsSelected={false}
-          options={options}
-          setOptions={setOptions}
-          setIsInWishlist={setIsInWishlist}
-          isInWishlist={isInWishlist}
-        />
+        <ProductDataWrapper>
+          <ProductImages
+            relatedProducts={product?.relatedProducts}
+            images={images}
+            mainImage={mainImage}
+            onOpenModal={onOpenModal}
+            onImageClick={onImageClick}
+          />
+          <ProductInformations
+            product={product}
+            sizeIsSelected={false}
+            options={options}
+            setOptions={setOptions}
+            setIsInWishlist={setIsInWishlist}
+            isInWishlist={isInWishlist}
+          />
+        </ProductDataWrapper>
       </ProductContainer>
     );
   }
 };
 
 export default Product;
-
-// @media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ }
-// @media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
-// @media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
-// @media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
-// @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
-// @media (min-width:1281px) { /* hi-res laptops and desktops */ }

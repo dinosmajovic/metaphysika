@@ -3,12 +3,7 @@ import { colors } from 'styles';
 
 const StepperContainer = styled.div`
   align-self: center;
-  margin-bottom: 50px;
-  margin-top: 20px;
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-  }
+  margin: 20px 0px;
 `;
 
 const Step = styled.span`
@@ -21,6 +16,14 @@ const Step = styled.span`
 
   :not(:last-child) {
     margin-right: 55px;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 15px;
+
+    :not(:last-child) {
+      margin-right: 30px;
+    }
   }
 `;
 

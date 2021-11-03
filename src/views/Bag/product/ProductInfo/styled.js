@@ -47,6 +47,10 @@ export const ProductOptions = styled.div`
 export const ProductOption = styled.div`
   margin-right: 33px;
 
+  > :first-child {
+    margin-bottom: 3px;
+  }
+
   > h2 {
     font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
@@ -62,11 +66,7 @@ export const ProductOption = styled.div`
 `;
 
 export const ProductPrice = styled.p`
-  font-size: 18px;
-
-  @media (max-width: 400px) {
-    font-size: 16px;
-  }
+  font-size: 17px;
 
   @media (max-width: 400px) {
     font-size: 15px;

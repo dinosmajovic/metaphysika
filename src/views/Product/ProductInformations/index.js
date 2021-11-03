@@ -64,6 +64,17 @@ const ProductInformations = ({ product, options, setOptions }) => {
   };
 
   const onDropDownInputClick = (option) => {
+    // const copyedOptions = options.map((o) => {
+    //   return {
+    //     ...o,
+    //     isOpened: false
+    //   };
+    // });
+
+    // console.log(copyedOptions)
+
+    // setOptions(copyedOptions);
+
     if (!sizeIsClicked && option === 'Quantity') {
       setIsInputErrorMessage(true);
     }

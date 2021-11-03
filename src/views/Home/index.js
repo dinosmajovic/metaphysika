@@ -11,29 +11,42 @@ import {
   BottomItem
 } from './styled';
 import axios from 'axios';
+import Loader from 'components/atoms/Loader/index';
+import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 
 const Home = () => {
   const history = useHistory();
   const [images, setImages] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getImages();
   }, []); // eslint-disable-line
 
   const getImages = async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get('/homeImages');
-
       const images = data.resources;
       setImages(images);
+      setIsLoading(false);
     } catch (error) {
       history.push('/404');
+      setIsLoading(false);
     }
   };
 
   const goToPage = (path) => {
     history.push(path);
   };
+
+  if (isLoading) {
+    return (
+      <LoaderWrapper>
+        <Loader />
+      </LoaderWrapper>
+    );
+  }
 
   return (
     <Wrapper>

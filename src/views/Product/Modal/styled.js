@@ -64,11 +64,9 @@ export const MainImage = styled.div`
 export const ImagesContainer = styled.div`
   @media (max-width: 800px) {
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
-  }
-
-  @media (max-width: 600px) {
-    justify-content: space-between;
   }
 `;
 
@@ -101,11 +99,10 @@ export const Image = styled.div`
     justify-content: center;
     padding: 0;
     margin-right: 10px;
-  }
 
-  @media (max-width: 600px) {
-    margin: 5px;
-    margin-top: 0px;
+    :last-child {
+      margin-bottom: 15px;
+    }
   }
 `;
 

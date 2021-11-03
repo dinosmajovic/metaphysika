@@ -3,7 +3,7 @@ import { colors } from 'styles';
 import fonts from 'assets/fonts';
 
 export const ProductInfo = styled.div`
-  width: 600px;
+  width: 510px;
 
   > p {
     font-size: 17px;
@@ -11,8 +11,16 @@ export const ProductInfo = styled.div`
     margin-bottom: 20px;
   }
 
-  @media (max-width: 950px) {
-    padding: 20px;
+  @media (max-width: 1160px) {
+    width: 400px;
+  }
+
+  @media (max-width: 1024px) {
+    margin-bottom: 40px;
+    width: 510px;
+  }
+
+  @media (max-width: 600px) {
     width: 100%;
   }
 `;
@@ -23,10 +31,6 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   width: 100%;
   position: relative;
-
-  @media (max-width: 950px) {
-    margin-top: 50px;
-  }
 `;
 
 export const Description = styled.div`
@@ -68,10 +72,6 @@ export const InputError = styled.span`
   position: absolute;
   bottom: -25px;
   right: 40px;
-
-  @media (max-width: 910px) {
-    display: none;
-  }
 `;
 
 export const QuantityError = styled.span`
@@ -80,15 +80,15 @@ export const QuantityError = styled.span`
   position: absolute;
   bottom: -25px;
   right: -2px;
-
-  @media (max-width: 910px) {
-    display: none;
-  }
 `;
 
 export const PriceContainer = styled.span`
   display: flex;
   margin-bottom: 30px;
+
+  @media (max-width: 390px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const OldPrice = styled.span`
@@ -97,16 +97,25 @@ export const OldPrice = styled.span`
   color: ${colors.pink.primary};
   text-decoration: line-through;
   font-weight: ${fonts.sfPro.fontWeight.regular};
+
+  @media (max-width: 390px) {
+    font-size: 23px;
+  }
 `;
 
 export const Price = styled.span`
   font-size: 26px;
   font-weight: ${fonts.sfPro.fontWeight.regular};
+
+  @media (max-width: 390px) {
+    font-size: 23px;
+  }
 `;
 
 export const ProductName = styled.span`
   display: flex;
   margin-bottom: 8px;
+
   > h1 {
     font-size: 30px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
@@ -116,8 +125,25 @@ export const ProductName = styled.span`
   > span {
     cursor: default;
     color: ${colors.pink.primary};
-
     font-size: 30px;
+  }
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+
+    > :first-child {
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: 390px) {
+    > h1 {
+      font-size: 25px;
+    }
+
+    > span {
+      font-size: 22px;
+    }
   }
 `;
 

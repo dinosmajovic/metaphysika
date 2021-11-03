@@ -34,17 +34,14 @@ export const Buttons = styled.span`
 
 export const Container = styled.div`
   width: 480px;
+
   > h1 {
     font-size: 25px;
     margin-bottom: 5px;
   }
 
-  @media (max-width: 960px) {
-    width: 55%;
-  }
-
-  @media (max-width: 770px) {
-    width: 80%;
+  @media (max-width: 600px) {
+    width: 100%;
   }
 `;
 

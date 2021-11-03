@@ -4,11 +4,14 @@ import { colors } from 'styles';
 export const Wrapper = styled.div`
   display: flex;
   margin-right: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
-  @media (max-width: 550px) {
-    flex-direction: column-reverse;
+  @media (max-width: 1024px) {
     margin-right: 0px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
   }
 `;
 
@@ -17,7 +20,6 @@ export const MainImage = styled.div`
   padding: 40px;
   width: 400px;
   height: 490px;
-  display: block;
   text-align: center;
   cursor: pointer;
 
@@ -27,31 +29,37 @@ export const MainImage = styled.div`
     object-fit: contain;
   }
 
-  @media (max-width: 550px) {
-    width: 100%;
-    height: 350px;
+  @media (max-width: 600px) {
     margin-bottom: 10px;
-    padding: 20px;
-    border: none;
+    padding: 0px;
+    width: 100%;
+    height: 280px;
+    align-self: center;
   }
 `;
 
 export const ImagesContainer = styled.div`
-  > div {
-    :not(:last-child) {
-      margin-bottom: 10px;
-      margin-right: 15px;
+  margin-right: 20px;
+  width: fit-content;
+  max-height: 455px;
+  overflow: scroll;
 
-      @media (max-width: 550px) {
-        margin-right: 0px;
-      }
-    }
+  @media (max-width: 600px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-self: center;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+    margin: 0px;
+    max-height: none;
   }
 
-  @media (max-width: 550px) {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media (max-width: 370px) {
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
@@ -65,6 +73,7 @@ export const Image = styled.div`
   display: block;
   text-align: center;
   cursor: pointer;
+  margin-bottom: 10px;
 
   :hover {
     border: 1px solid ${colors.pink.primary};
@@ -74,5 +83,9 @@ export const Image = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  @media (max-width: 600px) {
+    margin: 0px;
   }
 `;

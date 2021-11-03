@@ -12,8 +12,6 @@ export const RelatedProductsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 15px;
-  margin-bottom: 15px;
 `;
 
 export const RelatedProduct = styled.div`
@@ -24,8 +22,11 @@ export const RelatedProduct = styled.div`
   display: block;
   text-align: center;
   cursor: pointer;
-  margin-right: 15px;
-  margin-bottom: 15px;
+  margin: 15px 0px;
+
+  :not(:last-child) {
+    margin-right: 15px;
+  }
 
   :hover,
   :active {

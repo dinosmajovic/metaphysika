@@ -8,17 +8,12 @@ export const Container = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 28%;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 50px 0px;
 
-  > span {
+  > div {
     margin-bottom: 25px;
-    display: block;
     width: 220px;
     height: 220px;
-
     display: flex;
     align-content: center;
     justify-content: center;
@@ -27,6 +22,11 @@ export const Container = styled.div`
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      width: 180px;
+      height: 180px;
     }
   }
 
@@ -41,6 +41,16 @@ export const Container = styled.div`
     font-weight: ${fonts.sfPro.fontWeight.light};
     font-size: 20px;
     margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    > h1 {
+      font-size: 25px;
+    }
+
+    > h3 {
+      font-size: 18px;
+    }
   }
 `;
 

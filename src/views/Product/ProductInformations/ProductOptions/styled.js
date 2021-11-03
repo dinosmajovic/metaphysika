@@ -7,16 +7,20 @@ export const Options = styled.div`
   z-index: 10;
   position: relative;
 
-  @media (max-width: 360px) {
+  @media (max-width: 390px) {
     flex-direction: column;
-    justify-content: center;
+    margin-bottom: 10px;
   }
 `;
 
 export const Option = styled.div`
-  margin-right: 33px;
-  margin-bottom: 40px;
   position: relative;
+  margin-bottom: 40px;
+
+  :not(:last-child) {
+    margin-right: 33px;
+  }
+
   > h2 {
     font-size: 20px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
@@ -24,8 +28,15 @@ export const Option = styled.div`
     z-index: 50;
   }
 
-  @media (max-width: 360px) {
-    margin-right: 0px;
+  @media (max-width: 390px) {
+    :not(:last-child) {
+      margin-right: 0px;
+    }
+    margin-bottom: 20px;
+
+    > h2 {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -39,10 +50,6 @@ export const Dropdown = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-
-  @media (max-width: 360px) {
-    width: 100%;
-  }
 
   :hover {
     background-color: ${colors.gray.hover};
@@ -66,6 +73,10 @@ export const Dropdown = styled.div`
       height: 100%;
     }
   }
+
+  @media (max-width: 390px) {
+    width: 100%;
+  }
 `;
 
 export const DropdownMenu = styled.div`
@@ -77,9 +88,9 @@ export const DropdownMenu = styled.div`
   top: 60px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
   flex-direction: column;
   cursor: pointer;
+  display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
 
   > span {
     padding: 8px 10px;
@@ -92,6 +103,10 @@ export const DropdownMenu = styled.div`
       display: flex;
     }
   }
+
+  @media (max-width: 390px) {
+    top: 56px;
+  }
 `;
 
 export const SizeError = styled.span`
@@ -101,4 +116,9 @@ export const SizeError = styled.span`
   position: absolute;
   left: 172px;
   bottom: 18px;
+
+  @media (max-width: 390px) {
+    bottom: 0px;
+    left: 0px;
+  }
 `;

@@ -21,11 +21,11 @@ export const PromoCodeWrapper = styled.div`
 
 export const Input = styled.input`
   padding: 10px;
-  width: 65%;
   outline: none;
   font-size: 15px;
   border: 1px solid ${colors.gray.light};
   border-radius: 5px;
+  width: 65%;
 
   :focus::placeholder {
     color: transparent;
