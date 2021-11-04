@@ -9,9 +9,12 @@ export const SidebarWrapper = styled.div`
   flex-direction: column;
   width: 250px;
 
-  @media (max-width: 1150px) {
+  @media (max-width: 1024px) {
+    justify-self: center;
+  }
+
+  @media (max-width: 600px) {
     width: 100%;
-    justify-content: center;
   }
 `;
 
@@ -19,13 +22,13 @@ export const ButtonWrapper = styled.span`
   align-self: flex-end;
   margin-top: 16px;
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     align-self: unset;
   }
 
   @media (max-width: 670px) {
     display: none;
-  }
+  } */
 `;
 
 export const SubcategoriesWrapper = styled.div`
@@ -36,25 +39,32 @@ export const SubcategoriesWrapper = styled.div`
 
 export const SubcategoriesTitle = styled.div`
   margin-top: 20px;
-  margin-bottom: 2px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 
   > span {
-    font-size: 18px;
-    font-weight: ${fonts.sfPro.fontWeight.medium};
+    font-size: 15px;
+    font-weight: ${fonts.sfPro.fontWeight.semibold};
 
-    @media (max-width: 1150px) {
+    /* @media (max-width: 1150px) {
       font-size: 20px;
-    }
+    } */
   }
 
-  @media (max-width: 1150px) {
+  > div {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* @media (max-width: 1150px) {
     align-self: unset;
     display: flex;
     flex-direction: column;
     width: 200px;
     padding: 10px;
-  }
+  } */
 `;
 
 export const Line = styled.div`
@@ -62,20 +72,20 @@ export const Line = styled.div`
   height: 1px;
   background-color: #212121;
   margin-top: 5px;
-  margin-bottom: 7px;
+  margin-bottom: 15px;
 
+  /* 
   @media (max-width: 1150px) {
     display: none;
-  }
+  } */
 `;
 
 export const Subcategories = styled.div`
-  display: flex;
+  width: 100%;
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     align-self: unset;
     flex-direction: row;
 
@@ -85,11 +95,12 @@ export const Subcategories = styled.div`
   }
   @media (max-width: 480px) {
     flex-wrap: wrap;
-  }
+  } */
 `;
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
+  width: fit-content;
 `;
 
 export const SubCategory = styled.span`
@@ -97,7 +108,7 @@ export const SubCategory = styled.span`
   display: block;
   margin-bottom: 7px;
 
-  font-size: 17px;
+  font-size: 16px;
   color: ${({ isClicked }) =>
     isClicked ? `${colors.pink.primary}` : undefined};
 
@@ -105,14 +116,14 @@ export const SubCategory = styled.span`
     color: ${colors.pink.primary};
   }
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     font-size: 17px;
   }
 
   @media (max-width: 480px) {
     display: block;
     margin-bottom: 7px;
-  }
+  } */
 `;
 
 export const MobileFilters = styled.div`
@@ -144,9 +155,9 @@ export const FilterButton = styled.div`
     background-color: ${colors.pink.dark};
   }
 
-  @media (max-width: 670px) {
+  /* @media (max-width: 670px) {
     display: block;
-  }
+  } */
 `;
 
 export const ApplyFiltersButton = styled.div`
@@ -161,7 +172,7 @@ export const ApplyFiltersButton = styled.div`
     background-color: ${colors.pink.dark};
   }
 
-  @media (max-width: 370px) {
+  /* @media (max-width: 370px) {
     font-size: 14px;
-  }
+  } */
 `;

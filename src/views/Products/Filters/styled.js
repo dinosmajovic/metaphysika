@@ -6,7 +6,7 @@ export const FiltersContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     flex-direction: row;
     justify-content: center;
   }
@@ -14,7 +14,7 @@ export const FiltersContainer = styled.div`
   @media (max-width: 670px) {
     display: ${({ areMobileFilters }) => (areMobileFilters ? 'block' : 'none')};
     width: 80%;
-  }
+  } */
 `;
 
 export const FilterWrapper = styled.div`
@@ -22,7 +22,7 @@ export const FilterWrapper = styled.div`
   position: relative;
   width: 100%;
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     width: 200px;
   }
 
@@ -36,7 +36,7 @@ export const FilterWrapper = styled.div`
     :not(:last-child) {
       margin-right: 0px;
     }
-  }
+  } */
 `;
 
 export const FilterHeader = styled.div`
@@ -52,7 +52,7 @@ export const FilterHeader = styled.div`
     font-size: 14px;
     font-weight: ${fonts.sfPro.fontWeight.semibold};
 
-    @media (max-width: 1150px) {
+    /* @media (max-width: 1150px) {
       color: white;
     }
 
@@ -61,7 +61,7 @@ export const FilterHeader = styled.div`
       width: 100%;
       padding: 5px;
       border-bottom: 1px solid black;
-    }
+    } */
   }
 
   > div {
@@ -69,15 +69,15 @@ export const FilterHeader = styled.div`
     height: 15px;
     width: 15px;
 
-    @media (max-width: 1150px) {
+    /* @media (max-width: 1150px) {
       display: none;
     }
 
     @media (max-width: 670px) {
       display: none;
-    }
+    } */
   }
-
+  /* 
   @media (max-width: 1150px) {
     border-bottom: none;
     background-color: ${colors.pink.primary};
@@ -91,14 +91,14 @@ export const FilterHeader = styled.div`
     border-bottom: 0px;
     background-color: inherit;
     justify-content: center;
-  }
+  } */
 `;
 
 export const FilterItems = styled.div`
   margin-top: 15px;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     position: absolute;
     z-index: 14;
     width: 100%;
@@ -124,7 +124,7 @@ export const FilterItems = styled.div`
     max-height: 122px;
     overflow-x: hidden;
     overflow-y: scroll;
-  }
+  } */
 `;
 
 export const FilterItem = styled.div`
@@ -137,10 +137,10 @@ export const FilterItem = styled.div`
 
   :hover {
     background-color: rgba(0, 0, 0, 0.03);
-
+    /* 
     @media (max-width: 1150px) {
       background-color: inherit;
-    }
+    } */
   }
 
   > span {
@@ -148,9 +148,9 @@ export const FilterItem = styled.div`
     cursor: pointer;
   }
 
-  @media (max-width: 1150px) {
+  /* @media (max-width: 1150px) {
     padding: 8px;
-  }
+  } */
 `;
 
 export const Checkbox = styled.div`

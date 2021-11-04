@@ -1,25 +1,16 @@
 import styled from 'styled-components';
 
 export const ProductsWrapper = styled.div`
-  padding: 30px 50px;
-  display: grid;
+  padding: 40px;
   grid-gap: 40px;
-  text-align: center;
+  display: grid;
   justify-content: center;
-
   grid-template-areas:
     '. sort'
     'sidebar productList'
     '. buttons';
 
-  @media (max-width: 1230px) {
-    padding: 30px 40px;
-    grid-gap: 20px;
-  }
-
-  @media (max-width: 1150px) {
-    justify-content: center;
-    align-content: center;
+  @media (max-width: 1024px) {
     grid-template-areas:
       'sort'
       'sidebar'
@@ -27,16 +18,5 @@ export const ProductsWrapper = styled.div`
       'buttons';
   }
 
-  @media (max-width: 880px) {
-    padding: 20px 20px;
-  }
-`;
-
-export const Wrapper = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  padding: 20px;
 `;

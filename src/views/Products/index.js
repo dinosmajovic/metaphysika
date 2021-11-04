@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { ProductsWrapper, Wrapper } from './styled';
+import { ProductsWrapper } from './styled';
 import axios from 'axios';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -9,6 +9,7 @@ import { errorPath } from 'constants/routes';
 import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
 import { useSelector } from 'react-redux';
+import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 
 const Products = () => {
   const history = useHistory();
@@ -278,9 +279,9 @@ const Products = () => {
 
   if (loading) {
     return (
-      <Wrapper>
+      <LoaderWrapper>
         <Loader />
-      </Wrapper>
+      </LoaderWrapper>
     );
   } else {
     return (

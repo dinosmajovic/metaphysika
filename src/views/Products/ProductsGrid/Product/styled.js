@@ -22,6 +22,11 @@ export const Picture = styled.div`
   width: 250px;
   height: 250px;
 
+  :hover,
+  :active {
+    border: 1px solid ${colors.pink.primary};
+  }
+
   > img {
     width: 100%;
     height: 100%;
@@ -31,15 +36,19 @@ export const Picture = styled.div`
   @media (max-width: 600px) {
     width: 170px;
     height: 170px;
+
+    :hover {
+      border: none;
+    }
   }
 
   @media (max-width: 400px) {
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
   }
 
-  @media (max-width: 330px) {
-    width: 200px;
+  @media (max-width: 320px) {
+    width: 100%;
     height: 200px;
   }
 `;

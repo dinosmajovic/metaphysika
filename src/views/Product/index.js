@@ -28,13 +28,13 @@ const Product = () => {
       label: 'Size',
       value: 'Select',
       values: [],
-      isOpened: false
+      isOpen: false
     },
     {
       label: 'Quantity',
       value: 1,
       values: [],
-      isOpened: false
+      isOpen: false
     }
   ]);
 
@@ -73,17 +73,18 @@ const Product = () => {
   }, [product]);
 
   const onCloseDropdowns = (event) => {
-    if (event.target.className.includes('dropdown')) {
-      return null;
-    } else {
-      const newOptions = options.map((option) => {
-        return {
-          ...option,
-          isOpened: false
-        };
-      });
-      setOptions(newOptions);
-    }
+    // console.log(event.target.className.includes('dropdown'));
+    // if (event.target.className.includes('dropdown')) {
+    //   return null;
+    // } else {
+    //   const newOptions = options.map((option) => {
+    //     return {
+    //       ...option,
+    //       isOpen: false
+    //     };
+    //   });
+    //   setOptions(newOptions);
+    // }
   };
 
   const onOpenModal = () => {
@@ -148,10 +149,10 @@ const Product = () => {
             onImageClick={onImageClick}
           />
           <ProductInformations
+            setOptions={setOptions}
             product={product}
             sizeIsSelected={false}
             options={options}
-            setOptions={setOptions}
             setIsInWishlist={setIsInWishlist}
             isInWishlist={isInWishlist}
           />

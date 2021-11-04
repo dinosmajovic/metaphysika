@@ -36,7 +36,7 @@ export const ButtonWrapper = styled.div`
 export const Description = styled.div`
   margin-bottom: 20px;
   > p {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: ${fonts.sfPro.fontWeight.ultraLight};
     margin-bottom: 20px;
   }

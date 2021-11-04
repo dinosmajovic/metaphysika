@@ -16,6 +16,7 @@ import Filters from '../Filters';
 import { useState, useEffect } from 'react';
 import Backdrop from 'components/atoms/Backdrop/';
 import { useParams } from 'react-router-dom';
+import plus from 'assets/icons/plus.svg';
 
 const Sidebar = ({
   onApplyFilters,
@@ -27,6 +28,7 @@ const Sidebar = ({
 }) => {
   const [isMobileFiltersMenu, setIsMobileFiltersMenu] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
   const { categoryName } = useParams();
 
   useEffect(() => {
@@ -98,13 +100,16 @@ const Sidebar = ({
         </Button>
       </ButtonWrapper>
       <FilterButton onClick={onOpenFilterMenu}>FILTER</FilterButton>
-      {subcategories ? (
+      {subcategories && (
         <SubcategoriesWrapper>
-          <SubcategoriesTitle>
+          <SubcategoriesTitle onClick={() => setIsOpen(!isOpen)}>
             <span>SUBCATEGORIES</span>
-            <Line />
+            <div>
+              <img src={plus} />
+            </div>
           </SubcategoriesTitle>
-          <Subcategories>
+          <Line />
+          <Subcategories isOpen={isOpen}>
             {subcategories?.map((subcategory) => {
               return (
                 <StyledLink
@@ -120,7 +125,7 @@ const Sidebar = ({
             })}
           </Subcategories>
         </SubcategoriesWrapper>
-      ) : null}
+      )}
     </SidebarWrapper>
   );
 };

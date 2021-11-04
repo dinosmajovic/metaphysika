@@ -19,7 +19,7 @@ import { logInUser } from 'state/user';
 import Loader from 'components/atoms/Loader/index';
 import * as Yup from 'yup';
 import { onCloseLogInModal } from 'state/modal';
-import { Wrapper } from 'components/atoms/Loader/styledWrapper';
+import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 
 const LogInModal = ({ setIsSignUpModal }) => {
   const [isError, setIsError] = useState(false);
@@ -130,9 +130,9 @@ const LogInModal = ({ setIsSignUpModal }) => {
 
   if (isLoading) {
     return (
-      <Wrapper>
+      <LoaderWrapper>
         <Loader />
-      </Wrapper>
+      </LoaderWrapper>
     );
   } else if (passwordIsForgotten) {
     return (

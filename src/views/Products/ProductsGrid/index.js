@@ -1,15 +1,7 @@
-import { useSelector } from 'react-redux';
 import Product from './Product';
-import {
-  ProductsContainer,
-  NoProductsContainer,
-  Container,
-  WishlistError
-} from './styled';
+import { ProductsContainer, NoProductsContainer, Container } from './styled';
 
 const ProductsGrid = ({ products, setLoading }) => {
-  const { isError } = useSelector((state) => state.wishlist);
-
   <span>cannot add to the wishlist</span>;
   if (products.length === 0) {
     return (
@@ -20,9 +12,6 @@ const ProductsGrid = ({ products, setLoading }) => {
   } else {
     return (
       <Container>
-        {isError && (
-          <WishlistError>Error! Wishlist is not working.</WishlistError>
-        )}
         <ProductsContainer>
           {products.map((product, i) => {
             return (

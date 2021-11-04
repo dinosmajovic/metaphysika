@@ -3,59 +3,41 @@ import { colors } from 'styles';
 
 export const ProductsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
+  grid-template-columns: repeat(4, 250px);
+  grid-gap: 50px;
 
-  /* display: grid;
-    border: solid 1px black; */
-
-  /* grid-auto-columns: repeat (5, 50px); */
-
-  @media (max-width: 1560px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 1600px) {
+    grid-template-columns: repeat(3, 250px);
   }
 
   @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 250px);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 170px);
+  }
+
+  @media (max-width: 450px) {
     grid-gap: 20px;
   }
 
-  @media (max-width: 880px) {
-    grid-template-columns: repeat(2, 300px);
+  @media (max-width: 400px) {
+    grid-template-columns: repeat(2, 140px);
   }
 
-  @media (max-width: 670px) {
-    grid-gap: 20px;
-    justify-content: space-between;
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 320px) {
+    grid-template-columns: repeat(1, 100%);
   }
-
-  @media (max-width: 550px) {
-    grid-gap: 20px;
-    justify-content: space-between;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 469px) {
-    justify-content: space-between;
-    grid-template-columns: repeat(2, 180px);
-    grid-gap: 10px;
-  }
-
-  @media (max-width: 405px) {
-    justify-content: space-between;
-    grid-template-columns: repeat(2, 155px);
-    grid-gap: 10px;
-  }
-
-  @media (max-width: 350px) {
-    grid-gap: 5px;
+  /* @media (max-width: 400px) {
+    width: 130px;
+    height: 130px;
   }
 
   @media (max-width: 330px) {
-    grid-template-columns: repeat(1, 200px);
-    align-items: center;
-    justify-content: center;
-  }
+    width: 200px;
+    height: 200px;
+  } */
 `;
 
 export const NoProductsContainer = styled.div`
@@ -63,31 +45,43 @@ export const NoProductsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  max-height: 100px;
   min-width: 800px;
 
   > span {
     font-size: 30px;
     color: ${colors.pink.primary};
 
-    @media (max-width: 1150px) {
-      font-size: 25px;
+    @media (max-width: 600px) {
+      font-size: 22px;
     }
   }
 
-  @media (max-width: 1150px) {
-    min-width: auto;
+  @media (max-width: 1200px) {
+    min-width: 600px;
+  }
+
+  @media (max-width: 700px) {
+    min-width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    min-width: 400px;
+  }
+
+  @media (max-width: 500px) {
+    min-width: 350px;
+  }
+
+  @media (max-width: 400px) {
+    min-width: 280px;
+  }
+
+  @media (max-width: 320px) {
+    min-width: 260px;
   }
 `;
 
 export const Container = styled.div`
   grid-area: productList;
-`;
-
-export const WishlistError = styled.span`
-  display: block;
-  color: ${colors.pink.primary};
-  font-size: 20px;
-  margin-bottom: 20px;
 `;

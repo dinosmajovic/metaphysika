@@ -90,7 +90,7 @@ export const DropdownMenu = styled.div`
   border-bottom-right-radius: 5px;
   flex-direction: column;
   cursor: pointer;
-  display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
 
   > span {
     padding: 8px 10px;

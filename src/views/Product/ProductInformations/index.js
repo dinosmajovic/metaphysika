@@ -64,26 +64,18 @@ const ProductInformations = ({ product, options, setOptions }) => {
   };
 
   const onDropDownInputClick = (option) => {
-    // const copyedOptions = options.map((o) => {
-    //   return {
-    //     ...o,
-    //     isOpened: false
-    //   };
-    // });
-
-    // console.log(copyedOptions)
-
-    // setOptions(copyedOptions);
-
     if (!sizeIsClicked && option === 'Quantity') {
       setIsInputErrorMessage(true);
     }
 
-    const newOptions = [...options];
-    const clickedOptionIndex = findItemIndex(newOptions, option);
+    const newOptions = options.map((o) => ({
+      ...o,
+      isOpen: false
+    }));
 
-    if (!newOptions[clickedOptionIndex].disabled) {
-      newOptions[clickedOptionIndex].isOpened = true;
+    const index = findItemIndex(newOptions, option);
+    if (!newOptions[index].disabled) {
+      newOptions[index].isOpen = true;
       setOptions(newOptions);
     }
   };
@@ -107,7 +99,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
 
       newOptions[1].values = sizeStockList;
       newOptions[clickedOptionIndex].value = value;
-      newOptions[clickedOptionIndex].isOpened = false;
+      newOptions[clickedOptionIndex].isOpen = false;
       newOptions[1].value = 1;
       setSizeIsClicked(true);
       setOptions(newOptions);
@@ -118,10 +110,10 @@ const ProductInformations = ({ product, options, setOptions }) => {
     if (option === 'Quantity') {
       if (sizeIsClicked) {
         newOptions[clickedOptionIndex].value = value;
-        newOptions[clickedOptionIndex].isOpened = false;
+        newOptions[clickedOptionIndex].isOpen = false;
         setOptions(newOptions);
       } else {
-        newOptions[clickedOptionIndex].isOpened = false;
+        newOptions[clickedOptionIndex].isOpen = false;
         setSizeIsClicked(false);
         setOptions(newOptions);
       }
@@ -168,6 +160,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
 
       <ProductOptions
         options={options}
+        setOptions={setOptions}
         onDropDownInputClick={onDropDownInputClick}
         onOptionValueClick={onOptionValueClick}
         isInputErrorMessage={isInputErrorMessage}

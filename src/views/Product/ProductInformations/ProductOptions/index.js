@@ -1,5 +1,6 @@
 import arrowDown from 'assets/icons/arrowDown.svg';
 import { Options, Option, Dropdown, DropdownMenu, SizeError } from './styled';
+import useComponentVisible from 'hooks/useComponentVisible';
 
 const ProductOptions = ({
   options,
@@ -7,22 +8,22 @@ const ProductOptions = ({
   onOptionValueClick,
   isInputErrorMessage
 }) => {
+  const { ref, isComponentVisible } = useComponentVisible(true);
+  console.log(isComponentVisible);
+
   return (
     <Options>
       {options.map((option) => (
         <Option key={option.label}>
           <h2>{option.label}</h2>
           <div>
-            <Dropdown
-              className="dropdown"
-              onClick={() => onDropDownInputClick(option.label)}
-            >
-              <h2>{option.value}</h2>
+            <Dropdown onClick={() => onDropDownInputClick(option.label)}>
+              <h2> {option.value}</h2>
               <div>
                 <img src={arrowDown} alt="arrow" />
               </div>
             </Dropdown>
-            <DropdownMenu isOpened={option.isOpened}>
+            <DropdownMenu isOpen={option.isOpen} ref={ref}>
               {option.values.map((value) => {
                 return (
                   <span
