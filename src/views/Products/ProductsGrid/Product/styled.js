@@ -89,13 +89,21 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const OldPrice = styled.span`
   margin-right: 10px;
   font-size: 19px;
   color: ${colors.pink.primary};
-  text-decoration: line-through; ;
+  text-decoration: line-through;
+
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
 
 export const Price = styled.span`
@@ -120,6 +128,10 @@ export const Percentage = styled.span`
   > span {
     font-size: 17px;
     color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
   }
 `;
 

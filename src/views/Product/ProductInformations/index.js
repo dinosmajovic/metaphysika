@@ -22,8 +22,7 @@ import {
   Price,
   ProductName,
   LikeWrapper,
-  Buttons,
-  WishlistError
+  Buttons
 } from './styled';
 import { setError } from 'state/bag';
 import { onOpenLogInModal } from 'state/modal';
@@ -34,12 +33,23 @@ const ProductInformations = ({ product, options, setOptions }) => {
   const [isButtonErrorMessage, setIsButtonErrorMessage] = useState(false);
   const [isInputErrorMessage, setIsInputErrorMessage] = useState(false);
   const { token, isAuthenticated } = useSelector((state) => state.user);
-  const { isError, isLoading } = useSelector((state) => state.wishlist);
+  const { isLoading, wishlistProducts } = useSelector(
+    (state) => state.wishlist
+  );
   const [productIsInWishlist, setProductIsInWishlist] = useState(
     product.isInWishlist
   );
   const { error } = useSelector((state) => state.bag);
   const params = useParams();
+
+  useEffect(() => {
+    const isInWishlist =
+      wishlistProducts?.filter((p) => {
+        return p.id === product.id;
+      }).length > 0;
+
+    isInWishlist ? setProductIsInWishlist(true) : setProductIsInWishlist(false);
+  }, [wishlistProducts, product.id]);
 
   useEffect(() => {
     if (error) {
@@ -193,9 +203,6 @@ const ProductInformations = ({ product, options, setOptions }) => {
             )}
           </LikeWrapper>
         </ButtonWrapper>
-        {isError && (
-          <WishlistError>Error! Wishlist is not working.</WishlistError>
-        )}
       </Buttons>
     </ProductInfo>
   );

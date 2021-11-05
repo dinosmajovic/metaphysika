@@ -22,7 +22,6 @@ const Product = () => {
     (state) => state.product
   );
   const { token, isAuthenticated } = useSelector((state) => state.user);
-
   const [options, setOptions] = useState([
     {
       label: 'Size',
@@ -153,8 +152,6 @@ const Product = () => {
             product={product}
             sizeIsSelected={false}
             options={options}
-            setIsInWishlist={setIsInWishlist}
-            isInWishlist={isInWishlist}
           />
         </ProductDataWrapper>
       </ProductContainer>

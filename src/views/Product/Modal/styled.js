@@ -62,6 +62,9 @@ export const MainImage = styled.div`
 `;
 
 export const ImagesContainer = styled.div`
+  max-height: 500px;
+  overflow: scroll;
+
   @media (max-width: 800px) {
     display: flex;
     align-items: center;

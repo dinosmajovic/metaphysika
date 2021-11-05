@@ -21,14 +21,6 @@ export const SidebarWrapper = styled.div`
 export const ButtonWrapper = styled.span`
   align-self: flex-end;
   margin-top: 16px;
-
-  /* @media (max-width: 1150px) {
-    align-self: unset;
-  }
-
-  @media (max-width: 670px) {
-    display: none;
-  } */
 `;
 
 export const SubcategoriesWrapper = styled.div`
@@ -47,24 +39,12 @@ export const SubcategoriesTitle = styled.div`
   > span {
     font-size: 15px;
     font-weight: ${fonts.sfPro.fontWeight.semibold};
-
-    /* @media (max-width: 1150px) {
-      font-size: 20px;
-    } */
   }
 
   > div {
     width: 15px;
     height: 15px;
   }
-
-  /* @media (max-width: 1150px) {
-    align-self: unset;
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    padding: 10px;
-  } */
 `;
 
 export const Line = styled.div`
@@ -73,29 +53,12 @@ export const Line = styled.div`
   background-color: #212121;
   margin-top: 5px;
   margin-bottom: 15px;
-
-  /* 
-  @media (max-width: 1150px) {
-    display: none;
-  } */
 `;
 
 export const Subcategories = styled.div`
   width: 100%;
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
-
-  /* @media (max-width: 1150px) {
-    align-self: unset;
-    flex-direction: row;
-
-    > :not(:last-child) {
-      margin-right: 15px;
-    }
-  }
-  @media (max-width: 480px) {
-    flex-wrap: wrap;
-  } */
 `;
 
 export const StyledLink = styled(Link)`
@@ -115,15 +78,6 @@ export const SubCategory = styled.span`
   :hover {
     color: ${colors.pink.primary};
   }
-
-  /* @media (max-width: 1150px) {
-    font-size: 17px;
-  }
-
-  @media (max-width: 480px) {
-    display: block;
-    margin-bottom: 7px;
-  } */
 `;
 
 export const MobileFilters = styled.div`
@@ -154,10 +108,6 @@ export const FilterButton = styled.div`
   :focus {
     background-color: ${colors.pink.dark};
   }
-
-  /* @media (max-width: 670px) {
-    display: block;
-  } */
 `;
 
 export const ApplyFiltersButton = styled.div`
@@ -171,8 +121,4 @@ export const ApplyFiltersButton = styled.div`
   :focus {
     background-color: ${colors.pink.dark};
   }
-
-  /* @media (max-width: 370px) {
-    font-size: 14px;
-  } */
 `;

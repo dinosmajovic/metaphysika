@@ -8,8 +8,10 @@ const ProductOptions = ({
   onOptionValueClick,
   isInputErrorMessage
 }) => {
-  const { ref, isComponentVisible } = useComponentVisible(true);
-  console.log(isComponentVisible);
+  const { ref } = useComponentVisible(true);
+
+  // const { ref, isComponentVisible } = useComponentVisible(true);
+  // console.log(isComponentVisible);
 
   return (
     <Options>

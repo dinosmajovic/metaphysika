@@ -105,7 +105,7 @@ const Sidebar = ({
           <SubcategoriesTitle onClick={() => setIsOpen(!isOpen)}>
             <span>SUBCATEGORIES</span>
             <div>
-              <img src={plus} />
+              <img src={plus} alt="icon" />
             </div>
           </SubcategoriesTitle>
           <Line />

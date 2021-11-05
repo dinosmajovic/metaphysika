@@ -29,15 +29,6 @@ export const ProductsContainer = styled.div`
   @media (max-width: 320px) {
     grid-template-columns: repeat(1, 100%);
   }
-  /* @media (max-width: 400px) {
-    width: 130px;
-    height: 130px;
-  }
-
-  @media (max-width: 330px) {
-    width: 200px;
-    height: 200px;
-  } */
 `;
 
 export const NoProductsContainer = styled.div`

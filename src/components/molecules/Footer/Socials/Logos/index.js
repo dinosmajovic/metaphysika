@@ -39,7 +39,7 @@ const Logos = () => {
   return (
     <LogosWrapper>
       {logos.map((icon, i) => (
-        <Icon key={i} href={icon.link}>
+        <Icon key={i} href={icon.link} target="_blank">
           <img src={icon.logo} alt={icon.alt} />
         </Icon>
       ))}

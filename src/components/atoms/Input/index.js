@@ -10,12 +10,13 @@ const Input = ({
   isMasked = false,
   mask,
   maskChar = '',
-  type
+  type,
+  onKeyDown
 }) => {
   const isValid = !(get(formik.touched, name) && get(formik.errors, name));
 
   return (
-    <InputContainer>
+    <InputContainer onKeyDown={onKeyDown}>
       {isMasked ? (
         <InputMask
           maskChar={maskChar}

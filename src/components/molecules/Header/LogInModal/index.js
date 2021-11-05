@@ -128,6 +128,12 @@ const LogInModal = ({ setIsSignUpModal }) => {
     onCloseError();
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      formik.submitForm();
+    }
+  };
+
   if (isLoading) {
     return (
       <LoaderWrapper>
@@ -188,6 +194,7 @@ const LogInModal = ({ setIsSignUpModal }) => {
           )}
           <Input label="Email" name="email" formik={formik} />
           <Input
+            onKeyDown={(event) => handleKeyPress(event)}
             label="Password"
             name="password"
             formik={formik}

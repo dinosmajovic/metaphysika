@@ -6,6 +6,7 @@ export const wishlist = createSlice({
   initialState: {
     wishlistProducts: null,
     isLoading: false,
+    loadingProductId: null,
     isError: false
   },
   reducers: {
@@ -24,27 +25,33 @@ export const wishlist = createSlice({
     },
 
     // DELETE FROM WISHLIST
-    deleteFromWishlistRequest: (state) => {
+    deleteFromWishlistRequest: (state, { payload }) => {
+      state.loadingProductId = payload.productId;
       state.isLoading = true;
       state.isError = false;
     },
-    deleteFromWishlistSuccess: (state, { payload }) => {
+    deleteFromWishlistSuccess: (state) => {
+      state.loadingProductId = null;
       state.isLoading = false;
     },
     deleteFromWishlistFailure: (state) => {
+      state.loadingProductId = null;
       state.isLoading = false;
       state.isError = true;
     },
 
-    // DELETE FROM WISHLIST
-    addToWishlistRequest: (state) => {
+    // ADD TO WISHLIST
+    addToWishlistRequest: (state, { payload }) => {
+      state.loadingProductId = payload.productId;
       state.isLoading = true;
       state.isError = false;
     },
-    addToWishlistSuccess: (state, { payload }) => {
+    addToWishlistSuccess: (state) => {
+      state.loadingProductId = null;
       state.isLoading = false;
     },
     addToWishlistFailure: (state) => {
+      state.loadingProductId = null;
       state.isLoading = false;
       state.isError = true;
     }
@@ -56,7 +63,7 @@ const { actions } = wishlist;
 export const addToWishlist = (payload) => async (dispatch) => {
   const { productId, token } = payload;
 
-  dispatch(actions.addToWishlistRequest());
+  dispatch(actions.addToWishlistRequest({ productId }));
 
   try {
     await axios.get('/addToWishlist', {
@@ -77,11 +84,10 @@ export const addToWishlist = (payload) => async (dispatch) => {
 export const deleteFromWishlist = (payload) => async (dispatch) => {
   const { productId, token } = payload;
 
-  dispatch(actions.deleteFromWishlistRequest());
+  dispatch(actions.deleteFromWishlistRequest({ productId }));
 
   try {
     await axios.get('/deleteFromWishlist', {
-      // delete(`/wishlist/${productId}`)
       params: {
         token,
         productId

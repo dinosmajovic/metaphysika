@@ -21,21 +21,29 @@ import { addToWishlist, deleteFromWishlist } from 'state/wishlist';
 import { useEffect, useState } from 'react';
 import Loader from 'components/atoms/Loader/index';
 import { onOpenLogInModal } from 'state/modal';
+import { errorPath } from 'constants/routes/index';
 
 const Product = ({ product, setLoading }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { token, isAuthenticated } = useSelector((state) => state.user);
-  const { isLoading } = useSelector((state) => state.wishlist);
-  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+  const { wishlistProducts, loadingProductId } = useSelector(
+    (state) => state.wishlist
+  );
+  const [productIsInWishlist, setProductIsInWishlist] = useState(
+    product?.isInWishlist
+  );
 
   useEffect(() => {
-    if (!isLoading) {
-      setIsWishlistLoading(false);
-    }
-  }, [isLoading]);
+    const isInWishlist =
+      wishlistProducts?.filter((p) => {
+        return p.id === product.id;
+      }).length > 0;
 
-  const precentageDecrease = calculatePrecentage(
+    isInWishlist ? setProductIsInWishlist(true) : setProductIsInWishlist(false);
+  }, [wishlistProducts, product.id]);
+
+  const percentageDecrease = calculatePrecentage(
     product.price,
     product.oldPrice
   );
@@ -50,14 +58,10 @@ const Product = ({ product, setLoading }) => {
 
   const onAddOrDeleteFromWishlist = (productId) => {
     if (isAuthenticated) {
-      if (product.isInWishlist) {
-        setIsWishlistLoading(true);
+      if (productIsInWishlist) {
         dispatch(deleteFromWishlist({ productId, token }));
-        product.isInWishlist = false;
       } else {
-        setIsWishlistLoading(true);
         dispatch(addToWishlist({ productId, token }));
-        product.isInWishlist = true;
       }
     } else {
       dispatch(onOpenLogInModal());
@@ -81,7 +85,7 @@ const Product = ({ product, setLoading }) => {
 
         history.push(`/brands/${brandPath}/${product.path}`);
       } catch (error) {
-        console.log(error);
+        history.push(errorPath);
       }
     }
   };
@@ -91,7 +95,7 @@ const Product = ({ product, setLoading }) => {
       <PictureContainer>
         {product?.oldPrice && (
           <Percentage>
-            <span>{precentageDecrease}%</span>
+            <span>{percentageDecrease}%</span>
           </Percentage>
         )}
 
@@ -102,9 +106,9 @@ const Product = ({ product, setLoading }) => {
               onAddOrDeleteFromWishlist(product.id);
             }}
           >
-            {isWishlistLoading ? (
+            {loadingProductId === product.id ? (
               <Loader size={25} />
-            ) : product.isInWishlist ? (
+            ) : productIsInWishlist ? (
               <img src={likeHeartFilled} alt="Heart icon" className="like" />
             ) : (
               <img src={likeHeartOutlined} alt="Heart icon" className="like" />
