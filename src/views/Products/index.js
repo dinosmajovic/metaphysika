@@ -67,14 +67,15 @@ const Products = () => {
       isOpen: false
     }
   ]);
-
   const { token, isAuthenticated } = useSelector((state) => state.user);
+  const [viewAllPath, setViewAllPath] = useState(null);
 
   useEffect(() => {
     const isCategoryChanged = true;
     setAppliedFilters({});
     setCurrentPage(1);
     fetchProducts(isCategoryChanged, 1, {});
+    setFilters({});
   }, [params, isAuthenticated]); // eslint-disable-line
 
   const fetchProducts = (
@@ -127,7 +128,6 @@ const Products = () => {
 
       if (result.data.allFilters) {
         const fetchedFilters = result.data.allFilters;
-
         const brandNames = fetchedFilters.brands
           .map((brand) => {
             return brand.name;
@@ -140,10 +140,10 @@ const Products = () => {
         newFilters[1].filters = brandNames;
         newFilters[2].filters = fetchedFilters.colors;
 
+        setViewAllPath(result.data.path);
         setAllFilters(newFilters);
         setFilters(result.data.allFilters);
       }
-
       setLoading(false);
     } catch (error) {
       history.push(errorPath);
@@ -168,7 +168,7 @@ const Products = () => {
         sortType,
         token
       });
-
+      setViewAllPath(result.data.path);
       setLabel(result.data.subcategoryName);
       setProducts(result.data.products);
       setTotalProductsCount(result.data.totalProductsCount);
@@ -299,6 +299,7 @@ const Products = () => {
           setAllFilters={setAllFilters}
           allFilters={allFilters}
           passedInFilters={appliedFilters}
+          viewAllPath={viewAllPath}
         />
         <ProductsGrid products={products} setLoading={setLoading} />
         <Pagination

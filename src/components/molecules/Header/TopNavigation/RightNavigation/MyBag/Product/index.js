@@ -16,6 +16,7 @@ import { deleteProduct } from 'state/bag';
 import shortenText from 'constants/reduceTitleLength';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { errorPath } from 'constants/routes';
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Product = ({ product }) => {
 
       history.push(`/brands/${brand.data.path}/${product.path}`);
     } catch (error) {
-      console.log(error);
+      history.push(errorPath);
     }
   };
 

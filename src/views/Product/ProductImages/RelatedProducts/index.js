@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { Title, RelatedProductsWrapper, RelatedProduct } from './styled';
 import axios from 'axios';
+import { errorPath } from 'constants/routes/index';
 
 const RelatedProducts = ({ relatedProducts }) => {
   const history = useHistory();
@@ -17,7 +18,7 @@ const RelatedProducts = ({ relatedProducts }) => {
 
       history.push(`/brands/${brand.data.path}/${relatedProduct.path}`);
     } catch (error) {
-      console.log(error);
+      history.push(errorPath);
     }
   };
 

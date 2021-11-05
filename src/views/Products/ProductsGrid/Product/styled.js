@@ -24,7 +24,8 @@ export const Picture = styled.div`
 
   :hover,
   :active {
-    border: 1px solid ${colors.pink.primary};
+    border: 1px solid ${colors.gray.light};
+    border-radius: 5px;
   }
 
   > img {
@@ -39,6 +40,11 @@ export const Picture = styled.div`
 
     :hover {
       border: none;
+    }
+
+    :active {
+      border: 1px solid ${colors.gray.light};
+      border-radius: 5px;
     }
   }
 

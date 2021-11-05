@@ -24,7 +24,8 @@ const Sidebar = ({
   setSubcategories,
   allFilters,
   setAllFilters,
-  passedInFilters
+  passedInFilters,
+  viewAllPath
 }) => {
   const [isMobileFiltersMenu, setIsMobileFiltersMenu] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
@@ -123,6 +124,9 @@ const Sidebar = ({
                 </StyledLink>
               );
             })}
+            <StyledLink to={viewAllPath}>
+              <SubCategory>View all</SubCategory>
+            </StyledLink>
           </Subcategories>
         </SubcategoriesWrapper>
       )}
