@@ -10,6 +10,7 @@ export const DetailsContainer = styled.div`
   max-height: 390px;
   margin-bottom: 40px;
   width: 100%;
+  overflow: scroll;
 
   > div {
     width: 100%;

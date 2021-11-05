@@ -18,7 +18,6 @@ export const ProductImage = styled.div`
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${colors.gray.light};
-  cursor: pointer;
 
   > img {
     width: 100%;
@@ -31,7 +30,7 @@ export const ProductWrapper = styled.div`
   display: flex;
   padding: 15px;
   align-items: flex-start;
-
+  cursor: pointer;
   position: relative;
 
   :not(:last-child) {

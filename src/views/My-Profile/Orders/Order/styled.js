@@ -3,7 +3,7 @@ import { colors } from 'styles';
 
 export const OrderWrapper = styled.div`
   border: 1px solid ${colors.gray.light};
-  padding: 10px;
+
   width: 100%;
   border-radius: 7px;
   position: relative;
@@ -19,6 +19,7 @@ export const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 
   > h1 {
     font-size: 17px;
@@ -30,6 +31,7 @@ export const Dropdown = styled.div`
   width: 100%;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   margin-top: 15px;
+  padding: 10px;
 `;
 
 export const IconContainer = styled.div`

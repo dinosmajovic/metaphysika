@@ -128,28 +128,31 @@ const Routing = () => {
         path="/resetPassword/:token?"
         component={resetPassword}
       />
+
       <PublicRoute
         exact
-        path="/brands/:brandName?/:productName?"
-        render={({ match }) => {
-          const { brandName, productName } = match.params || {};
-
-          if (brandName && productName) {
-            return <Product />;
-          }
-
-          if (brandName && !productName) {
-            return <Products />;
-          }
-
-          return <Error />;
-        }}
+        path="/brands/:brandName/name=:productName?"
+        component={Product}
       />
+
       <PublicRoute
         exact
-        path="/categories/:categoryName?/:subcategoryName?"
+        path="/brands/:brandName?/:page?"
         component={Products}
       />
+
+      <PublicRoute
+        exact
+        path="/categories/:categoryName?/:subcategoryName?/:page?"
+        component={Products}
+      />
+
+      <PublicRoute
+        exact
+        path="/categories/:categoryName?/:page?"
+        component={Products}
+      />
+
       <PublicRoute path="*" exact component={Error} />
     </Switch>
   );

@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   position: relative;
-
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -66,4 +66,8 @@ export const LoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

@@ -83,7 +83,7 @@ const Product = ({ product, setLoading }) => {
 
         const brandPath = data.path;
 
-        history.push(`/brands/${brandPath}/${product.path}`);
+        history.push(`/brands/${brandPath}/name=${product.path}`);
       } catch (error) {
         history.push(errorPath);
       }

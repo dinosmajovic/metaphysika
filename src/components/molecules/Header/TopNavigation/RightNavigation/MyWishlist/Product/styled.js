@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
 import fonts from 'assets/fonts';
+import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -78,4 +79,8 @@ export const DeleteWrapper = styled.div`
 export const ProductDescription = styled.span`
   max-width: 150px;
   font-size: 12px;
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

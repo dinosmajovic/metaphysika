@@ -43,6 +43,7 @@ const Order = ({ orders, order, setOrders }) => {
           )}
         </IconContainer>
       </Title>
+
       <Dropdown isOpen={order.isOpen}>
         <Summary order={order} />
         <Bag products={order.bagProducts} />

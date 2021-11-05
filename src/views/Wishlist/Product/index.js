@@ -7,13 +7,13 @@ import {
   LoadingWrapper
 } from './styled';
 import closeModalIcon from 'assets/icons/modalClose.svg';
-import { Link } from 'react-router-dom';
 import transformProductName from 'constants/transformProductName';
 import { useDispatch, useSelector } from 'react-redux';
 import reduceTitleLength from 'constants/reduceTitleLength';
 import { deleteFromWishlist } from 'state/wishlist';
 import { useState } from 'react';
 import Loader from 'components/atoms/Loader/index';
+import { StyledLink } from './styled';
 
 const Product = ({ product, isError }) => {
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
@@ -29,30 +29,32 @@ const Product = ({ product, isError }) => {
     setIsWishlistLoading(false);
   }
 
-  return (
-    <Container>
-      {isWishlistLoading ? (
+  if (isWishlistLoading) {
+    return (
+      <Container>
         <LoadingWrapper>
           <Loader />
         </LoadingWrapper>
-      ) : (
-        <>
-          <DeleteProduct onClick={() => onAddOrDeleteFromWishlist(product.id)}>
-            <img src={closeModalIcon} alt="delete icon" />
-          </DeleteProduct>
-          <Link to={`/brands/${product.brandPath}/${product.path}`}>
-            <ProductImage>
-              <img src={product.mainImg} alt="product" />
-            </ProductImage>
-          </Link>
-          <ProductName>
-            {reduceTitleLength(transformProductName(product.name), 20)}
-          </ProductName>
-          <ProductDescription>
-            {reduceTitleLength(product.description, 185)}
-          </ProductDescription>
-        </>
-      )}
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <DeleteProduct onClick={() => onAddOrDeleteFromWishlist(product.id)}>
+        <img src={closeModalIcon} alt="delete icon" />
+      </DeleteProduct>
+      <StyledLink to={`/brands/${product.brandPath}/name=${product.path}`}>
+        <ProductImage>
+          <img src={product.mainImg} alt="product" />
+        </ProductImage>
+      </StyledLink>
+      <ProductName>
+        {reduceTitleLength(transformProductName(product.name), 20)}
+      </ProductName>
+      <ProductDescription>
+        {reduceTitleLength(product.description, 185)}
+      </ProductDescription>
     </Container>
   );
 };

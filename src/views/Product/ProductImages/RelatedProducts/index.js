@@ -16,7 +16,7 @@ const RelatedProducts = ({ relatedProducts }) => {
         }
       });
 
-      history.push(`/brands/${brand.data.path}/${relatedProduct.path}`);
+      history.push(`/brands/${brand.data.path}/name=${relatedProduct.path}`);
     } catch (error) {
       history.push(errorPath);
     }

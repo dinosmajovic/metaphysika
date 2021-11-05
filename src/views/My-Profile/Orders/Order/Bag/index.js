@@ -13,7 +13,7 @@ const Bag = ({ products }) => {
     <Container>
       {products.map((product) => {
         return (
-          <Product>
+          <Product key={product.bagId}>
             <ProductImage>
               <img src={product.mainImg} alt="product" />
             </ProductImage>

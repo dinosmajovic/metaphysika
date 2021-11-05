@@ -3,15 +3,13 @@ import {
   ProductOptions,
   ProductOption,
   ProductPrice,
-  DeleteWrapper,
   Title
 } from './styled';
 import transformProductName from 'constants/transformProductName';
 import shortenText from 'constants/reduceTitleLength';
-import xIcon from 'assets/icons/modalClose.svg';
 import useWindowSize from 'hooks/useWindowSize';
 
-const ProductInfo = ({ product, options, onProductDelete }) => {
+const ProductInfo = ({ options, product }) => {
   const windowWidth = useWindowSize().width;
 
   return (
@@ -23,9 +21,6 @@ const ProductInfo = ({ product, options, onProductDelete }) => {
             windowWidth > 600 ? 30 : 14
           )}
         </span>
-        <DeleteWrapper onClick={() => onProductDelete(product)}>
-          <img src={xIcon} alt="x icon" />
-        </DeleteWrapper>
       </Title>
       <ProductOptions>
         {options.map((option) => {

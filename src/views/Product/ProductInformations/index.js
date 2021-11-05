@@ -65,7 +65,7 @@ const ProductInformations = ({ product, options, setOptions }) => {
       addedProduct.size = options[0].value;
       addedProduct.quantity = options[1].value;
       addedProduct.bagId = uniqid();
-      addedProduct.pathToProduct = `/brands/${params.brandName}/${params.productName}`;
+      addedProduct.pathToProduct = `/brands/${params.brandName}/name=${params.productName}`;
 
       dispatch(addProduct(addedProduct));
     } else {

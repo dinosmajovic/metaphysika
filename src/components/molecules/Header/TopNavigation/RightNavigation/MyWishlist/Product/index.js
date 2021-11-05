@@ -1,8 +1,6 @@
 import transformProductName from 'constants/transformProductName';
 import deleteIcon from 'assets/icons/modalClose.svg';
-import { Link } from 'react-router-dom';
 import { deleteFromWishlist } from 'state/wishlist';
-
 import {
   Wrapper,
   ProductWrapper,
@@ -11,7 +9,8 @@ import {
   ProductName,
   DeleteWrapper,
   ProductPrice,
-  ProductDescription
+  ProductDescription,
+  StyledLink
 } from './styled';
 import shortenText from 'constants/reduceTitleLength';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,22 +28,23 @@ const Product = ({ product }) => {
       <DeleteWrapper onClick={() => onAddOrDeleteFromWishlist(product.id)}>
         <img src={deleteIcon} alt="delete from wishlist" />
       </DeleteWrapper>
-      <ProductWrapper>
-        <Link to={`/brands/${product.brand.path}/${product.path}`}>
+      <StyledLink to={`/brands/${product.brand.path}/name=${product.path}`}>
+        <ProductWrapper>
           <ProductImage>
             <img src={product.mainImg} alt="product" />
           </ProductImage>
-        </Link>
-        <ProductInfo>
-          <ProductName>
-            {shortenText(transformProductName(product.name), 14)}
-          </ProductName>
-          <ProductDescription>
-            {shortenText(product.description, 40)}
-          </ProductDescription>
-          <ProductPrice>{product.price}</ProductPrice>
-        </ProductInfo>
-      </ProductWrapper>
+
+          <ProductInfo>
+            <ProductName>
+              {shortenText(transformProductName(product.name), 14)}
+            </ProductName>
+            <ProductDescription>
+              {shortenText(product.description, 40)}
+            </ProductDescription>
+            <ProductPrice>{product.price} KM</ProductPrice>
+          </ProductInfo>
+        </ProductWrapper>
+      </StyledLink>
     </Wrapper>
   );
 };

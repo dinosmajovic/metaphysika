@@ -1,8 +1,14 @@
-import { Container, ProductWrapper, ProductImage } from './styled';
+import {
+  Container,
+  ProductWrapper,
+  ProductImage,
+  StyledLink,
+  DeleteWrapper
+} from './styled';
 import ProductInfo from './ProductInfo';
-import { Link } from 'react-router-dom';
 import { deleteProduct } from 'state/bag';
 import { useDispatch } from 'react-redux';
+import xIcon from 'assets/icons/modalClose.svg';
 
 const Product = ({ product }) => {
   const options = [
@@ -28,18 +34,17 @@ const Product = ({ product }) => {
 
   return (
     <Container>
-      <ProductWrapper>
-        <Link to={product.pathToProduct}>
+      <DeleteWrapper onClick={() => onProductDelete(product.id)}>
+        <img src={xIcon} alt="x icon" />
+      </DeleteWrapper>
+      <StyledLink to={product.pathToProduct}>
+        <ProductWrapper>
           <ProductImage>
             <img src={product.mainImg} alt="product" />
           </ProductImage>
-        </Link>
-        <ProductInfo
-          options={options}
-          product={product}
-          onProductDelete={onProductDelete}
-        />
-      </ProductWrapper>
+          <ProductInfo options={options} product={product} />
+        </ProductWrapper>
+      </StyledLink>
     </Container>
   );
 };

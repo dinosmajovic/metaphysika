@@ -10,6 +10,7 @@ import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
 import { useSelector } from 'react-redux';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
+import useWindowSize from 'hooks/useWindowSize';
 
 const Products = () => {
   const history = useHistory();
@@ -69,6 +70,7 @@ const Products = () => {
   ]);
   const { token, isAuthenticated } = useSelector((state) => state.user);
   const [viewAllPath, setViewAllPath] = useState(null);
+  const windowWidth = useWindowSize().width;
 
   useEffect(() => {
     const isCategoryChanged = true;
@@ -255,6 +257,17 @@ const Products = () => {
     const isCategoryChanged = false;
     setCurrentPage(1);
     fetchProducts(isCategoryChanged, 1, filters);
+
+    if (windowWidth <= 1024) {
+      const resetedFilterDropdowns = allFilters.map((f) => {
+        return {
+          ...f,
+          isOpen: false
+        };
+      });
+
+      setAllFilters(resetedFilterDropdowns);
+    }
   };
 
   const paginate = (currentPage) => {

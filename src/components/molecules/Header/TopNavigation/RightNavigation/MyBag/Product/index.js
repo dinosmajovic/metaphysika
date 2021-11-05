@@ -36,7 +36,7 @@ const Product = ({ product }) => {
         }
       });
 
-      history.push(`/brands/${brand.data.path}/${product.path}`);
+      history.push(`/brands/${brand.data.path}/name=${product.path}`);
     } catch (error) {
       history.push(errorPath);
     }
@@ -47,8 +47,8 @@ const Product = ({ product }) => {
       <DeleteWrapper onClick={() => onProductDelete(product.bagId)}>
         <img src={xIcon} alt="x icon" />
       </DeleteWrapper>
-      <ProductWrapper>
-        <ProductImage onClick={() => onGoToProduct(product)}>
+      <ProductWrapper onClick={() => onGoToProduct(product)}>
+        <ProductImage>
           <img src={product.mainImg} alt="product" />
         </ProductImage>
         <ProductInfo>

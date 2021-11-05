@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { colors } from 'styles';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
+  position: relative;
+
   :not(:last-child) {
     border-bottom: 1px solid ${colors.gray.light};
   }
@@ -37,7 +40,7 @@ export const ProductImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid ${colors.gray.light};
+
   margin-right: 25px;
   cursor: pointer;
 
@@ -54,5 +57,26 @@ export const ProductImage = styled.div`
 
   @media (max-width: 400px) {
     margin-right: 10px;
+  }
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
+export const DeleteWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  z-index: 11;
+  cursor: pointer;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;

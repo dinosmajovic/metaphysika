@@ -22,30 +22,20 @@ export const Picture = styled.div`
   width: 250px;
   height: 250px;
 
-  :hover,
-  :active {
-    border: 1px solid ${colors.gray.light};
-    border-radius: 5px;
-  }
-
   > img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
+  :active {
+    border: 1px solid ${colors.gray.light};
+    border-radius: 5px;
+  }
+
   @media (max-width: 600px) {
     width: 170px;
     height: 170px;
-
-    :hover {
-      border: none;
-    }
-
-    :active {
-      border: 1px solid ${colors.gray.light};
-      border-radius: 5px;
-    }
   }
 
   @media (max-width: 400px) {
