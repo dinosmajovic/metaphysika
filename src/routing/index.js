@@ -131,27 +131,23 @@ const Routing = () => {
 
       <PublicRoute
         exact
+        path="/categories/:categoryName/:subcategoryName"
+        component={Products}
+      />
+
+      <PublicRoute
+        exact
         path="/brands/:brandName/name=:productName?"
         component={Product}
       />
 
       <PublicRoute
         exact
-        path="/brands/:brandName?/:page?"
+        path="/categories/:categoryName"
         component={Products}
       />
 
-      <PublicRoute
-        exact
-        path="/categories/:categoryName?/:subcategoryName?/:page?"
-        component={Products}
-      />
-
-      <PublicRoute
-        exact
-        path="/categories/:categoryName?/:page?"
-        component={Products}
-      />
+      <PublicRoute exact path="/brands/:brandName" component={Products} />
 
       <PublicRoute path="*" exact component={Error} />
     </Switch>

@@ -16,7 +16,6 @@ const Products = () => {
   const history = useHistory();
   const params = useParams();
   const { brandName, categoryName, subcategoryName } = params || {};
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalProductsCount, setTotalProductsCount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState(null);
@@ -71,14 +70,26 @@ const Products = () => {
   const { token, isAuthenticated } = useSelector((state) => state.user);
   const [viewAllPath, setViewAllPath] = useState(null);
   const windowWidth = useWindowSize().width;
+  const page = params.page ? parseInt(params.page) : 1;
+
+  console.log(history);
+
+  useEffect(() => {
+    const isCategoryChanged = false;
+    fetchProducts(isCategoryChanged, page, appliedFilters);
+  }, [page, isAuthenticated]);
+
+  useEffect(() => {
+    const isCategoryChanged = false;
+    fetchProducts(isCategoryChanged, page, appliedFilters);
+  }, [page, isAuthenticated]);
 
   useEffect(() => {
     const isCategoryChanged = true;
     setAppliedFilters({});
-    setCurrentPage(1);
-    fetchProducts(isCategoryChanged, 1, {});
+    fetchProducts(isCategoryChanged, page, {});
     setFilters({});
-  }, [params, isAuthenticated]); // eslint-disable-line
+  }, [brandName, categoryName, subcategoryName, isAuthenticated]); // eslint-disable-line
 
   const fetchProducts = (
     isCategoryChanged,
@@ -255,7 +266,6 @@ const Products = () => {
   const onApplyFilters = (filters) => {
     setAppliedFilters(filters);
     const isCategoryChanged = false;
-    setCurrentPage(1);
     fetchProducts(isCategoryChanged, 1, filters);
 
     if (windowWidth <= 1024) {
@@ -268,13 +278,32 @@ const Products = () => {
 
       setAllFilters(resetedFilterDropdowns);
     }
+
+    if (categoryName && !subcategoryName) {
+      history.push(`/categories/${categoryName}/1`);
+    } else if (categoryName && subcategoryName) {
+      history.push(
+        `/categories/${categoryName}/subcategory=${subcategoryName}/1`
+      );
+    } else if (brandName) {
+      history.push(`/brands/${brandName}/1`);
+    }
+
+    console.log(history);
   };
 
-  const paginate = (currentPage) => {
+  const paginate = (newPage) => {
     window.scrollTo(0, 0);
-    const isCategoryChanged = false;
-    fetchProducts(isCategoryChanged, currentPage, appliedFilters);
-    setCurrentPage(currentPage);
+
+    if (categoryName && !subcategoryName) {
+      history.push(`/categories/${categoryName}/${newPage}`);
+    } else if (categoryName && subcategoryName) {
+      history.push(
+        `/categories/${categoryName}/subcategory=${subcategoryName}/${newPage}`
+      );
+    } else if (brandName) {
+      history.push(`/brands/${brandName}/${newPage}`);
+    }
   };
 
   const onSortProducts = (sortType) => {
@@ -288,6 +317,16 @@ const Products = () => {
     setSortOptions(newSortOptions);
     setSortType(sortType);
     fetchProducts(false, 1, {}, sortType);
+
+    if (categoryName && !subcategoryName) {
+      history.push(`/categories/${categoryName}/1`);
+    } else if (categoryName && subcategoryName) {
+      history.push(
+        `/categories/${categoryName}/subcategory=${subcategoryName}/1`
+      );
+    } else if (brandName) {
+      history.push(`/brands/${brandName}/1`);
+    }
   };
 
   if (loading) {
@@ -318,7 +357,7 @@ const Products = () => {
         <Pagination
           productsPerPage={productsPerPage}
           totalProductsCount={totalProductsCount}
-          currentPage={currentPage}
+          page={page}
           paginate={paginate}
         />
       </ProductsWrapper>

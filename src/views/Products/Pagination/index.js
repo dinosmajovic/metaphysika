@@ -3,7 +3,7 @@ const Pagination = ({
   totalProductsCount,
   productsPerPage,
   paginate,
-  currentPage
+  page
 }) => {
   const buttonNumbers = [];
 
@@ -19,7 +19,7 @@ const Pagination = ({
   });
 
   if (numbers.length > 0) {
-    numbers[currentPage - 1].isClicked = true;
+    numbers[page - 1].isClicked = true;
   }
 
   return (
