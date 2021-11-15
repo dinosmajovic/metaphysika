@@ -31,29 +31,25 @@ const Products = () => {
   const [subcategories, setSubcategories] = useState(null);
   const [pagination, setPagination] = useState(null);
   const [appliedFilters, setAppliedFilters] = useState({});
-  const [sortType, setSortType] = useState('creation-time-descending'); // eslint-disable-line
   const [sortOptions, setSortOptions] = useState([
     {
       label: 'Newest to oldest',
-      sortType: 'creation-time-descending',
-      isClicked: true
+      sortType: 'creation-time-descending'
     },
     {
       label: 'Oldest to newest',
-      sortType: 'creation-time-ascending',
-      isClicked: false
+      sortType: 'creation-time-ascending'
     },
     {
       label: 'Price high to low',
-      sortType: 'price-high-to-low',
-      isClicked: false
+      sortType: 'price-high-to-low'
     },
     {
       label: 'Price low to high',
-      sortType: 'price-low-to-high',
-      isClicked: false
+      sortType: 'price-low-to-high'
     }
   ]);
+  const sortType = queries.sort || 'creation-time-descending';
 
   useEffect(() => {
     fetchProducts();
@@ -252,38 +248,55 @@ const Products = () => {
   const paginate = (newPage) => {
     window.scrollTo(0, 0);
 
-    if (categoryName && !subcategoryName) {
-      history.push(`/categories/${categoryName}/${newPage}`);
-    } else if (categoryName && subcategoryName) {
-      history.push(
-        `/categories/${categoryName}/subcategory=${subcategoryName}/${newPage}`
-      );
-    } else if (brandName) {
-      history.push(`/brands/${brandName}/${newPage}`);
+    let newQuery = '';
+
+    newQuery = `&page=${newPage}`;
+
+    if (queries.sort) {
+      newQuery = `${newQuery}&sort=${queries.sort}`;
     }
+
+    if (queries.size) {
+      newQuery = `${newQuery}&size=${queries.size}`;
+    }
+
+    if (queries.color) {
+      newQuery = `${newQuery}&color=${queries.color}`;
+    }
+
+    if (queries.brand) {
+      newQuery = `${newQuery}&brand=${queries.brand}`;
+    }
+
+    const fullPath = `${pathname}?${newQuery}`;
+    history.push(fullPath);
   };
 
   const onSortProducts = (sortType) => {
-    const newSortOptions = sortOptions.map((option) => {
-      return {
-        ...option,
-        isClicked: option.sortType === sortType ? true : false
-      };
-    });
+    window.scrollTo(0, 0);
 
-    setSortOptions(newSortOptions);
-    setSortType(sortType);
-    fetchProducts(false, 1, {}, sortType);
+    let newQuery = '';
 
-    if (categoryName && !subcategoryName) {
-      history.push(`/categories/${categoryName}/1`);
-    } else if (categoryName && subcategoryName) {
-      history.push(
-        `/categories/${categoryName}/subcategory=${subcategoryName}/1`
-      );
-    } else if (brandName) {
-      history.push(`/brands/${brandName}/1`);
+    if (queries.page) {
+      newQuery = `${newQuery}&page=${queries.page}`;
     }
+
+    newQuery = `${newQuery}&sort=${sortType}`;
+
+    if (queries.size) {
+      newQuery = `${newQuery}&size=${queries.size}`;
+    }
+
+    if (queries.color) {
+      newQuery = `${newQuery}&color=${queries.color}`;
+    }
+
+    if (queries.brand) {
+      newQuery = `${newQuery}&brand=${queries.brand}`;
+    }
+
+    const fullPath = `${pathname}?${newQuery}`;
+    history.push(fullPath);
   };
 
   if (isLoading) {
@@ -297,6 +310,7 @@ const Products = () => {
       <ProductsWrapper>
         <Header
           label={label}
+          sortType={sortType}
           sortOptions={sortOptions}
           onSortProducts={onSortProducts}
         />

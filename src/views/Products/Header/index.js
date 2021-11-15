@@ -9,7 +9,7 @@ import {
 } from './styled';
 import arrowDown from 'assets/icons/arrowDown.svg';
 
-const Sort = ({ label, sortOptions, onSortProducts }) => {
+const Sort = ({ label, sortOptions, onSortProducts, sortType }) => {
   return (
     <Wrapper>
       <h1>{label}</h1>
@@ -25,7 +25,7 @@ const Sort = ({ label, sortOptions, onSortProducts }) => {
           {sortOptions.map((sort) => (
             <SortOption
               key={sort.sortType}
-              isClicked={sort.isClicked}
+              isClicked={sort.sortType === sortType}
               onClick={() => onSortProducts(sort.sortType)}
             >
               {sort.label}

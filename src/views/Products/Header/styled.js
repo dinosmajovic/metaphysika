@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
 export const SortOptions = styled.div`
   position: absolute;
   z-index: 10;
-  top: 29px;
+  top: 28px;
   width: 100%;
   border: 1px solid ${colors.gray.light};
   display: flex;
