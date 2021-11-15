@@ -1,5 +1,3 @@
-/*eslint default-case: ["error", { "commentPattern": "^skip\\sdefault" }]*/
-
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { ProductsWrapper } from './styled';
@@ -62,54 +60,50 @@ const Products = () => {
   }, [pathname, search, isAuthenticated]); // eslint-disable-line
 
   useEffect(() => {
-    setIsLoading(true);
-
     const queryFilters = queryString.parse(location.search, {
       arrayFormat: 'comma'
     });
 
     const { page, sort, ...otherFilters } = queryFilters;
 
-    switch (otherFilters) {
-      case otherFilters.color === 'string':
-        otherFilters.color = convertStringIntoArray(otherFilters.color);
-        break;
-      // skip default case
-    }
-
     if (typeof otherFilters.color === 'string') {
-      const convertedString = convertStringIntoArray(otherFilters.color);
-
-      otherFilters.color = convertedString;
+      otherFilters.color = convertStringIntoArray(otherFilters.color);
     }
-
     if (typeof otherFilters.size === 'string') {
-      const convertedString = convertStringIntoArray(otherFilters.size);
-
-      otherFilters.size = convertedString;
+      otherFilters.size = convertStringIntoArray(otherFilters.size);
     }
-
     if (typeof otherFilters.brand === 'string') {
-      const convertedString = convertStringIntoArray(otherFilters.brand);
-
-      otherFilters.brand = convertedString;
+      otherFilters.brand = convertStringIntoArray(otherFilters.brand);
     }
 
     if (otherFilters.brand) {
-      const brandNames = getBrandNames();
-
-      console.log(brandNames);
+      getBrandNames(otherFilters.brand).then((result) => {
+        otherFilters.brand = result;
+      });
     }
 
     setAppliedFilters(otherFilters);
-    setIsLoading(false);
-  }, []); // eslint-disable-line
+  }, [search]); // eslint-disable-line
 
   const convertStringIntoArray = (string) => {
     const arr = [];
     arr.push(string);
 
     return arr;
+  };
+
+  const getBrandNames = async (brandNames) => {
+    try {
+      const { data } = await axios.get('/getBrandNames', {
+        params: {
+          paths: brandNames
+        }
+      });
+
+      return data;
+    } catch (error) {
+      history.push(errorPath);
+    }
   };
 
   const fetchProducts = () => {
@@ -121,20 +115,6 @@ const Products = () => {
     } else if (brandName) {
       // getProductsByBrand();
       console.log('fetch brand');
-    }
-  };
-
-  const getBrandNames = async () => {
-    try {
-      const { data } = await axios.get('/getBrandLabel', {
-        params: {
-          names: appliedFilters.brand
-        }
-      });
-
-      console.log(data);
-    } catch (error) {
-      history.push(errorPath);
     }
   };
 
