@@ -129,8 +129,7 @@ const Products = () => {
     } else if (categoryName && subcategoryName) {
       getSubcategoryProducts();
     } else if (brandName) {
-      // getProductsByBrand();
-      console.log('fetch brand');
+      getBrandProducts();
     }
   };
 
@@ -192,47 +191,40 @@ const Products = () => {
       setViewAllPath(data.viewAllPath);
       setIsLoading(false);
     } catch {
-      // history.push(errorPath);
+      history.push(errorPath);
       setIsLoading(false);
     }
-    //   try {
-    //     let result = await axios.post('/products/subcategory', {
-    //       subcategoryName,
-    //       categoryName,
-    //       orderType: 'default',
-    //       currentPage,
-    //       productsPerPage,
-    //       isCategoryChanged,
-    //       filters,
-    //       sortType,
-    //       token
-    //     });
-    //     // setViewAllPath(result.data.path);
-    //     label = result.data.subcategoryName;
-    //     setProducts(result.data.products);
-    //     totalProductsCount = result.data.totalProductsCount;
-    //     if (result.data.subcategories) {
-    //       subcategories = result.data.subcategories;
-    //     }
-    //     if (result.data.allFilters) {
-    //       const fetchedFilters = result.data.allFilters;
-    //       const brandNames = fetchedFilters.brands
-    //         .map((brand) => {
-    //           return brand.name;
-    //         })
-    //         .sort();
-    //       const newFilters = [...allFilters];
-    //       newFilters[0].filters = fetchedFilters.sizes;
-    //       newFilters[1].filters = brandNames;
-    //       newFilters[2].filters = fetchedFilters.colors;
-    //       setAllFilters(newFilters);
-    //       setFilters(result.data.allFilters);
-    //     }
-    //     setIsLoading(false);
-    //   } catch (error) {
-    //     history.push(errorPath);
-    //   }
-    // };
+  };
+
+  const getBrandProducts = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post(`/products/brand${search}`, {
+        brandName,
+        token
+      });
+
+      data.allFilters.brands = data.allFilters.brands
+        .map((brand) => brand.name)
+        .sort();
+
+      const newFilters = [...filtersObject];
+
+      newFilters[0].values = data.allFilters.sizes;
+      newFilters[1].values = data.allFilters.brands;
+      newFilters[2].values = data.allFilters.colors;
+
+      setFilters(newFilters);
+      setLabel(data.categoryName);
+      setProducts(data.products);
+      setSubcategories(data.subcategories);
+      setPagination(data.pagination);
+      setViewAllPath(data.viewAllPath);
+      setIsLoading(false);
+    } catch {
+      history.push(errorPath);
+      setIsLoading(false);
+    }
   };
 
   const closeSidebarDropdowns = () => {
@@ -395,12 +387,14 @@ const Products = () => {
           queries={queries}
         />
         <ProductsGrid products={products} setIsLoading={setIsLoading} />
-        <Pagination
-          productsPerPage={pagination?.productsPerPage}
-          totalProductsCount={pagination?.totalProductsCount}
-          page={pagination?.page}
-          paginate={paginate}
-        />
+        {products.length > 0 && (
+          <Pagination
+            productsPerPage={pagination?.productsPerPage}
+            totalProductsCount={pagination?.totalProductsCount}
+            page={parseInt(queries.page) || 1}
+            paginate={paginate}
+          />
+        )}
       </ProductsWrapper>
     );
   }

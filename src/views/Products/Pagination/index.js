@@ -11,27 +11,16 @@ const Pagination = ({
     buttonNumbers.push(i);
   }
 
-  const numbers = buttonNumbers.map((num) => {
-    return {
-      number: num,
-      isClicked: false
-    };
-  });
-
-  if (numbers.length > 0) {
-    numbers[page - 1].isClicked = true;
-  }
-
   return (
     <ButtonsWrapper>
-      {numbers.map((n) => {
+      {buttonNumbers.map((number) => {
         return (
           <Button
-            key={n.number}
-            onClick={() => paginate(n.number)}
-            isClicked={n.isClicked}
+            key={number}
+            onClick={() => paginate(number)}
+            isClicked={number === page}
           >
-            <span>{n.number}</span>
+            <span>{number}</span>
           </Button>
         );
       })}
