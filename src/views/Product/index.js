@@ -72,18 +72,17 @@ const Product = () => {
   }, [product]);
 
   const onCloseDropdowns = (event) => {
-    // console.log(event.target.className.includes('dropdown'));
-    // if (event.target.className.includes('dropdown')) {
-    //   return null;
-    // } else {
-    //   const newOptions = options.map((option) => {
-    //     return {
-    //       ...option,
-    //       isOpen: false
-    //     };
-    //   });
-    //   setOptions(newOptions);
-    // }
+    if (event.target.className.includes('dropdown')) {
+      return null;
+    } else {
+      const newOptions = options.map((option) => {
+        return {
+          ...option,
+          isOpen: false
+        };
+      });
+      setOptions(newOptions);
+    }
   };
 
   const onOpenModal = () => {

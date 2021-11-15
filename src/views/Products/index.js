@@ -31,7 +31,7 @@ const Products = () => {
   const [subcategories, setSubcategories] = useState(null);
   const [pagination, setPagination] = useState(null);
   const [appliedFilters, setAppliedFilters] = useState({});
-  const [sortOptions, setSortOptions] = useState([
+  const sortOptions = [
     {
       label: 'Newest to oldest',
       sortType: 'creation-time-descending'
@@ -48,7 +48,28 @@ const Products = () => {
       label: 'Price low to high',
       sortType: 'price-low-to-high'
     }
-  ]);
+  ];
+  const filtersObject = [
+    {
+      name: 'Size',
+      label: 'size',
+      isOpen: false,
+      values: null
+    },
+    {
+      name: 'Brand',
+      label: 'brand',
+      isOpen: false,
+      values: null
+    },
+    {
+      name: 'Color',
+      label: 'color',
+      isOpen: false,
+      values: null
+    }
+  ];
+
   const sortType = queries.sort || 'creation-time-descending';
 
   useEffect(() => {
@@ -106,8 +127,7 @@ const Products = () => {
     if (categoryName && !subcategoryName) {
       getCategoryProducts();
     } else if (categoryName && subcategoryName) {
-      // getProductsBySubcategory()
-      console.log('fetch subcategory');
+      getSubcategoryProducts();
     } else if (brandName) {
       // getProductsByBrand();
       console.log('fetch brand');
@@ -122,37 +142,17 @@ const Products = () => {
         token
       });
 
-      data.allFilters &&
-        (data.allFilters.brands = data.allFilters.brands =
-          data.allFilters.brands.map((brand) => brand.name).sort());
+      data.allFilters.brands = data.allFilters.brands
+        .map((brand) => brand.name)
+        .sort();
 
-      if (data.allFilters) {
-        const filters = [
-          {
-            name: 'Size',
-            label: 'size',
-            isOpen: false,
-            values: data.allFilters.sizes
-          },
-          {
-            name: 'Brand',
-            label: 'brand',
-            isOpen: false,
-            values: data.allFilters.brands
-          },
-          {
-            name: 'Color',
-            label: 'color',
-            isOpen: false,
-            values: data.allFilters.colors
-          }
-        ];
+      const newFilters = [...filtersObject];
 
-        setFilters(filters);
-      } else {
-        setFilters(null);
-      }
+      newFilters[0].values = data.allFilters.sizes;
+      newFilters[1].values = data.allFilters.brands;
+      newFilters[2].values = data.allFilters.colors;
 
+      setFilters(newFilters);
       setLabel(data.categoryName);
       setProducts(data.products);
       setSubcategories(data.subcategories);
@@ -163,6 +163,76 @@ const Products = () => {
       history.push(errorPath);
       setIsLoading(false);
     }
+  };
+
+  const getSubcategoryProducts = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post(`/products/subcategory${search}`, {
+        categoryName,
+        subcategoryName,
+        token
+      });
+
+      data.allFilters.brands = data.allFilters.brands
+        .map((brand) => brand.name)
+        .sort();
+
+      const newFilters = [...filtersObject];
+
+      newFilters[0].values = data.allFilters.sizes;
+      newFilters[1].values = data.allFilters.brands;
+      newFilters[2].values = data.allFilters.colors;
+
+      setFilters(newFilters);
+      setLabel(data.categoryName);
+      setProducts(data.products);
+      setSubcategories(data.subcategories);
+      setPagination(data.pagination);
+      setViewAllPath(data.viewAllPath);
+      setIsLoading(false);
+    } catch {
+      // history.push(errorPath);
+      setIsLoading(false);
+    }
+    //   try {
+    //     let result = await axios.post('/products/subcategory', {
+    //       subcategoryName,
+    //       categoryName,
+    //       orderType: 'default',
+    //       currentPage,
+    //       productsPerPage,
+    //       isCategoryChanged,
+    //       filters,
+    //       sortType,
+    //       token
+    //     });
+    //     // setViewAllPath(result.data.path);
+    //     label = result.data.subcategoryName;
+    //     setProducts(result.data.products);
+    //     totalProductsCount = result.data.totalProductsCount;
+    //     if (result.data.subcategories) {
+    //       subcategories = result.data.subcategories;
+    //     }
+    //     if (result.data.allFilters) {
+    //       const fetchedFilters = result.data.allFilters;
+    //       const brandNames = fetchedFilters.brands
+    //         .map((brand) => {
+    //           return brand.name;
+    //         })
+    //         .sort();
+    //       const newFilters = [...allFilters];
+    //       newFilters[0].filters = fetchedFilters.sizes;
+    //       newFilters[1].filters = brandNames;
+    //       newFilters[2].filters = fetchedFilters.colors;
+    //       setAllFilters(newFilters);
+    //       setFilters(result.data.allFilters);
+    //     }
+    //     setIsLoading(false);
+    //   } catch (error) {
+    //     history.push(errorPath);
+    //   }
+    // };
   };
 
   const closeSidebarDropdowns = () => {

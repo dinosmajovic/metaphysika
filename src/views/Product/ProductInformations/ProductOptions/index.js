@@ -8,24 +8,22 @@ const ProductOptions = ({
   onOptionValueClick,
   isInputErrorMessage
 }) => {
-  const { ref } = useComponentVisible(true);
-
-  // const { ref, isComponentVisible } = useComponentVisible(true);
-  // console.log(isComponentVisible);
-
   return (
     <Options>
       {options.map((option) => (
-        <Option key={option.label}>
-          <h2>{option.label}</h2>
-          <div>
-            <Dropdown onClick={() => onDropDownInputClick(option.label)}>
-              <h2> {option.value}</h2>
-              <div>
-                <img src={arrowDown} alt="arrow" />
+        <Option key={option.label} className="dropdown">
+          <h2 className="dropdown">{option.label}</h2>
+          <div className="dropdown">
+            <Dropdown
+              onClick={() => onDropDownInputClick(option.label)}
+              className="dropdown"
+            >
+              <h2 className="dropdown"> {option.value}</h2>
+              <div className="dropdown">
+                <img src={arrowDown} alt="arrow" className="dropdown" />
               </div>
             </Dropdown>
-            <DropdownMenu isOpen={option.isOpen} ref={ref}>
+            <DropdownMenu className="dropdown" isOpen={option.isOpen}>
               {option.values.map((value) => {
                 return (
                   <span
