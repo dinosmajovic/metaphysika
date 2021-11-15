@@ -23,7 +23,7 @@ import Loader from 'components/atoms/Loader/index';
 import { onOpenLogInModal } from 'state/modal';
 import { errorPath } from 'constants/routes/index';
 
-const Product = ({ product, setLoading }) => {
+const Product = ({ product, setIsLoading }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { token, isAuthenticated } = useSelector((state) => state.user);
@@ -70,7 +70,7 @@ const Product = ({ product, setLoading }) => {
 
   const onPushProduct = async (product, event) => {
     if (!event.target.className.includes('like')) {
-      setLoading(true);
+      setIsLoading(true);
 
       const brandId = product.brandId;
 

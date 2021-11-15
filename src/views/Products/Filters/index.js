@@ -11,77 +11,88 @@ import closePinkIcon from 'assets/icons/closePink.svg';
 
 const Filter = ({
   filter,
-  label,
-  filters,
-  onSelectFilter,
-  appliedFilter,
-  allFilters,
-  setAllFilters
+  onOpenFilterMenu,
+  onSelectFilterValue,
+  appliedFilter
 }) => {
-  const onFilterSelect = (label) => {
-    const filterIndex = allFilters.findIndex((f) => f.label === label);
-
-    const newFilters = [...allFilters];
-    newFilters[filterIndex].isOpen = !newFilters[filterIndex].isOpen;
-
-    setAllFilters(newFilters);
-  };
-
   return (
-    <FilterWrapper className="sidebar">
+    <FilterWrapper>
       <FilterHeader
-        onClick={() => onFilterSelect(label)}
-        className="sidebar"
+        onClick={() => onOpenFilterMenu(filter.name)}
         isOpen={filter.isOpen}
       >
-        <span className="sidebar">{label}</span>
-        <div className="sidebar">
-          <img src={plus} alt="+" className="sidebar" />
+        <span>{filter.name}</span>
+        <div>
+          <img src={plus} alt="icon" />
         </div>
       </FilterHeader>
-
-      <FilterItems isOpen={filter.isOpen} className="sidebar">
-        {filters.map((filter, index) => (
-          <FilterItem
-            key={index}
-            onClick={() => onSelectFilter(filter)}
-            className="sidebar"
-          >
-            <Checkbox className="sidebar">
-              {appliedFilter?.includes(filter) && (
-                <img src={closePinkIcon} alt="x" className="sidebar" />
-              )}
-            </Checkbox>
-            <span className="sidebar">{filter}</span>
-          </FilterItem>
-        ))}
+      <FilterItems isOpen={filter.isOpen}>
+        {filter.values.map((filterValue) => {
+          return (
+            <FilterItem
+              key={filterValue}
+              onClick={() => onSelectFilterValue(filter.label, filterValue)}
+            >
+              <Checkbox>
+                {appliedFilter?.includes(filterValue) && (
+                  <img src={closePinkIcon} alt="x" />
+                )}
+              </Checkbox>
+              <span>{filterValue}</span>
+            </FilterItem>
+          );
+        })}
       </FilterItems>
     </FilterWrapper>
   );
 };
 
 const Filters = ({
+  filters,
+  setFilters,
   appliedFilters,
-  onSelectFilter,
-  setAllFilters,
-  allFilters,
-  areMobileFilters
+  setAppliedFilters,
+  queries
 }) => {
+  const onSelectFilterValue = (filterName, value) => {
+    let newAppliedFilters = { ...appliedFilters };
+    if (newAppliedFilters[filterName]?.includes(value)) {
+      const index = newAppliedFilters[filterName].indexOf(value);
+      newAppliedFilters[filterName].splice(index, 1);
+    } else if (newAppliedFilters[filterName]) {
+      newAppliedFilters[filterName] = [...newAppliedFilters[filterName], value];
+    } else {
+      newAppliedFilters[filterName] = [value];
+    }
+
+    setAppliedFilters(newAppliedFilters);
+  };
+
+  const onOpenFilterMenu = (name) => {
+    const index = filters.findIndex((f) => f.name === name);
+    const newFilters = [...filters];
+    newFilters[index].isOpen = !newFilters[index].isOpen;
+    setFilters(newFilters);
+  };
+
   return (
-    <FiltersContainer areMobileFilters={areMobileFilters}>
-      {allFilters?.map((filter) => (
-        <Filter
-          allFilters={allFilters}
-          setAllFilters={setAllFilters}
-          filter={filter}
-          key={filter.label}
-          label={filter.label}
-          name={filter.name}
-          filters={filter.filters}
-          onSelectFilter={(f) => onSelectFilter(filter.name, f)}
-          appliedFilter={appliedFilters?.[filter.name]}
-        />
-      ))}
+    <FiltersContainer>
+      {filters?.map((filter) => {
+        const label = filter.label;
+
+        return (
+          <Filter
+            key={filter.name}
+            name={filter.name}
+            filter={filter}
+            onOpenFilterMenu={onOpenFilterMenu}
+            onSelectFilterValue={onSelectFilterValue}
+            appliedFilters={appliedFilters}
+            appliedFilter={appliedFilters[label]}
+            queries={queries}
+          />
+        );
+      })}
     </FiltersContainer>
   );
 };

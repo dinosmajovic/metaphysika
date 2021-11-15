@@ -1,10 +1,13 @@
+/*eslint default-case: ["error", { "commentPattern": "^skip\\sdefault" }]*/
+
 import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { ProductsWrapper } from './styled';
 import axios from 'axios';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import ProductsGrid from './ProductsGrid';
+import queryString from 'query-string';
 import { errorPath } from 'constants/routes';
 import Loader from 'components/atoms/Loader';
 import Pagination from './Pagination';
@@ -14,17 +17,23 @@ import useWindowSize from 'hooks/useWindowSize';
 
 const Products = () => {
   const history = useHistory();
+  const location = useLocation();
   const params = useParams();
+  const { pathname, search } = history.location;
+  const queries = queryString.parse(location.search);
   const { brandName, categoryName, subcategoryName } = params || {};
-  const [totalProductsCount, setTotalProductsCount] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { token, isAuthenticated } = useSelector((state) => state.user);
+  const windowWidth = useWindowSize().width;
+
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState(null);
   const [label, setLabel] = useState(null);
+  const [filters, setFilters] = useState(null);
+  const [viewAllPath, setViewAllPath] = useState(null);
   const [subcategories, setSubcategories] = useState(null);
-  const [filters, setFilters] = useState({});
+  const [pagination, setPagination] = useState(null);
   const [appliedFilters, setAppliedFilters] = useState({});
   const [sortType, setSortType] = useState('creation-time-descending'); // eslint-disable-line
-  const productsPerPage = 24;
   const [sortOptions, setSortOptions] = useState([
     {
       label: 'Newest to oldest',
@@ -47,249 +56,217 @@ const Products = () => {
       isClicked: false
     }
   ]);
-  const [allFilters, setAllFilters] = useState([
-    {
-      name: 'size',
-      label: 'SIZE',
-      filters: [],
-      isOpen: false
-    },
-    {
-      name: 'brand',
-      label: 'BRAND',
-      filters: [],
-      isOpen: false
-    },
-    {
-      name: 'color',
-      label: 'COLOR',
-      filters: [],
-      isOpen: false
+
+  useEffect(() => {
+    fetchProducts();
+  }, [pathname, search, isAuthenticated]); // eslint-disable-line
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const queryFilters = queryString.parse(location.search, {
+      arrayFormat: 'comma'
+    });
+
+    const { page, sort, ...otherFilters } = queryFilters;
+
+    switch (otherFilters) {
+      case otherFilters.color === 'string':
+        otherFilters.color = convertStringIntoArray(otherFilters.color);
+        break;
+      // skip default case
     }
-  ]);
-  const { token, isAuthenticated } = useSelector((state) => state.user);
-  const [viewAllPath, setViewAllPath] = useState(null);
-  const windowWidth = useWindowSize().width;
-  const page = params.page ? parseInt(params.page) : 1;
 
-  console.log(history);
+    if (typeof otherFilters.color === 'string') {
+      const convertedString = convertStringIntoArray(otherFilters.color);
 
-  useEffect(() => {
-    const isCategoryChanged = false;
-    fetchProducts(isCategoryChanged, page, appliedFilters);
-  }, [page, isAuthenticated]);
+      otherFilters.color = convertedString;
+    }
 
-  useEffect(() => {
-    const isCategoryChanged = false;
-    fetchProducts(isCategoryChanged, page, appliedFilters);
-  }, [page, isAuthenticated]);
+    if (typeof otherFilters.size === 'string') {
+      const convertedString = convertStringIntoArray(otherFilters.size);
 
-  useEffect(() => {
-    const isCategoryChanged = true;
-    setAppliedFilters({});
-    fetchProducts(isCategoryChanged, page, {});
-    setFilters({});
-  }, [brandName, categoryName, subcategoryName, isAuthenticated]); // eslint-disable-line
+      otherFilters.size = convertedString;
+    }
 
-  const fetchProducts = (
-    isCategoryChanged,
-    currentPage = 1,
-    filters = {},
-    sortType = 'creation-time-descending'
-  ) => {
-    setLoading(true);
+    if (typeof otherFilters.brand === 'string') {
+      const convertedString = convertStringIntoArray(otherFilters.brand);
 
+      otherFilters.brand = convertedString;
+    }
+
+    if (otherFilters.brand) {
+      const brandNames = getBrandNames();
+
+      console.log(brandNames);
+    }
+
+    setAppliedFilters(otherFilters);
+    setIsLoading(false);
+  }, []); // eslint-disable-line
+
+  const convertStringIntoArray = (string) => {
+    const arr = [];
+    arr.push(string);
+
+    return arr;
+  };
+
+  const fetchProducts = () => {
     if (categoryName && !subcategoryName) {
-      getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
+      getCategoryProducts();
     } else if (categoryName && subcategoryName) {
-      getProductsBySubcategory(
-        isCategoryChanged,
-        currentPage,
-        filters,
-        sortType
-      );
+      // getProductsBySubcategory()
+      console.log('fetch subcategory');
     } else if (brandName) {
-      getProductsByBrand(isCategoryChanged, currentPage, filters, sortType);
+      // getProductsByBrand();
+      console.log('fetch brand');
     }
   };
 
-  const getProductsByCategory = async (
-    isCategoryChanged,
-    currentPage,
-    filters,
-    sortType
-  ) => {
+  const getBrandNames = async () => {
     try {
-      let result = await axios.post('/products/category', {
+      const { data } = await axios.get('/getBrandLabel', {
+        params: {
+          names: appliedFilters.brand
+        }
+      });
+
+      console.log(data);
+    } catch (error) {
+      history.push(errorPath);
+    }
+  };
+
+  const getCategoryProducts = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post(`/products/category${search}`, {
         categoryName,
-        orderType: 'default',
-        currentPage,
-        productsPerPage,
-        isCategoryChanged,
-        filters,
-        sortType,
         token
       });
 
-      setLabel(result.data.categoryName);
-      setProducts(result.data.products);
-      setTotalProductsCount(result.data.totalProductsCount);
+      data.allFilters &&
+        (data.allFilters.brands = data.allFilters.brands =
+          data.allFilters.brands.map((brand) => brand.name).sort());
 
-      if (result.data.subcategories) {
-        setSubcategories(result.data.subcategories);
+      if (data.allFilters) {
+        const filters = [
+          {
+            name: 'Size',
+            label: 'size',
+            isOpen: false,
+            values: data.allFilters.sizes
+          },
+          {
+            name: 'Brand',
+            label: 'brand',
+            isOpen: false,
+            values: data.allFilters.brands
+          },
+          {
+            name: 'Color',
+            label: 'color',
+            isOpen: false,
+            values: data.allFilters.colors
+          }
+        ];
+
+        setFilters(filters);
+      } else {
+        setFilters(null);
       }
 
-      if (result.data.allFilters) {
-        const fetchedFilters = result.data.allFilters;
-        const brandNames = fetchedFilters.brands
-          .map((brand) => {
-            return brand.name;
-          })
-          .sort();
-
-        const newFilters = [...allFilters];
-
-        newFilters[0].filters = fetchedFilters.sizes;
-        newFilters[1].filters = brandNames;
-        newFilters[2].filters = fetchedFilters.colors;
-
-        setViewAllPath(result.data.path);
-        setAllFilters(newFilters);
-        setFilters(result.data.allFilters);
-      }
-      setLoading(false);
-    } catch (error) {
+      setLabel(data.categoryName);
+      setProducts(data.products);
+      setSubcategories(data.subcategories);
+      setPagination(data.pagination);
+      setViewAllPath(data.viewAllPath);
+      setIsLoading(false);
+    } catch {
       history.push(errorPath);
+      setIsLoading(false);
     }
   };
 
-  const getProductsBySubcategory = async (
-    isCategoryChanged,
-    currentPage,
-    filters,
-    sortType
-  ) => {
-    try {
-      let result = await axios.post('/products/subcategory', {
-        subcategoryName,
-        categoryName,
-        orderType: 'default',
-        currentPage,
-        productsPerPage,
-        isCategoryChanged,
-        filters,
-        sortType,
-        token
-      });
-      setViewAllPath(result.data.path);
-      setLabel(result.data.subcategoryName);
-      setProducts(result.data.products);
-      setTotalProductsCount(result.data.totalProductsCount);
+  const closeSidebarDropdowns = () => {
+    const closedDropdowns = filters.map((f) => {
+      return {
+        ...f,
+        isOpen: false
+      };
+    });
 
-      if (result.data.subcategories) {
-        setSubcategories(result.data.subcategories);
-      }
-
-      if (result.data.allFilters) {
-        const fetchedFilters = result.data.allFilters;
-
-        const brandNames = fetchedFilters.brands
-          .map((brand) => {
-            return brand.name;
-          })
-          .sort();
-
-        const newFilters = [...allFilters];
-
-        newFilters[0].filters = fetchedFilters.sizes;
-        newFilters[1].filters = brandNames;
-        newFilters[2].filters = fetchedFilters.colors;
-
-        setAllFilters(newFilters);
-        setFilters(result.data.allFilters);
-      }
-
-      setLoading(false);
-    } catch (error) {
-      history.push(errorPath);
-    }
+    setFilters(closedDropdowns);
   };
 
-  const getProductsByBrand = async (
-    isCategoryChanged,
-    currentPage,
-    filters,
-    sortType
-  ) => {
-    setSubcategories(null);
-    try {
-      let result = await axios.post('/products/brand', {
-        brandName,
-        orderType: 'default',
-        currentPage,
-        productsPerPage,
-        isCategoryChanged,
-        filters,
-        sortType,
-        token
-      });
-
-      setLabel(result.data.brandName);
-      setProducts(result.data.products);
-      setTotalProductsCount(result.data.totalProductsCount);
-
-      if (result.data.allFilters) {
-        const fetchedFilters = result.data.allFilters;
-
-        const brandNames = fetchedFilters.brands
-          .map((brand) => {
-            return brand.name;
-          })
-          .sort();
-
-        const newFilters = [...allFilters];
-
-        newFilters[0].filters = fetchedFilters.sizes;
-        newFilters[1].filters = brandNames;
-        newFilters[2].filters = fetchedFilters.colors;
-
-        setAllFilters(newFilters);
-        setFilters(result.data.allFilters);
-      }
-
-      setLoading(false);
-    } catch (error) {
-      history.push(errorPath);
-    }
-  };
-
-  const onApplyFilters = (filters) => {
-    setAppliedFilters(filters);
-    const isCategoryChanged = false;
-    fetchProducts(isCategoryChanged, 1, filters);
+  const onApplyFilters = async () => {
+    setIsLoading(true);
+    let filterQueryObject = {};
 
     if (windowWidth <= 1024) {
-      const resetedFilterDropdowns = allFilters.map((f) => {
-        return {
-          ...f,
-          isOpen: false
-        };
-      });
-
-      setAllFilters(resetedFilterDropdowns);
+      closeSidebarDropdowns();
     }
 
-    if (categoryName && !subcategoryName) {
-      history.push(`/categories/${categoryName}/1`);
-    } else if (categoryName && subcategoryName) {
-      history.push(
-        `/categories/${categoryName}/subcategory=${subcategoryName}/1`
+    if (appliedFilters.size?.length > 0) {
+      filterQueryObject.size = queryString.stringify(
+        { size: appliedFilters.size },
+        { arrayFormat: 'comma' }
       );
-    } else if (brandName) {
-      history.push(`/brands/${brandName}/1`);
     }
 
-    console.log(history);
+    if (appliedFilters.brand?.length > 0) {
+      try {
+        const { data } = await axios.get('/getBrandLabel', {
+          params: {
+            names: appliedFilters.brand
+          }
+        });
+
+        appliedFilters.brand = data;
+      } catch (error) {
+        history.push(errorPath);
+        setIsLoading(false);
+      }
+      filterQueryObject.brand = queryString.stringify(
+        { brand: appliedFilters.brand },
+        { arrayFormat: 'comma' }
+      );
+    }
+
+    if (appliedFilters.color?.length > 0) {
+      filterQueryObject.color = queryString.stringify(
+        { color: appliedFilters.color },
+        { arrayFormat: 'comma' }
+      );
+    }
+
+    let newQuery = '';
+
+    if (queries.page) {
+      newQuery = `&page=${queries.page}`;
+    }
+
+    if (queries.sort) {
+      newQuery = `${newQuery}&sort=${queries.sort}`;
+    }
+
+    if (filterQueryObject.size) {
+      newQuery = `${newQuery}&${filterQueryObject.size}`;
+    }
+
+    if (filterQueryObject.color) {
+      newQuery = `${newQuery}&${filterQueryObject.color}`;
+    }
+
+    if (filterQueryObject.brand) {
+      newQuery = `${newQuery}&${filterQueryObject.brand}`;
+    }
+
+    const fullPath = `${pathname}?${newQuery}`;
+    history.push(fullPath);
+
+    setIsLoading(false);
   };
 
   const paginate = (newPage) => {
@@ -329,7 +306,7 @@ const Products = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <LoaderWrapper>
         <Loader />
@@ -345,19 +322,19 @@ const Products = () => {
         />
         <Sidebar
           onApplyFilters={(filters) => onApplyFilters(filters)}
-          filters={filters}
           subcategories={subcategories}
-          setSubcategories={setSubcategories}
-          setAllFilters={setAllFilters}
-          allFilters={allFilters}
-          passedInFilters={appliedFilters}
           viewAllPath={viewAllPath}
+          appliedFilters={appliedFilters}
+          filters={filters}
+          setFilters={setFilters}
+          setAppliedFilters={setAppliedFilters}
+          queries={queries}
         />
-        <ProductsGrid products={products} setLoading={setLoading} />
+        <ProductsGrid products={products} setIsLoading={setIsLoading} />
         <Pagination
-          productsPerPage={productsPerPage}
-          totalProductsCount={totalProductsCount}
-          page={page}
+          productsPerPage={pagination?.productsPerPage}
+          totalProductsCount={pagination?.totalProductsCount}
+          page={pagination?.page}
           paginate={paginate}
         />
       </ProductsWrapper>
@@ -366,3 +343,152 @@ const Products = () => {
 };
 
 export default Products;
+
+// useEffect(() => {
+//   const isCategoryChanged = false;
+//   fetchProducts(isCategoryChanged, page, appliedFilters);
+// }, [page, isAuthenticated]);
+
+// useEffect(() => {
+//   const isCategoryChanged = false;
+//   fetchProducts(isCategoryChanged, page, appliedFilters);
+// }, [page, isAuthenticated]);
+
+// useEffect(() => {
+//   const isCategoryChanged = true;
+//   setAppliedFilters({});
+//   fetchProducts(isCategoryChanged, page, {});
+//   setFilters({});
+// }, [brandName, categoryName, subcategoryName, isAuthenticated]); // eslint-disable-line
+
+// if (categoryName && !subcategoryName) {
+//   history.push(`/categories/${categoryName}/1`);
+// } else if (categoryName && subcategoryName) {
+//   history.push(
+//     `/categories/${categoryName}/subcategory=${subcategoryName}/1`
+//   );
+// } else if (brandName) {
+//   history.push(`/brands/${brandName}/1`);
+// }
+
+// const fetchProducts = (
+//   isCategoryChanged,
+//   currentPage = 1,
+//   filters = {},
+//   sortType = 'creation-time-descending'
+// ) => {
+//   setIsLoading(true);
+
+//   if (categoryName && !subcategoryName) {
+//     getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
+//   } else if (categoryName && subcategoryName) {
+//     getProductsBySubcategory(
+//       isCategoryChanged,
+//       currentPage,
+//       filters,
+//       sortType
+//     );
+//   } else if (brandName) {
+//     getProductsByBrand(isCategoryChanged, currentPage, filters, sortType);
+//   }
+// };
+
+// const getProductsBySubcategory = async (
+//   isCategoryChanged,
+//   currentPage,
+//   filters,
+//   sortType
+// ) => {
+//   try {
+//     let result = await axios.post('/products/subcategory', {
+//       subcategoryName,
+//       categoryName,
+//       orderType: 'default',
+//       currentPage,
+//       productsPerPage,
+//       isCategoryChanged,
+//       filters,
+//       sortType,
+//       token
+//     });
+//     // setViewAllPath(result.data.path);
+//     label = result.data.subcategoryName;
+//     setProducts(result.data.products);
+//     totalProductsCount = result.data.totalProductsCount;
+
+//     if (result.data.subcategories) {
+//       subcategories = result.data.subcategories;
+//     }
+
+//     if (result.data.allFilters) {
+//       const fetchedFilters = result.data.allFilters;
+
+//       const brandNames = fetchedFilters.brands
+//         .map((brand) => {
+//           return brand.name;
+//         })
+//         .sort();
+
+//       const newFilters = [...allFilters];
+
+//       newFilters[0].filters = fetchedFilters.sizes;
+//       newFilters[1].filters = brandNames;
+//       newFilters[2].filters = fetchedFilters.colors;
+
+//       setAllFilters(newFilters);
+//       setFilters(result.data.allFilters);
+//     }
+
+//     setIsLoading(false);
+//   } catch (error) {
+//     history.push(errorPath);
+//   }
+// };
+
+// const getProductsByBrand = async (
+//   isCategoryChanged,
+//   currentPage,
+//   filters,
+//   sortType
+// ) => {
+//   subcategories = false;
+//   try {
+//     let result = await axios.post('/products/brand', {
+//       brandName,
+//       orderType: 'default',
+//       currentPage,
+//       productsPerPage,
+//       isCategoryChanged,
+//       filters,
+//       sortType,
+//       token
+//     });
+
+//     label = result.data.brandName;
+//     setProducts(result.data.products);
+//     totalProductsCount = result.data.totalProductsCount;
+
+//     if (result.data.allFilters) {
+//       const fetchedFilters = result.data.allFilters;
+
+//       const brandNames = fetchedFilters.brands
+//         .map((brand) => {
+//           return brand.name;
+//         })
+//         .sort();
+
+//       const newFilters = [...allFilters];
+
+//       newFilters[0].filters = fetchedFilters.sizes;
+//       newFilters[1].filters = brandNames;
+//       newFilters[2].filters = fetchedFilters.colors;
+
+//       setAllFilters(newFilters);
+//       setFilters(result.data.allFilters);
+//     }
+
+//     setIsLoading(false);
+//   } catch (error) {
+//     history.push(errorPath);
+//   }
+// };

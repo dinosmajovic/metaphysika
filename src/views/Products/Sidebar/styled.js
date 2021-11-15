@@ -66,14 +66,11 @@ export const StyledLink = styled(Link)`
   width: fit-content;
 `;
 
-export const SubCategory = styled.span`
+export const Subcategory = styled.span`
   text-decoration: none;
   display: block;
   margin-bottom: 7px;
-
   font-size: 16px;
-  color: ${({ isClicked }) =>
-    isClicked ? `${colors.pink.primary}` : undefined};
 
   :hover {
     color: ${colors.pink.primary};

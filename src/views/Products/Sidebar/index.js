@@ -2,105 +2,44 @@ import {
   SidebarWrapper,
   ButtonWrapper,
   Subcategories,
-  SubCategory,
+  Subcategory,
   Line,
   SubcategoriesTitle,
   StyledLink,
-  SubcategoriesWrapper,
-  MobileFilters,
-  FilterButton,
-  ApplyFiltersButton
+  SubcategoriesWrapper
 } from './styled';
 import Button from 'components/atoms/Button';
 import Filters from '../Filters';
-import { useState, useEffect } from 'react';
-import Backdrop from 'components/atoms/Backdrop/';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import plus from 'assets/icons/plus.svg';
 
 const Sidebar = ({
   onApplyFilters,
+  filters,
   subcategories,
-  setSubcategories,
-  allFilters,
-  setAllFilters,
-  passedInFilters,
-  viewAllPath
+  viewAllPath,
+  appliedFilters,
+  setAppliedFilters,
+  setFilters,
+  queries
 }) => {
-  const [isMobileFiltersMenu, setIsMobileFiltersMenu] = useState(false);
-  const [appliedFilters, setAppliedFilters] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
   const { categoryName } = useParams();
-
-  useEffect(() => {
-    setAppliedFilters(passedInFilters);
-  }, [passedInFilters]);
-
-  const onSelectFilter = (name, filter) => {
-    let filters = { ...appliedFilters };
-    if (filters[name]?.includes(filter)) {
-      const index = filters[name].indexOf(filter);
-      filters[name].splice(index, 1);
-    } else if (filters[name]) {
-      filters[name] = [...filters[name], filter];
-    } else {
-      filters[name] = [filter];
-    }
-
-    setAppliedFilters(filters);
-  };
-
-  const onSubcategoryClick = (path) => {
-    const newSubCategories = subcategories.map((subcategory) => {
-      return {
-        ...subcategory,
-        isClicked: false
-      };
-    });
-    const index = newSubCategories.findIndex((subcategory) => {
-      return subcategory.path === path;
-    });
-
-    newSubCategories[index].isClicked = true;
-    setSubcategories(newSubCategories);
-  };
-
-  const onCloseFiltersMenu = () => {
-    setIsMobileFiltersMenu(false);
-  };
-
-  const onOpenFilterMenu = () => {
-    setIsMobileFiltersMenu(true);
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <SidebarWrapper>
-      {isMobileFiltersMenu && <Backdrop onBackdropClick={onCloseFiltersMenu} />}
-      <MobileFilters isOpen={isMobileFiltersMenu}>
-        <Filters
-          setAllFilters={setAllFilters}
-          allFilters={allFilters}
-          onSelectFilter={onSelectFilter}
-          appliedFilters={appliedFilters}
-          areMobileFilters={true}
-        />
-        <ApplyFiltersButton onClick={() => onApplyFilters(appliedFilters)}>
-          APPLY FILTERS
-        </ApplyFiltersButton>
-      </MobileFilters>
       <Filters
-        setAllFilters={setAllFilters}
-        allFilters={allFilters}
-        onSelectFilter={onSelectFilter}
+        setFilters={setFilters}
+        filters={filters}
         appliedFilters={appliedFilters}
-        areMobileFilters={false}
+        setAppliedFilters={setAppliedFilters}
+        queries={queries}
       />
       <ButtonWrapper>
-        <Button onClick={() => onApplyFilters(appliedFilters)}>
-          Apply filter
-        </Button>
+        <Button onClick={onApplyFilters}>Apply filter</Button>
       </ButtonWrapper>
-      <FilterButton onClick={onOpenFilterMenu}>FILTER</FilterButton>
+      {/* SUBCATEGORIES  MENU V*/}
       {subcategories && (
         <SubcategoriesWrapper>
           <SubcategoriesTitle onClick={() => setIsOpen(!isOpen)}>
@@ -111,21 +50,18 @@ const Sidebar = ({
           </SubcategoriesTitle>
           <Line />
           <Subcategories isOpen={isOpen}>
-            {subcategories?.map((subcategory) => {
+            {subcategories.map((subcategory) => {
               return (
                 <StyledLink
                   to={`/categories/${categoryName}/${subcategory.path}`}
-                  key={subcategory.path}
-                  onClick={() => onSubcategoryClick(subcategory.path)}
+                  key={subcategory.id}
                 >
-                  <SubCategory isClicked={subcategory.isClicked}>
-                    {subcategory.name}
-                  </SubCategory>
+                  <Subcategory>{subcategory.name}</Subcategory>
                 </StyledLink>
               );
             })}
             <StyledLink to={viewAllPath}>
-              <SubCategory>View all</SubCategory>
+              <Subcategory>View all</Subcategory>
             </StyledLink>
           </Subcategories>
         </SubcategoriesWrapper>

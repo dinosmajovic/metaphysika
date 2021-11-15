@@ -28,11 +28,6 @@ export const Picture = styled.div`
     object-fit: contain;
   }
 
-  :active {
-    border: 1px solid ${colors.gray.light};
-    border-radius: 5px;
-  }
-
   @media (max-width: 600px) {
     width: 170px;
     height: 170px;
