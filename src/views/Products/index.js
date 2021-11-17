@@ -282,7 +282,7 @@ const Products = () => {
     let newQuery = '';
 
     if (queries.page) {
-      newQuery = `&page=${queries.page}`;
+      newQuery = `&page=1`;
     }
 
     if (queries.sort) {
@@ -340,7 +340,7 @@ const Products = () => {
     let newQuery = '';
 
     if (queries.page) {
-      newQuery = `${newQuery}&page=${queries.page}`;
+      newQuery = `${newQuery}&page=1`;
     }
 
     newQuery = `${newQuery}&sort=${sortType}`;
@@ -387,7 +387,7 @@ const Products = () => {
           queries={queries}
         />
         <ProductsGrid products={products} setIsLoading={setIsLoading} />
-        {products.length > 0 && (
+        {products?.length > 0 && (
           <Pagination
             productsPerPage={pagination?.productsPerPage}
             totalProductsCount={pagination?.totalProductsCount}

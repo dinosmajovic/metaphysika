@@ -1,6 +1,5 @@
 import arrowDown from 'assets/icons/arrowDown.svg';
 import { Options, Option, Dropdown, DropdownMenu, SizeError } from './styled';
-import useComponentVisible from 'hooks/useComponentVisible';
 
 const ProductOptions = ({
   options,

@@ -22,6 +22,8 @@ import { useEffect, useState } from 'react';
 import Loader from 'components/atoms/Loader/index';
 import { onOpenLogInModal } from 'state/modal';
 import { errorPath } from 'constants/routes/index';
+import shortenText from 'constants/reduceTitleLength';
+import useWindowSize from 'hooks/useWindowSize';
 
 const Product = ({ product, setIsLoading }) => {
   const history = useHistory();
@@ -33,6 +35,7 @@ const Product = ({ product, setIsLoading }) => {
   const [productIsInWishlist, setProductIsInWishlist] = useState(
     product?.isInWishlist
   );
+  const windowWidth = useWindowSize().width;
 
   useEffect(() => {
     const isInWishlist =
@@ -118,7 +121,12 @@ const Product = ({ product, setIsLoading }) => {
           <img src={product.mainImg} alt="Product" />
         </Picture>
       </PictureContainer>
-      <Label>{transformProductName(product?.name)}</Label>
+      <Label>
+        {shortenText(
+          transformProductName(product.name),
+          windowWidth > 600 ? 20 : 17
+        )}
+      </Label>
       <PriceContainer>
         {product?.oldPrice && <OldPrice>{`${product?.oldPrice} BAM`}</OldPrice>}
         <Price>{`${product?.price} BAM`}</Price>

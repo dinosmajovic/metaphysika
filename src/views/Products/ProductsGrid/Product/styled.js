@@ -67,6 +67,10 @@ export const Label = styled.span`
   margin-bottom: 10px;
   font-size: 20px;
 
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
+
   @media (max-width: 500px) {
     font-size: 16px;
   }

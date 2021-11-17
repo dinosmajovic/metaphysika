@@ -1,5 +1,5 @@
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   :not(:last-child) {
@@ -7,8 +7,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const Item = styled(Link)`
+const Item = styled.span`
   font-size: 12px;
+
   cursor: pointer;
 
   @media (max-width: 600px) {
@@ -17,6 +18,8 @@ const Item = styled(Link)`
 `;
 
 const Navigation = () => {
+  const history = useHistory();
+
   const navigationItems = [
     { label: 'ABOUT US', link: '/about' },
     { label: 'FAQ AND CONTACT', link: '/faq' },
@@ -25,12 +28,20 @@ const Navigation = () => {
     { label: 'RETURN POLICY', link: '/return-policy' }
   ];
 
+  const onGoToPage = (path) => {
+    window.scrollTo(0, 0);
+    history.push(path);
+  };
+
   return (
     <nav>
       {navigationItems.map((item, i) => {
         return (
           <Wrapper key={item.label + i}>
-            <Item to={item.link} style={{ textDecoration: 'none' }}>
+            <Item
+              onClick={() => onGoToPage(item.link)}
+              style={{ textDecoration: 'none' }}
+            >
               {item.label}
             </Item>
           </Wrapper>

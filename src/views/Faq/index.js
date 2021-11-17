@@ -51,8 +51,7 @@ const Faq = () => {
     {
       isOpened: false,
       question: `How do I pay for my orders?`,
-      answer: `We accept payments via Paypal and all major credit and debit cards
-      such as Mastercard, VISA and American Express.`
+      answer: `We accept payments via cards Mastercard, VISA.`
     },
     {
       isOpened: false,
@@ -63,12 +62,8 @@ const Faq = () => {
     },
     {
       isOpened: false,
-      question: `I have a discount code, how can I use it?`,
-      answer: `Key in the voucher code at the field “Voucher Code” and click “Add” in
-      your Shopping Cart page before proceeding to check out. Please note
-      that we are unable to manually apply the voucher code to your order if
-      you have missed keying it during check out. Kindly ensure that all
-      information is correct before confirming your purchase.`
+      question: `I have a discount coupon, how can I use it?`,
+      answer: `At the checkout field “Enter your coupon code” add coupon and click “Apply”.`
     },
     {
       isOpened: false,
@@ -76,9 +71,7 @@ const Faq = () => {
       answer: `After you have placed your order, you will receive an acknowledgement
       e-mail from us to confirm that your orders have been received. However,
       do note that orders will only be shipped when your credit card payment
-      has been approved and billing and delivery address is verified.
-      Alternatively, you may check the status of your order in “My Account” if
-      you are a registered user.`
+      has been approved and billing and delivery address is verified.`
     },
     {
       isOpened: false,
@@ -91,17 +84,9 @@ const Faq = () => {
       question: `How long will it take for me to receive my order?`,
       answer: `The Standard courier delivery time frame is approximately 7-10 working
       days and the Express courier is approximately 5-7 working days from the
-      time of placing your order and receipt of your confirmation email with
-      tracking number. This is applicable only to all EU countries. For all
+      time of placing your order. This is applicable only to all EU countries. For all
       international deliveries, the time taken is dependent on our logistics
       partners and their affiliates.`
-    },
-    {
-      isOpened: false,
-      question: `How can I track my delivery?`,
-      answer: `Once the order has been dispatched, an email confirmation will be sent
-      to you with the tracking number. You may check and track the delivery
-      status of your orders.`
     },
     {
       isOpened: false,
@@ -109,9 +94,8 @@ const Faq = () => {
       answer: `Shipping for residents of Bosnia and Herzegovina regardless the volume
       or value of order is 10,00KM. For international deliveries, you may select
       your item and proceed to the check out page as charges are based on
-      weight and volume. Upon entering your delivery details, we will auto
-      calculate the delivery charges based on your given address without the
-      need for payment or registration`
+      type of item. We will auto
+      calculate the delivery charges.`
     },
     {
       isOpened: false,
@@ -146,7 +130,7 @@ const Faq = () => {
       isOpened: false,
       question: `I’ve purchased the wrong size or color`,
       answer: `You can exchange the item, contact us at contact@metaphysika.ba and
-      as soon as we recieve the item we will ship the new one.`
+      as soon as we receive the item we will ship the new one.`
     },
     {
       isOpened: false,
@@ -159,14 +143,6 @@ const Faq = () => {
       isOpened: false,
       question: `Will there be an additional charge for redelivery?`,
       answer: `Every shipping is paid by the customer.`
-    },
-    {
-      isOpened: false,
-      question: `I have yet to receive my parcel within the stipulated time frame.
-      Who can I contact?`,
-      answer: `You may check the status of your parcel via “Track your order” at to find
-      out why it might have been delayed. Alternatively, you may drop us an
-      email at contact@metaphysika.ba and we will assist you further.`
     }
   ]);
 
