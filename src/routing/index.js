@@ -10,6 +10,7 @@ import Checkout from 'views/Checkout';
 import Shipping from 'views/Checkout/Shipping';
 import Payment from 'views/Checkout/Payment';
 import Confirmation from 'views/Checkout/Confirmation';
+import Failure from 'views/Checkout/Failure';
 import Bag from 'views/Bag';
 import Wishlist from 'views/Wishlist';
 import Faq from 'views/Faq';
@@ -117,6 +118,7 @@ const Routing = () => {
         path="/checkout/confirmation"
         component={Confirmation}
       />
+      <PublicRoute exact path="/checkout/failure" component={Failure} />
       <PublicRoute exact path="/bag" component={Bag} />
       <PublicRoute exact path="/faq" component={Faq} />
       <PublicRoute exact path="/terms-of-service" component={Terms} />

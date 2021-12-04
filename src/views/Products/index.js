@@ -12,6 +12,7 @@ import Pagination from './Pagination';
 import { useSelector } from 'react-redux';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 import useWindowSize from 'hooks/useWindowSize';
+import { API } from 'api';
 
 const Products = () => {
   const history = useHistory();
@@ -111,7 +112,7 @@ const Products = () => {
 
   const getBrandNames = async (brandNames) => {
     try {
-      const { data } = await axios.get('/getBrandNames', {
+      const { data } = await axios.get(API + '/getBrandNames', {
         params: {
           paths: brandNames
         }
@@ -136,7 +137,7 @@ const Products = () => {
   const getCategoryProducts = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.post(`/products/category${search}`, {
+      const { data } = await axios.post(API + `/products/category${search}`, {
         categoryName,
         token
       });
@@ -167,11 +168,14 @@ const Products = () => {
   const getSubcategoryProducts = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.post(`/products/subcategory${search}`, {
-        categoryName,
-        subcategoryName,
-        token
-      });
+      const { data } = await axios.post(
+        API + `/products/subcategory${search}`,
+        {
+          categoryName,
+          subcategoryName,
+          token
+        }
+      );
 
       data.allFilters.brands = data.allFilters.brands
         .map((brand) => brand.name)
@@ -199,7 +203,7 @@ const Products = () => {
   const getBrandProducts = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.post(`/products/brand${search}`, {
+      const { data } = await axios.post(API + `/products/brand${search}`, {
         brandName,
         token
       });
@@ -255,7 +259,7 @@ const Products = () => {
 
     if (appliedFilters.brand?.length > 0) {
       try {
-        const { data } = await axios.get('/getBrandLabel', {
+        const { data } = await axios.get(API + '/getBrandLabel', {
           params: {
             names: appliedFilters.brand
           }
@@ -401,152 +405,3 @@ const Products = () => {
 };
 
 export default Products;
-
-// useEffect(() => {
-//   const isCategoryChanged = false;
-//   fetchProducts(isCategoryChanged, page, appliedFilters);
-// }, [page, isAuthenticated]);
-
-// useEffect(() => {
-//   const isCategoryChanged = false;
-//   fetchProducts(isCategoryChanged, page, appliedFilters);
-// }, [page, isAuthenticated]);
-
-// useEffect(() => {
-//   const isCategoryChanged = true;
-//   setAppliedFilters({});
-//   fetchProducts(isCategoryChanged, page, {});
-//   setFilters({});
-// }, [brandName, categoryName, subcategoryName, isAuthenticated]); // eslint-disable-line
-
-// if (categoryName && !subcategoryName) {
-//   history.push(`/categories/${categoryName}/1`);
-// } else if (categoryName && subcategoryName) {
-//   history.push(
-//     `/categories/${categoryName}/subcategory=${subcategoryName}/1`
-//   );
-// } else if (brandName) {
-//   history.push(`/brands/${brandName}/1`);
-// }
-
-// const fetchProducts = (
-//   isCategoryChanged,
-//   currentPage = 1,
-//   filters = {},
-//   sortType = 'creation-time-descending'
-// ) => {
-//   setIsLoading(true);
-
-//   if (categoryName && !subcategoryName) {
-//     getProductsByCategory(isCategoryChanged, currentPage, filters, sortType);
-//   } else if (categoryName && subcategoryName) {
-//     getProductsBySubcategory(
-//       isCategoryChanged,
-//       currentPage,
-//       filters,
-//       sortType
-//     );
-//   } else if (brandName) {
-//     getProductsByBrand(isCategoryChanged, currentPage, filters, sortType);
-//   }
-// };
-
-// const getProductsBySubcategory = async (
-//   isCategoryChanged,
-//   currentPage,
-//   filters,
-//   sortType
-// ) => {
-//   try {
-//     let result = await axios.post('/products/subcategory', {
-//       subcategoryName,
-//       categoryName,
-//       orderType: 'default',
-//       currentPage,
-//       productsPerPage,
-//       isCategoryChanged,
-//       filters,
-//       sortType,
-//       token
-//     });
-//     // setViewAllPath(result.data.path);
-//     label = result.data.subcategoryName;
-//     setProducts(result.data.products);
-//     totalProductsCount = result.data.totalProductsCount;
-
-//     if (result.data.subcategories) {
-//       subcategories = result.data.subcategories;
-//     }
-
-//     if (result.data.allFilters) {
-//       const fetchedFilters = result.data.allFilters;
-
-//       const brandNames = fetchedFilters.brands
-//         .map((brand) => {
-//           return brand.name;
-//         })
-//         .sort();
-
-//       const newFilters = [...allFilters];
-
-//       newFilters[0].filters = fetchedFilters.sizes;
-//       newFilters[1].filters = brandNames;
-//       newFilters[2].filters = fetchedFilters.colors;
-
-//       setAllFilters(newFilters);
-//       setFilters(result.data.allFilters);
-//     }
-
-//     setIsLoading(false);
-//   } catch (error) {
-//     history.push(errorPath);
-//   }
-// };
-
-// const getProductsByBrand = async (
-//   isCategoryChanged,
-//   currentPage,
-//   filters,
-//   sortType
-// ) => {
-//   subcategories = false;
-//   try {
-//     let result = await axios.post('/products/brand', {
-//       brandName,
-//       orderType: 'default',
-//       currentPage,
-//       productsPerPage,
-//       isCategoryChanged,
-//       filters,
-//       sortType,
-//       token
-//     });
-
-//     label = result.data.brandName;
-//     setProducts(result.data.products);
-//     totalProductsCount = result.data.totalProductsCount;
-
-//     if (result.data.allFilters) {
-//       const fetchedFilters = result.data.allFilters;
-
-//       const brandNames = fetchedFilters.brands
-//         .map((brand) => {
-//           return brand.name;
-//         })
-//         .sort();
-
-//       const newFilters = [...allFilters];
-
-//       newFilters[0].filters = fetchedFilters.sizes;
-//       newFilters[1].filters = brandNames;
-//       newFilters[2].filters = fetchedFilters.colors;
-
-//       setAllFilters(newFilters);
-//       setFilters(result.data.allFilters);
-//     }
-
-//     setIsLoading(false);
-//   } catch (error) {
-//     history.push(errorPath);
-//   }
-// };

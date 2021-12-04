@@ -24,6 +24,7 @@ import axios from 'axios';
 import { onOpenLogInModal } from 'state/modal';
 import { ModalCloseWrapper } from '../LogInModal/styled';
 import closeModalIcon from 'assets/icons/modalClose.svg';
+import { API } from 'api';
 
 const SignUpModal = ({ setIsSignUpModal }) => {
   const history = useHistory();
@@ -36,7 +37,7 @@ const SignUpModal = ({ setIsSignUpModal }) => {
 
   const signUpUser = async (email, password, userData) => {
     try {
-      const user = await axios.post('/signUpUser', {
+      const user = await axios.post(API + '/signUpUser', {
         email,
         password,
         userData

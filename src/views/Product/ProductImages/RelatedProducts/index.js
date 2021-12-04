@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { Title, RelatedProductsWrapper, RelatedProduct } from './styled';
 import axios from 'axios';
 import { errorPath } from 'constants/routes/index';
+import { API } from 'api';
 
 const RelatedProducts = ({ relatedProducts }) => {
   const history = useHistory();
@@ -10,7 +11,7 @@ const RelatedProducts = ({ relatedProducts }) => {
     const brandId = relatedProduct.brandId;
 
     try {
-      const brand = await axios.get('/getBrand', {
+      const brand = await axios.get(API + '/getBrand', {
         params: {
           brandId
         }

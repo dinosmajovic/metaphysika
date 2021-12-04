@@ -10,6 +10,7 @@ import Loader from 'components/atoms/Loader/index';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 import { Redirect } from 'react-router';
 import { errorPath } from 'constants/routes';
+import { API } from 'api';
 
 const MyProfile = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const MyProfile = () => {
     setIsError(false);
 
     try {
-      const { data } = await axios.get('/userOrders', {
+      const { data } = await axios.get(API + '/userOrders', {
         params: {
           token
         }

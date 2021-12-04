@@ -17,6 +17,7 @@ import shortenText from 'constants/reduceTitleLength';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { errorPath } from 'constants/routes';
+import { API } from 'api';
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Product = ({ product }) => {
     const brandId = product.brandId;
 
     try {
-      const brand = await axios.get('/getBrand', {
+      const brand = await axios.get(API + '/getBrand', {
         params: {
           brandId
         }

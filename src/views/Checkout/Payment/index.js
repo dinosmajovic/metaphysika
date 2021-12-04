@@ -61,6 +61,8 @@ const Payment = () => {
         bagProducts: products
       })
     );
+
+    history.push('/checkout/confirmation');
   };
 
   const onGoBack = () => {
@@ -130,10 +132,6 @@ const Payment = () => {
         </Container>
       </CheckoutLayout>
     );
-  }
-
-  if (isPaymentSuccessfulStep) {
-    return <Redirect to="/checkout/confirmation" />;
   }
 
   return <Redirect to="/bag" />;

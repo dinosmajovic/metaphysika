@@ -20,6 +20,7 @@ import Loader from 'components/atoms/Loader/index';
 import * as Yup from 'yup';
 import { onCloseLogInModal } from 'state/modal';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
+import { API } from 'api';
 
 const LogInModal = ({ setIsSignUpModal }) => {
   const [isError, setIsError] = useState(false);
@@ -35,7 +36,7 @@ const LogInModal = ({ setIsSignUpModal }) => {
     setIsLoading(true);
 
     try {
-      const user = await axios.post('/logInUser', {
+      const user = await axios.post(API + '/logInUser', {
         email,
         password
       });
@@ -66,7 +67,7 @@ const LogInModal = ({ setIsSignUpModal }) => {
     setEmailIsSent(false);
 
     try {
-      const result = await axios.post('/forgotUserPassword', {
+      const result = await axios.post(API + '/forgotUserPassword', {
         email
       });
 

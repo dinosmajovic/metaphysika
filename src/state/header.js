@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { API } from 'api';
 
 const header = createSlice({
   name: 'header',
@@ -35,7 +36,7 @@ export const getBrandsAndCategories = (payload) => async (dispatch) => {
   dispatch(actions.getBrandsAndCategoriesRequest());
 
   try {
-    const { data } = await axios.get('/brands/categories');
+    const { data } = await axios.get(API + '/brands/categories');
 
     dispatch(
       actions.getBrandsAndCategoriesSuccess({

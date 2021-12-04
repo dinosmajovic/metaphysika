@@ -24,6 +24,7 @@ import { onOpenLogInModal } from 'state/modal';
 import { errorPath } from 'constants/routes/index';
 import shortenText from 'constants/reduceTitleLength';
 import useWindowSize from 'hooks/useWindowSize';
+import { API } from 'api';
 
 const Product = ({ product, setIsLoading }) => {
   const history = useHistory();
@@ -78,7 +79,7 @@ const Product = ({ product, setIsLoading }) => {
       const brandId = product.brandId;
 
       try {
-        const { data } = await axios.get('/getBrand', {
+        const { data } = await axios.get(API + '/getBrand', {
           params: {
             brandId
           }

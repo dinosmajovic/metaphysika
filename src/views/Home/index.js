@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import Loader from 'components/atoms/Loader/index';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
+import { API } from 'api';
 
 const Home = () => {
   const history = useHistory();
@@ -26,7 +27,7 @@ const Home = () => {
   const getImages = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get('/homeImages');
+      const { data } = await axios.get(API + '/homeImages');
       const images = data.resources;
       setImages(images);
       setIsLoading(false);

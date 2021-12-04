@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { API } from 'api';
 
 export const wishlist = createSlice({
   name: 'wishlist',
@@ -66,7 +67,7 @@ export const addToWishlist = (payload) => async (dispatch) => {
   dispatch(actions.addToWishlistRequest({ productId }));
 
   try {
-    await axios.get('/addToWishlist', {
+    await axios.get(API + '/addToWishlist', {
       params: {
         token,
         productId
@@ -87,7 +88,7 @@ export const deleteFromWishlist = (payload) => async (dispatch) => {
   dispatch(actions.deleteFromWishlistRequest({ productId }));
 
   try {
-    await axios.get('/deleteFromWishlist', {
+    await axios.get(API + '/deleteFromWishlist', {
       params: {
         token,
         productId
@@ -108,7 +109,7 @@ export const getWishlist =
     dispatch(actions.getWishlistRequest());
 
     try {
-      const getWishlist = await axios.get('/wishlist', {
+      const getWishlist = await axios.get(API + '/wishlist', {
         params: {
           token
         }

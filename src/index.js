@@ -11,6 +11,7 @@ import Header from 'components/molecules/Header';
 import Footer from 'components/molecules/Footer';
 import LayoutWrapper from 'components/organisms/LayoutWrapper';
 import { refreshUserToken } from 'state/user';
+import { API } from './api';
 
 const RefreshToken = () => {
   const { isAuthenticated, refreshToken, tokenExpirationTime } = useSelector(

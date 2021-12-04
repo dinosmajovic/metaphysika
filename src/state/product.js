@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { API } from 'api';
 
 const product = createSlice({
   name: 'product',
@@ -42,7 +43,7 @@ export const getProduct = (payload) => async (dispatch, getState) => {
   dispatch(actions.getProductRequest());
 
   try {
-    const fetchedProduct = await axios.get('/getProduct', {
+    const fetchedProduct = await axios.get(API + '/getProduct', {
       params: {
         productPath,
         token

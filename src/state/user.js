@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { API } from 'api';
 
 const user = createSlice({
   name: 'user',
@@ -106,7 +107,7 @@ export const refreshUserToken =
   (refreshToken) => async (dispatch, getState) => {
     if (getState().user.refreshToken && getState().user.isAuthenticated) {
       try {
-        const getNewToken = await axios.post('/refreshUserToken', {
+        const getNewToken = await axios.post(API + '/refreshUserToken', {
           refreshToken
         });
 
@@ -129,7 +130,7 @@ export const deleteUser =
   async (dispatch, getState) => {
     dispatch(actions.deleteUserRequest());
     try {
-      await axios.delete('user', {
+      await axios.delete(API + 'user', {
         params: { password, email: getState().user.userData.email }
       });
 
@@ -151,7 +152,7 @@ export const changePassword =
     dispatch(actions.changePasswordRequest());
 
     try {
-      const changePassword = await axios.post('/changePassword', {
+      const changePassword = await axios.post(API + '/changePassword', {
         currentPassword,
         newPassword,
         email: getState().user.userData.email
@@ -189,7 +190,7 @@ export const onEditProfile =
     const email = getState().user.userData.email;
 
     try {
-      const changeData = await axios.post('/editProfile', {
+      const changeData = await axios.post(API + '/editProfile', {
         form,
         email
       });

@@ -9,6 +9,7 @@ import ErrorMessage from 'components/atoms/ErrorMessage';
 import { useState } from 'react';
 import Loader from 'components/atoms/Loader/index';
 import * as Yup from 'yup';
+import { API } from 'api';
 
 const ResetPassword = () => {
   const params = useParams();
@@ -25,7 +26,7 @@ const ResetPassword = () => {
     setIsLoading(true);
 
     try {
-      const resetPassword = await axios.post('/forgotPasswordReset', {
+      const resetPassword = await axios.post(API + '/forgotPasswordReset', {
         token,
         password
       });

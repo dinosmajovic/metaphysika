@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../node_modules/axios/index';
 import { setTotal, setDeliveryPrice, setSubtotal, resetBag } from './bag';
+import { API } from 'api';
 
 export const checkout = createSlice({
   name: 'checkout',
@@ -107,7 +108,7 @@ export const onCalculateShipping =
     const { country } = shippingInfo.address;
 
     try {
-      const result = await axios.post('/checkout/shipping', {
+      const result = await axios.post(API + '/checkout/shipping', {
         country,
         bagProducts,
         couponName
@@ -138,7 +139,7 @@ export const onPurchase =
     const { couponName } = getState().checkout;
 
     try {
-      await axios.post('/checkout/payment', {
+      await axios.post(API + '/checkout/payment', {
         isOnlinePayment,
         token,
         shippingInfo,
@@ -176,7 +177,7 @@ export const onApplyCoupon =
     const { deliveryPrice, products } = getState().bag;
 
     try {
-      const { data } = await axios.post('/apply-coupon', {
+      const { data } = await axios.post(API + '/apply-coupon', {
         coupon,
         deliveryPrice,
         bagProducts: products
