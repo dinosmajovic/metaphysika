@@ -46,7 +46,7 @@ const Bag = () => {
               })
             ) : (
               <EmptyBag>
-                <span>Your bag is empty ! Please add a product first.</span>
+                <span>Your bag is empty! Please add a product first.</span>
               </EmptyBag>
             )}
           </Products>

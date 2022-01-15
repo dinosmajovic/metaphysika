@@ -19,6 +19,7 @@ import ReturnPolicy from 'views/Return-Policy';
 import PrivacyPolicy from 'views/Privacy-Policy/';
 import SizeGuide from 'views/Size-Guide';
 import MyProfile from 'views/My-Profile';
+import Success from 'views/Checkout/Success';
 import resetPassword from 'views/Reset-Password';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -118,7 +119,10 @@ const Routing = () => {
         path="/checkout/confirmation"
         component={Confirmation}
       />
+      Success
       <PublicRoute exact path="/checkout/failure" component={Failure} />
+      <PublicRoute exact path="/checkout/success" component={Success} />
+      <PublicRoute exact path="/failure" component={Failure} />
       <PublicRoute exact path="/bag" component={Bag} />
       <PublicRoute exact path="/faq" component={Faq} />
       <PublicRoute exact path="/terms-of-service" component={Terms} />
@@ -130,27 +134,22 @@ const Routing = () => {
         path="/resetPassword/:token?"
         component={resetPassword}
       />
-
       <PublicRoute
         exact
         path="/categories/:categoryName/:subcategoryName"
         component={Products}
       />
-
       <PublicRoute
         exact
         path="/brands/:brandName/name=:productName?"
         component={Product}
       />
-
       <PublicRoute
         exact
         path="/categories/:categoryName"
         component={Products}
       />
-
       <PublicRoute exact path="/brands/:brandName" component={Products} />
-
       <PublicRoute path="*" exact component={Error} />
     </Switch>
   );

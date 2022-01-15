@@ -10,8 +10,14 @@ import signUp from 'assets/icons/signUp/signUpBlack.svg';
 import { useDispatch } from 'react-redux';
 import { onOpenLogInModal } from 'state/modal';
 import { useHistory } from 'react-router';
-import { bagPath, homePath, myProfilePath } from 'constants/routes/index';
+import {
+  bagPath,
+  homePath,
+  myProfilePath,
+  myWishlistPath
+} from 'constants/routes/index';
 import person from 'assets/icons/person.svg';
+import heart from 'assets/icons/heart.svg';
 
 const MiddleItems = ({ onMenuToggle, isAuthenticated, setIsSignUpModal }) => {
   const dispatch = useDispatch();
@@ -43,6 +49,11 @@ const MiddleItems = ({ onMenuToggle, isAuthenticated, setIsSignUpModal }) => {
     onMenuToggle();
   };
 
+  const onWishlist = () => {
+    history.push(myWishlistPath);
+    onMenuToggle();
+  };
+
   if (isAuthenticated) {
     return (
       <MiddleItemsWrapper>
@@ -57,6 +68,12 @@ const MiddleItems = ({ onMenuToggle, isAuthenticated, setIsSignUpModal }) => {
             <img src={person} alt={'icon'} />
           </IconWrapper>
           <span>My profile</span>
+        </MiddleItem>
+        <MiddleItem onClick={onWishlist}>
+          <IconWrapper type="middleItem">
+            <img src={heart} alt={'icon'} />
+          </IconWrapper>
+          <span>My wishlist</span>
         </MiddleItem>
         <MiddleItem onClick={onLogOut}>
           <IconWrapper type="middleItem">

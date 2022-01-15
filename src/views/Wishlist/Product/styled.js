@@ -13,6 +13,10 @@ export const Container = styled.div`
   align-items: center;
   min-height: 434px;
   min-width: 290px;
+
+  @media (max-width: 350px) {
+    min-width: 200px;
+  }
 `;
 
 export const ProductImage = styled.div`
@@ -28,12 +32,20 @@ export const ProductImage = styled.div`
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 350px) {
+    width: 200px;
+  }
 `;
 
 export const ProductDescription = styled.div`
   width: 250px;
   font-size: 14px;
   font-weight: ${fonts.sfPro.fontWeight.ultraLight};
+
+  @media (max-width: 350px) {
+    width: 200px;
+  }
 `;
 
 export const ProductName = styled.span`
