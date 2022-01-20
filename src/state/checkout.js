@@ -7,6 +7,7 @@ export const checkout = createSlice({
   name: 'checkout',
   initialState: {
     isPaymentSuccessfulStep: false,
+    isPaymentFailedStep: false,
     isPaymentStep: false,
     shippingInfo: null,
     billingInfo: null,
@@ -14,7 +15,9 @@ export const checkout = createSlice({
     isError: false,
     couponName: null,
     couponValue: null,
-    errorMessage: ''
+    errorMessage: '',
+    clientSecret: null,
+    orderId: false
   },
   reducers: {
     onCalculateShippingRequest: (state, { payload }) => {
@@ -64,6 +67,26 @@ export const checkout = createSlice({
       state.errorMessage = payload;
     },
 
+    onClientSecretRequest: (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    },
+
+    onClientSecretSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      // state.isPaymentStep = false;
+      state.isError = false;
+      state.errorMessage = '';
+      state.clientSecret = payload.clientSecret;
+      state.orderId = payload.orderId;
+    },
+
+    onClientFailure: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+
     onApplyCouponRequest: (state, { payload }) => {
       state.isLoading = true;
       state.isError = false;
@@ -77,6 +100,11 @@ export const checkout = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.errorMessage = payload;
+    },
+
+    onSubmitPurchaseSuccess: (state, { payload }) => {
+      state.isPaymentSuccessfulStep = true;
+      state.isPaymentStep = false;
     },
 
     resetCheckout: (state, { payload }) => {
@@ -93,6 +121,15 @@ export const checkout = createSlice({
 
     setIsPaymentSuccessfulStep: (state, { payload }) => {
       state.isPaymentSuccessfulStep = payload;
+    },
+
+    setIsIsPaymentFailedStep: (state, { payload }) => {
+      state.isPaymentFailedStep = payload;
+    },
+
+    setClientSecret: (state, { payload }) => {
+      state.clientSecret = payload;
+      state.orderId = payload;
     }
   }
 });
@@ -134,28 +171,53 @@ export const onCalculateShipping =
 export const onPurchase =
   ({ isOnlinePayment, token, shippingInfo, billingInfo, bagProducts }) =>
   async (dispatch, getState) => {
-    dispatch(actions.onPurchaseRequest());
-
     const { couponName } = getState().checkout;
 
-    try {
-      await axios.post(API + '/checkout/payment', {
-        isOnlinePayment,
-        token,
-        shippingInfo,
-        billingInfo,
-        bagProducts,
-        couponName
-      });
-      dispatch(actions.onPurchaseRequestSuccess());
+    if (isOnlinePayment) {
+      // DONT MAKE PURCHASE INSTEAD WE JUST GET THE CLIENT SECRET
+      dispatch(actions.onClientSecretRequest());
 
-      dispatch(resetBag());
-    } catch (error) {
-      const errorMessage = {
-        title: error.response.data.title,
-        description: error.response.data.description
-      };
-      dispatch(actions.onPurchaseRequestFailure(errorMessage));
+      try {
+        const result = await axios.post(API + '/checkout/payment/online', {
+          isOnlinePayment,
+          token,
+          shippingInfo,
+          billingInfo,
+          bagProducts,
+          couponName
+        });
+
+        dispatch(actions.onClientSecretSuccess(result.data));
+      } catch (error) {
+        const errorMessage = {
+          title: error.response.data.title,
+          description: error.response.data.description
+        };
+
+        dispatch(actions.onClientFailure(errorMessage));
+      }
+    } else {
+      dispatch(actions.onPurchaseRequest());
+
+      try {
+        await axios.post(API + '/checkout/payment/offline', {
+          isOnlinePayment,
+          token,
+          shippingInfo,
+          billingInfo,
+          bagProducts,
+          couponName
+        });
+
+        dispatch(actions.onPurchaseRequestSuccess());
+        dispatch(resetBag());
+      } catch (error) {
+        const errorMessage = {
+          title: error.response.data.title,
+          description: error.response.data.description
+        };
+        dispatch(actions.onPurchaseRequestFailure(errorMessage));
+      }
     }
   };
 
@@ -196,11 +258,41 @@ export const onApplyCoupon =
     }
   };
 
+export const onSubmitPurchase =
+  ({ token, shippingInfo, billingInfo, bagProducts, orderId, couponName }) =>
+  async (dispatch, getState) => {
+    // WE USE IT ONLY TO SUBMIT ONLINE PURCHASE,  WE SUMIBIT IN OFFLINE PURCHASE IN  ONPURCHASE FUNCTION
+
+    try {
+      await axios.post(API + '/checkout/payment/submit', {
+        token,
+        shippingInfo,
+        billingInfo,
+        bagProducts,
+        orderId,
+        isOnlinePayment: true,
+        couponName
+      });
+
+      dispatch(actions.onSubmitPurchaseSuccess());
+      dispatch(resetBag());
+    } catch (error) {
+      console.log(error);
+      // const errorMessage = {
+      //   title: error.response.data.title,
+      //   description: error.response.data.description
+      // };
+      // dispatch(actions.onSubmitPurchaseFailure(errorMessage));
+    }
+  };
+
 export const {
   setIsPaymentStep,
   closeError,
   resetCheckout,
-  setIsPaymentSuccessfulStep
+  setIsPaymentSuccessfulStep,
+  setIsIsPaymentFailedStep,
+  setClientSecret
 } = checkout.actions;
 
 export default checkout.reducer;

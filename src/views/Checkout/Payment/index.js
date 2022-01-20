@@ -10,7 +10,7 @@ import {
   PaymentMethods
 } from './styled';
 import checkmark from 'assets/icons/checkmark.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CheckBox from 'components/atoms/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeError, setIsPaymentStep, onPurchase } from 'state/checkout';
@@ -22,7 +22,7 @@ import ErrorMessage from 'components/atoms/ErrorMessage';
 const Payment = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [isOnlinePayment, setIsOnlinePayment] = useState(false);
+  const [isOnlinePayment, setIsOnlinePayment] = useState(true);
 
   const {
     billingInfo,
@@ -31,8 +31,15 @@ const Payment = () => {
     isLoading,
     isError,
     errorMessage,
-    isPaymentSuccessfulStep
+    isPaymentSuccessfulStep,
+    clientSecret
   } = useSelector((state) => state.checkout);
+
+  useEffect(() => {
+    if (clientSecret) {
+      history.push('/checkout/form');
+    }
+  }, [clientSecret]);
 
   const { products, deliveryPrice, subtotal, total } = useSelector(
     (state) => state.bag
@@ -103,8 +110,7 @@ const Payment = () => {
                 {isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
               </CheckBox>
               <span>
-                <span>Online Payment</span>
-                <span>(COMING SOON)</span>
+                <span>Pay by card</span>
               </span>
             </OnlinePayment>
 
@@ -112,19 +118,15 @@ const Payment = () => {
               <CheckBox>
                 {!isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
               </CheckBox>
-              <span>Offline Payment</span>
+              <span>Cash on delivery</span>
             </OfflinePayment>
           </PaymentMethods>
           <Buttons>
             <Button type="white" onClick={onGoBack}>
               Back
             </Button>
-            <Button
-              onClick={() => {
-                makePurchase();
-              }}
-            >
-              Buy
+            <Button onClick={makePurchase}>
+              {isOnlinePayment ? 'Next' : 'Submit Payment'}
             </Button>
           </Buttons>
         </Container>
