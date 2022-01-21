@@ -15,7 +15,7 @@ export const BillingCheckbox = styled.span`
 
 export const Title = styled.h2`
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
 export const Buttons = styled.span`
@@ -57,7 +57,7 @@ export const OnlinePayment = styled.span`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   > :first-child {
     display: flex;
@@ -108,4 +108,27 @@ export const ErrorMessage = styled.div`
   right: 30px;
   top: 45px;
   color: red;
+`;
+
+export const StyledSpan = styled.span`
+  text-decoration: none;
+  font-weight: ${fonts.sfPro.fontWeight.light};
+  color: ${colors.pink.dark};
+  margin-left: 5px;
+  border-bottom: 1px solid ${colors.pink.dark};
+  cursor: pointer;
+
+  :first-child {
+    margin-right: 5px;
+  }
+`;
+
+export const AgreeToTermsContainer = styled.div`
+  display: flex;
+  margin-top: 30px;
+  color: red;
+`;
+
+export const Terms = styled.div`
+  font-weight: ${fonts.sfPro.fontWeight.light};
 `;

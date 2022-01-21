@@ -130,6 +130,11 @@ export const checkout = createSlice({
     setClientSecret: (state, { payload }) => {
       state.clientSecret = payload;
       state.orderId = payload;
+    },
+
+    toggleError: (state, { payload }) => {
+      state.isError = payload.isError;
+      state.errorMessage = payload.errorMessage;
     }
   }
 });
@@ -292,7 +297,8 @@ export const {
   resetCheckout,
   setIsPaymentSuccessfulStep,
   setIsIsPaymentFailedStep,
-  setClientSecret
+  setClientSecret,
+  toggleError
 } = checkout.actions;
 
 export default checkout.reducer;

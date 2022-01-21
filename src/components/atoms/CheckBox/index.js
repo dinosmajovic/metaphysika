@@ -11,6 +11,7 @@ export const Box = styled.span`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  min-width: 16px;
 
   > img {
     width: 100%;

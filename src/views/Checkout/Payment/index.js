@@ -7,13 +7,21 @@ import {
   Container,
   OfflinePayment,
   OnlinePayment,
-  PaymentMethods
+  PaymentMethods,
+  StyledSpan,
+  AgreeToTermsContainer,
+  Terms
 } from './styled';
 import checkmark from 'assets/icons/checkmark.svg';
 import { useEffect, useState } from 'react';
 import CheckBox from 'components/atoms/CheckBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { closeError, setIsPaymentStep, onPurchase } from 'state/checkout';
+import {
+  closeError,
+  setIsPaymentStep,
+  onPurchase,
+  toggleError
+} from 'state/checkout';
 import Loader from 'components/atoms/Loader/index';
 import { Redirect } from 'react-router';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
@@ -23,11 +31,15 @@ import ms_logo from 'assets/images/logos/ms_small.png';
 import visa_logo from 'assets/images/logos/visa_small.gif';
 import diners_small from 'assets/images/logos/diners_small.gif';
 import discover_small from 'assets/images/logos/discover_small.gif';
+import { privacyPolicyPath, termsOfService } from 'constants/routes/index';
 
 const Payment = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isOnlinePayment, setIsOnlinePayment] = useState(true);
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+  console.log(isAuthenticated);
 
   const {
     billingInfo,
@@ -50,6 +62,7 @@ const Payment = () => {
     (state) => state.bag
   );
   const { token } = useSelector((state) => state.user);
+  const [isAgreedToTerms, setIsAgreedToTerms] = useState(false);
 
   const onOfflinePayment = () => {
     setIsOnlinePayment(false);
@@ -64,20 +77,57 @@ const Payment = () => {
   };
 
   const makePurchase = () => {
-    dispatch(
-      onPurchase({
-        isOnlinePayment,
-        token,
-        billingInfo,
-        shippingInfo,
-        bagProducts: products
-      })
-    );
+    if (isAuthenticated) {
+      dispatch(
+        onPurchase({
+          isOnlinePayment,
+          token,
+          billingInfo,
+          shippingInfo,
+          bagProducts: products
+        })
+      );
+    } else {
+      if (isAgreedToTerms) {
+        dispatch(
+          onPurchase({
+            isOnlinePayment,
+            token,
+            billingInfo,
+            shippingInfo,
+            bagProducts: products
+          })
+        );
+      } else {
+        const errorMessage = {
+          title: 'Terms not accepted',
+          description:
+            'Please accept our terms of service and privacy policy to continue.'
+        };
+
+        dispatch(toggleError({ isError: true, errorMessage }));
+      }
+    }
   };
 
   const onGoBack = () => {
     dispatch(setIsPaymentStep({ isPaymentStep: false, shippingInfo: null }));
     history.push('/checkout/shipping');
+  };
+
+  const onGoToTerms = () => {
+    history.push(termsOfService);
+  };
+
+  const onGoToPolicy = () => {
+    history.push(privacyPolicyPath);
+  };
+
+  const onAgreeToTerms = () => {
+    setIsAgreedToTerms(!isAgreedToTerms);
+    if (isError) {
+      dispatch(closeError());
+    }
   };
 
   if (products.length < 1) {
@@ -135,6 +185,23 @@ const Payment = () => {
               </CheckBox>
               <span>Cash on delivery</span>
             </OfflinePayment>
+
+            {!isAuthenticated && (
+              <AgreeToTermsContainer>
+                <CheckBox onBoxClick={onAgreeToTerms}>
+                  {isAgreedToTerms && <img src={checkmark} alt={'checkmark'} />}
+                </CheckBox>
+                <Terms>
+                  I agree to
+                  <StyledSpan onClick={onGoToTerms}>
+                    Terms of service
+                  </StyledSpan>
+                  and
+                  <StyledSpan onClick={onGoToPolicy}>Privacy policy</StyledSpan>
+                  .
+                </Terms>
+              </AgreeToTermsContainer>
+            )}
           </PaymentMethods>
           <Buttons>
             <Button type="white" onClick={onGoBack}>

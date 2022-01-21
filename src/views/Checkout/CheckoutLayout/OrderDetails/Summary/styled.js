@@ -7,7 +7,7 @@ export const SummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 40px;
+  padding: 40px;
   border-radius: 7px;
   width: 100%;
 
@@ -31,6 +31,10 @@ export const SummaryContainer = styled.div`
     > span {
       font-size: ${({ type }) => (type === 'subTotal' ? '20px' : '18px')};
     }
+  }
+
+  @media (max-width: 400px) {
+    padding: 20px;
   }
 `;
 
