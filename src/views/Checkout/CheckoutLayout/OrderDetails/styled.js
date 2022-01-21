@@ -9,6 +9,14 @@ export const Container = styled.div`
   @media (max-width: 1150px) {
     width: 100%;
   }
+
+  @media (max-width: 600px) {
+    padding: ${({ type }) => (type === 'subTotal' ? '0px' : '20px')};
+  }
+
+  @media (max-width: 400px) {
+    padding: 0px;
+  }
 `;
 
 export const PromoCodeWrapper = styled.div`

@@ -19,7 +19,7 @@ const Confirmation = () => {
     };
   }, [dispatch]);
 
-  if (isPaymentSuccessfulStep) {
+  if (true) {
     return (
       <Container>
         <div>
@@ -27,6 +27,10 @@ const Confirmation = () => {
         </div>
         <h1>Thank you !</h1>
         <h3>Payment done successfully</h3>
+        <h4>We sent you a confirmation email!</h4>
+        <h4>
+          If you don't get an email please check out your junk/spam folder.
+        </h4>
 
         <StyledLink to={homePath}>
           <Button size={windowWidth > 600 ? 'big' : 'medium'}>

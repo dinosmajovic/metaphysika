@@ -1,18 +1,75 @@
-import { Container, Title } from './styled';
+import { Container, Title, LogosContainer, LogoContainer } from './styled';
+import visa_secure from 'assets/images/logos/visa_secure.jpg';
+import mc_check from 'assets/images/logos/mc_check.png';
+import diners_secure from 'assets/images/logos/diners_secure.png';
+import monri from 'assets/images/logos/monri.png';
 
 const Terms = () => {
   const terms = [
     {
-      termTitle: `THESE TERMS AND CONDITIONS MAY CHANGE`,
-      termDesc: `We reserve the right to update or modify these terms and conditions at
-      any time without prior notice.  Your use of www.metaphysika.ba
-      following any such change constitutes your agreement to follow and be
-      bound by the terms and conditions as changed. For this reason, we
-      encourage you to review these terms and conditions whenever you use
-      this website.`
+      termTitle: `General`,
+      termDesc: `Metaphysika d.o.o. reserves the right to change these terms and conditions. All changes will be applied to the use of www.metaphysika.ba pages. The buyer is responsible for the accuracy and completeness of the data entered during the purchase.
+      The services provided by the www.metaphysika.ba online store do not include the costs you incur using computer equipment and services to access our site. Metaphysika d.o.o. is not responsible for telephone costs, Internet traffic or any other costs that may be incurred.
+      Although Metaphysika d.o.o. strives to give the best possible offer of services, Metaphysika d.o.o. cannot guarantee that the services on www.metaphysika.ba will meet your needs.
+      Metaphysika d.o.o. nor can it guarantee that the service will be error-free. If an error occurs, please report it to our Contact Center or e-mail contact@metaphysika.ba in order to eliminate it as soon as possible.`
     },
     {
-      termTitle: `LIMITATIONS OF LIABILITY`,
+      termTitle: 'Credit card purchase security statement',
+      termDesc: `Confidentiality of your information is protected and secured by using SSL encryption. Pages for web payment are secured by using Secure Socket Layer (SSL) protocol with 128-bit data encryption. SSL encryption is a data coding procedure for prevention of unauthorized access during data transfer.
+    This enables a secure data transfer and prevents unauthorized data access during communication between user and Monri WebPay Payment Gateway and vice versa.
+    Monri WebPay Payment Gateway and financial institutions exchange data by using their virtual private network (VPN) which is also protected from unauthorized access.
+    Monri Payments is PCI DSS Level 1 certified payment service provider.
+    Credit card numbers are not stored by Merchant and are not available to unauthorized personnel.`
+    },
+    {
+      termTitle: 'Personal data gathering and protection statement',
+      termDesc: `We are committed to provide service of protection of our customer's personal data in a way that we collect only essential basic information about our buyers that are necessary for fulfilling our obligations. We also inform our customers about the way we collect information and regularly give customers an option about how their information will be used, including the possibility to decide whether their name should be included or omitted from the lists used for marketing campaigns.
+      All user information is strictly guarded and are available only to the employees who need that information for completing the job.
+      All our employees and business partners are responsible to follow the principles of confidentiality protection.`
+    },
+    {
+      termTitle: 'Ordering',
+      termDesc: `The customer orders the product or products via the electronic order form.
+      A customer is considered to be any person who electronically orders at least one product, fills in the required information and sends the order.
+      All prices are expressed in the Bosnian-Herzegovinian national currency, convertible mark (km) with VAT.
+      Goods are ordered electronically, by clicking on a specific product and storing it in the cart. The goods are considered ordered at the moment when the buyer chooses and confirms the method of payment.`
+    },
+    {
+      termTitle: `Payment`,
+      termDesc: `Ordered products or services are paid online with one of the credit cards: Mastercard®, Maestro® or Visa.`
+    },
+    {
+      termTitle: `Currency conversion statement`,
+      termDesc: `All payments will be affected in Bosnian currency. The charged amount on your credit card account is converted into your local currency according to the exchange rate of credit card associations.`
+    },
+    {
+      termTitle: `Delivery`,
+      termDesc: `Ordered products are packaged in such a way that they are not damaged during normal handling. When picking up, the buyer is obliged to check the condition of the shipment and in case of damage to immediately advertise the product to the delivery person (employee of the company that performs delivery). The seller disclaims all liability for damage that may occur during delivery.
+      If the buyer does not receive the goods, or the delivery notice, after it has been sent, within the expected time, the buyer has the right to inform the seller in order to take action to find the shipment or to send a replacement shipment.
+      If the buyer refuses to receive the goods he has ordered from the seller, he has the right to demand from the buyer reimbursement of all costs related to delivery.
+      The seller undertakes to send the shipment to the buyer the moment he receives the confirmation approving the online transaction. After receiving this confirmation, the seller undertakes to send the shipment within 5 (five) working days.
+      Once the courier (the delivery company) receives the shipment from the seller, the seller is no longer responsible for the further course of delivery and any delays and problems that may arise in connection with further handling and delivery of goods.`
+    },
+
+    {
+      termTitle: `Complaints`,
+      termDesc: `The seller undertakes to deliver a product that is technically correct and corresponds to the description of the product listed on www.metaphysika.ba. The image illustrating the product on the website does not have to correspond to the actual appearance of the product and the customer cannot advertise this segment.
+      In the event of a technical malfunction of the product, the seller assumes full responsibility.
+      In case of technical malfunction, the customer is obliged to advertise the product within 4 (four) working days. After advertising the technical defect, the buyer is obliged to return the technically defective product by mail, along with the invoice, after which the seller will send the buyer a replacement product within 3 (three) working days, free of charge. In the case of the above, the customer has no right to request a refund, but only a replacement product.
+      The seller is not responsible for any damages and other obligations that are in the domain of the supplier (the company that performs the delivery of products).`
+    },
+    {
+      termTitle: `Copyright and trademar`,
+      termDesc: `Unless otherwise indicated, material on this website, including but not
+      limited to texts, images, illustrations, software, audio clips, video clips,
+      animation files, is subject to the copyright and trademark rights of
+      METAPHYSIKA D.O.O.. Consequently, the material on this website may
+      not be copied, reproduced, modified, posted, transmitted, distributed, in
+      whole or in part in any form whatsoever, without the prior written consent
+      of METAPHYSIKA D.O.O. All rights reserved.`
+    },
+    {
+      termTitle: `Limitations of liability`,
       termDesc: `METAPHYSIKA D.O.O. shall not assume any responsibility, and shall
       not be liable for, any damages to, or viruses that may infect, your
       computer, telecommunication equipment, or other property caused by or
@@ -50,18 +107,9 @@ const Terms = () => {
       POSTED ON THIS WEB SITE. This site may include inaccuracies,
       mistakes or typographical errors.`
     },
+
     {
-      termTitle: `COPYRIGHT AND TRADEMARK`,
-      termDesc: `Unless otherwise indicated, material on this website, including but not
-      limited to texts, images, illustrations, software, audio clips, video clips,
-      animation files, is subject to the copyright and trademark rights of
-      METAPHYSIKA D.O.O.. Consequently, the material on this website may
-      not be copied, reproduced, modified, posted, transmitted, distributed, in
-      whole or in part in any form whatsoever, without the prior written consent
-      of METAPHYSIKA D.O.O. All rights reserved.`
-    },
-    {
-      termTitle: `PRODUCTS, CONTENT AND SPECIFICATIONS`,
+      termTitle: `Products, content and specifications`,
       termDesc: `All features, content, specifications, products and prices of products and
       services described or depicted on this website are subject to change at
       any time without notice.  Certain weights, measures and similar
@@ -78,7 +126,7 @@ const Terms = () => {
       that the products ordered will be used only in a lawful manner.`
     },
     {
-      termTitle: `SHIPPING LIMITATIONS`,
+      termTitle: `Shipping limitations`,
       termDesc: `When an order is placed, it will be shipped to an address designated by
       the purchaser as long as that shipping address is compliant with the
       shipping restrictions contained on this website.  All purchases from this
@@ -88,14 +136,14 @@ const Terms = () => {
       claims with carriers for damaged and/or lost shipments.`
     },
     {
-      termTitle: `DUTIES AND TAXES`,
-      termDesc: `You are responsible for duties and taxes outside BOSNIA AND
-      HERZEGOVINA. All items entering a foreign country are subject to
+      termTitle: `Duties and taxed`,
+      termDesc: `You are responsible for duties and taxes outside Bosnia and
+      Herzegovina. All items entering a foreign country are subject to
       customs inspection and assessment of the duties and taxes in
       accordance with that country’s national laws.`
     },
     {
-      termTitle: `YOUR ACCOUNT`,
+      termTitle: `Your account`,
       termDesc: `You are responsible for maintaining the confidentiality of your account
       and password information, and you agree to accept responsibility for all
       activities that occur under your account and password.  This website and
@@ -106,7 +154,7 @@ const Terms = () => {
       information and that you have the authority to place the order.`
     },
     {
-      termTitle: `EXCHANGE AND REFUND POLICY`,
+      termTitle: `Exchange and refund policy`,
       termDesc: `New, unused full-price merchandise purchased at retail store may be
       exchange at any boutique with an original receipt within 7 days of
       purchase. After 7 days, the merchandise may not be exchanged.
@@ -120,11 +168,10 @@ const Terms = () => {
       receipt.`
     },
     {
-      termTitle: `EXCHANGE AND REFUND POLICY (ONLINE SHOP)`,
+      termTitle: `Exchange and refund policy (ONLINE SHOP)`,
       termDesc: `Electronice Communications
       When you visit this website and/or send email to us, you consent to
       receive electronic communications from us. You agree that all
-      
       agreements, notices, disclosures and other communications that we sent
       you electronically satisfy any legal requirement that such
       communications be in writing
@@ -136,10 +183,6 @@ const Terms = () => {
       kind, expressed or implied, including without limitation, warranties or
       conditions of merchantability, fitness, quality, durability or suitability for
       any particular purpose, or non-infringement.`
-    },
-    {
-      termTitle: ``,
-      termDesc: ``
     }
   ];
   return (
@@ -154,6 +197,24 @@ const Terms = () => {
           </div>
         );
       })}
+      <LogosContainer>
+        <LogoContainer>
+          <span>Your transactions are secure with Visa</span>
+          <img src={visa_secure} alt="Visa secure" />
+        </LogoContainer>
+        <LogoContainer>
+          <span>Mastercard® Identity Check™</span>
+          <img src={mc_check} alt="Mastercard check" />
+        </LogoContainer>
+        <LogoContainer>
+          <span>Diners</span>
+          <img src={diners_secure} alt="Diners" />
+        </LogoContainer>
+        <LogoContainer>
+          <span>Diners</span>
+          <img src={monri} alt="Monri" />
+        </LogoContainer>
+      </LogosContainer>
     </Container>
   );
 };

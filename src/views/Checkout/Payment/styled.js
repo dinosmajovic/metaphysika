@@ -33,7 +33,7 @@ export const Buttons = styled.span`
 `;
 
 export const Container = styled.div`
-  width: 480px;
+  min-width: 520px;
 
   > h1 {
     font-size: 25px;
@@ -41,7 +41,9 @@ export const Container = styled.div`
   }
 
   @media (max-width: 600px) {
+    min-width: 0px;
     width: 100%;
+    padding: 20px;
   }
 `;
 
@@ -53,18 +55,40 @@ export const PaymentMethods = styled.span`
 
 export const OnlinePayment = styled.span`
   display: flex;
+  flex-direction: column;
   cursor: pointer;
   margin-bottom: 20px;
 
-  > :nth-child(2) {
-    > :first-child {
-      font-size: 16px;
+  > :first-child {
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 16px;
+
+    margin-right: 10px;
+
+    > span {
       font-weight: ${fonts.sfPro.fontWeight.light};
-      margin-right: 10px;
+    }
+  }
+
+  > :nth-child(2) {
+    display: flex;
+    align-items: center;
+
+    > img {
+      :not(:last-child) {
+        margin-right: 5px;
+      }
+
+      object-fit: cover;
+
+      @media (max-width: 600px) {
+        margin-bottom: 20px;
+      }
     }
 
-    > :nth-child(2) {
-      color: ${colors.pink.primary};
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
     }
   }
 `;

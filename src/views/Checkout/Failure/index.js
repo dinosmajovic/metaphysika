@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import Error from 'views/Error';
 import { setIsIsPaymentFailedStep } from 'state/checkout';
 import { useEffect } from 'react';
@@ -16,7 +15,7 @@ export const Failure = () => {
 
   return (
     <Error
-      title="Payment processing error!"
+      title="Transaction declined"
       description={`${
         isPaymentFailedStep
           ? `${isPaymentFailedStep}`

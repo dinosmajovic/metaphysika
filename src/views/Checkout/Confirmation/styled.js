@@ -9,6 +9,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 80px 0px;
+  padding: 20px;
 
   > div {
     margin-bottom: 25px;
@@ -78,4 +79,5 @@ export const PaymentProcessing = styled.div`
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
+  margin-top: 20px;
 `;

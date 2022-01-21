@@ -50,18 +50,7 @@ const PaymentForm = () => {
   }, [cardElement]);
 
   const monriInstance = window['Monri'];
-  const monri = monriInstance(TOKEN, {
-    fonts: [
-      {
-        family: 'Rubik-Light',
-        src: 'https://parkmatix.com/static/fonts/Rubik-Light.ttf'
-      },
-      {
-        family: 'Rubik-Regular',
-        src: 'https://parkmatix.com/static/fonts/Rubik-Regular.ttf'
-      }
-    ]
-  });
+  const monri = monriInstance(TOKEN);
 
   if (isPaymentSuccessfulStep) {
     return <Redirect to="/checkout/confirmation" />;
@@ -73,6 +62,7 @@ const PaymentForm = () => {
 
   if (clientSecret) {
     const components = monri.components({ clientSecret });
+
     const card = components.create('card', {
       style: {
         base: {
@@ -114,12 +104,11 @@ const PaymentForm = () => {
     });
 
     card.onChange((event) => {
-      var displayError = document.getElementById('card-errors');
       if (event.error) {
-        console.log('error ocurred', event.error);
-        displayError.textContent = event.error.message;
+        const { message } = event.error;
+        cardError.current.textContent = message;
       } else {
-        displayError.textContent = '';
+        cardError.current.textContent = '';
       }
     });
 
@@ -130,7 +119,7 @@ const PaymentForm = () => {
 
       if (result.error) {
         //Inform the customer that there was an error.
-        cardError.current.textContent = result.error;
+        cardError.current.textContent = result.error.message;
       } else {
         const transactionParams = {
           address: `${shippingInfo.address.line1} ${shippingInfo.address.line2}`,
@@ -150,7 +139,7 @@ const PaymentForm = () => {
           } else {
             const paymentResult = result.result;
 
-            if (true) {
+            if (paymentResult.status === 'approved') {
               dispatch(
                 onSubmitPurchase({
                   token,

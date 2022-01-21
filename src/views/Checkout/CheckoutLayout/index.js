@@ -9,6 +9,7 @@ export const CheckoutContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 export const Container = styled.div`
@@ -30,7 +31,7 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     width: 100%;
     padding: 20px;
   }

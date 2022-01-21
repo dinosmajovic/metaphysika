@@ -18,6 +18,11 @@ import Loader from 'components/atoms/Loader/index';
 import { Redirect } from 'react-router';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 import ErrorMessage from 'components/atoms/ErrorMessage';
+import mc_logo from 'assets/images/logos/mc_small.png';
+import ms_logo from 'assets/images/logos/ms_small.png';
+import visa_logo from 'assets/images/logos/visa_small.gif';
+import diners_small from 'assets/images/logos/diners_small.gif';
+import discover_small from 'assets/images/logos/discover_small.gif';
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -39,7 +44,7 @@ const Payment = () => {
     if (clientSecret) {
       history.push('/checkout/form');
     }
-  }, [clientSecret]);
+  }, [clientSecret, history]);
 
   const { products, deliveryPrice, subtotal, total } = useSelector(
     (state) => state.bag
@@ -106,12 +111,22 @@ const Payment = () => {
               />
             )}
             <OnlinePayment onClick={onOnlinePayment}>
-              <CheckBox>
-                {isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
-              </CheckBox>
-              <span>
+              <div>
+                <CheckBox>
+                  {isOnlinePayment && <img src={checkmark} alt={'checkmark'} />}
+                </CheckBox>
                 <span>Pay by card</span>
-              </span>
+              </div>
+
+              {isOnlinePayment && (
+                <div>
+                  <img src={mc_logo} alt="mastercard" />
+                  <img src={ms_logo} alt="maestro" />
+                  <img src={visa_logo} alt="visa" />
+                  <img src={diners_small} alt="diners" />
+                  <img src={discover_small} alt="discover" />
+                </div>
+              )}
             </OnlinePayment>
 
             <OfflinePayment onClick={onOfflinePayment}>

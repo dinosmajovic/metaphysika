@@ -28,7 +28,7 @@ const OrderDetails = ({
   });
 
   return (
-    <Container>
+    <Container type={type}>
       <Summary
         subtotalPrice={subtotalPrice}
         type={type}

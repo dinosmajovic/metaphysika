@@ -45,6 +45,7 @@ export const getBrandsAndCategories = (payload) => async (dispatch) => {
       })
     );
   } catch (error) {
+    console.log(error);
     const errorMessage = {
       title: error.response.data.title,
       description: error.response.data.description

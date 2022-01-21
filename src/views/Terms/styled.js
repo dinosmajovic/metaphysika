@@ -40,10 +40,37 @@ export const Container = styled.div`
 `;
 export const Title = styled.h1`
   font-size: 26px;
-  margin: 20px 0px;
   color: ${colors.pink.primary};
+  margin: 20px 0px;
 
   @media (max-width: 600px) {
     font-size: 23px;
+  }
+`;
+
+export const LogosContainer = styled.span`
+  margin-top: 20px;
+  margin-bottom: 50px;
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+
+  justify-content: center;
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: center;
+  margin-right: 80px;
+  margin-bottom: 30px;
+
+  > span {
+    font-size: 16px;
+  }
+
+  > img {
+    height: 70px;
   }
 `;

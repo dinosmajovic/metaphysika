@@ -132,6 +132,7 @@ export const Answer = styled.p`
 
 export const ContactInformation = styled.div`
   display: flex;
+  margin-bottom: 10px;
 
   > :first-child {
     margin-right: 8px;

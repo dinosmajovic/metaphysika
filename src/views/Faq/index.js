@@ -185,8 +185,26 @@ const Faq = () => {
           <h1>Contact informations</h1>
           <div>
             <ContactInformation>
+              <span>Name</span>
+              <span>metaphysika.doo</span>
+            </ContactInformation>
+            <ContactInformation>
               <span>E-mail:</span>
               <span>contact@metaphysika.ba</span>
+            </ContactInformation>
+            <ContactInformation>
+              <span>
+                Broj sudskog ili drugog javnog registra u koji je upisan, te
+                podatke o registru skracenica CRN
+              </span>
+              <span>213131231231231</span>
+            </ContactInformation>
+            <ContactInformation>
+              <span>
+                Porezni broj (ako je obveznik plaćanja poreza na dodatnu
+                vrijednost- PDV) Tax number
+              </span>
+              <span>1241251251</span>
             </ContactInformation>
             <ContactInformation>
               <span>Customer service:</span>
