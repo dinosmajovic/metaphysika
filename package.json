@@ -2,7 +2,6 @@
   "name": "metahpysika",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "@bigcommerce/storefront-data-hooks": "^1.5.4",
