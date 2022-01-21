@@ -3,9 +3,10 @@ import Button from 'components/atoms/Button';
 import { Link } from 'react-router-dom';
 
 const Error = ({ title, description, payment }) => {
-  if (title && description) {
+  if (false) {
     return (
       <Container>
+        <span></span>
         <span>{title}</span>
         <p>{description}</p>
         <Link to={'/'}>

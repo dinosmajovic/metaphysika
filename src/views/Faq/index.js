@@ -51,7 +51,7 @@ const Faq = () => {
     {
       isOpened: false,
       question: `How do I pay for my orders?`,
-      answer: `We accept payments via cards Mastercard, VISA.`
+      answer: `We accept payments via cards Mastercard®, Maestro® or Visa.`
     },
     {
       isOpened: false,
@@ -76,7 +76,7 @@ const Faq = () => {
     {
       isOpened: false,
       question: `When will my order be processed?`,
-      answer: `All orders will be processed within 2 working days, excluding weekends
+      answer: `All orders will be processed within 5 working days, excluding weekends
       and public holidays.`
     },
     {
@@ -186,25 +186,19 @@ const Faq = () => {
           <div>
             <ContactInformation>
               <span>Name</span>
-              <span>metaphysika.doo</span>
+              <span>Metaphysika doo</span>
             </ContactInformation>
             <ContactInformation>
               <span>E-mail:</span>
               <span>contact@metaphysika.ba</span>
             </ContactInformation>
             <ContactInformation>
-              <span>
-                Broj sudskog ili drugog javnog registra u koji je upisan, te
-                podatke o registru skracenica CRN
-              </span>
-              <span>213131231231231</span>
+              <span>Tax code</span>
+              <span>201573300009</span>
             </ContactInformation>
             <ContactInformation>
-              <span>
-                Porezni broj (ako je obveznik plaćanja poreza na dodatnu
-                vrijednost- PDV) Tax number
-              </span>
-              <span>1241251251</span>
+              <span>JIB</span>
+              <span>4201573300009</span>
             </ContactInformation>
             <ContactInformation>
               <span>Customer service:</span>

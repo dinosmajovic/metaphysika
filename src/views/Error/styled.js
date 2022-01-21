@@ -12,21 +12,35 @@ export const Container = styled.div`
   background-color: ${colors.gray.light};
   position: fixed;
   z-index: 50;
+  padding: 20px;
 
   > :first-child {
     font-size: 50px;
     color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 24px;
+    }
   }
 
   > :nth-child(2) {
     font-size: 30px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
     color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 20px;
+    }
   }
 
   > p {
     font-size: 20px;
     margin: 20px 0px;
     font-weight: ${fonts.sfPro.fontWeight.regular};
+    color: ${colors.pink.primary};
+
+    @media (max-width: 600px) {
+      font-size: 16px;
+    }
   }
 `;

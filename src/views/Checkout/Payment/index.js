@@ -39,8 +39,6 @@ const Payment = () => {
   const [isOnlinePayment, setIsOnlinePayment] = useState(true);
   const { isAuthenticated } = useSelector((state) => state.user);
 
-  console.log(isAuthenticated);
-
   const {
     billingInfo,
     shippingInfo,
