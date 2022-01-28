@@ -3,7 +3,7 @@ import Button from 'components/atoms/Button';
 import { Link } from 'react-router-dom';
 
 const Error = ({ title, description, payment }) => {
-  if (false) {
+  if (title && description) {
     return (
       <Container>
         <span></span>

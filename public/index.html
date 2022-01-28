@@ -18,6 +18,13 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.svg?v=4">
   <title>Metaphysika</title>
   <script src="https://ipgtest.monri.com/dist/components.js"></script>
+  <script>
+    var host = "www.metaphysika.ba" || "metaphysika.ba";
+    if ((host == window.location.host) && (window.location.protocol != "https:")) {
+      window.location.protocol = "https";
+    }
+  </script>
+
 </head>
 
 
