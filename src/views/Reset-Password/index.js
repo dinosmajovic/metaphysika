@@ -72,17 +72,9 @@ const ResetPassword = () => {
   if (isLoading) {
     return (
       <Container>
-        <h2>Change password</h2>
         <LoaderWrapper>
           <Loader />
         </LoaderWrapper>
-        <Button
-          onClick={() => {
-            formik.submitForm();
-          }}
-        >
-          Verify
-        </Button>
       </Container>
     );
   } else if (passwordIsChanged) {
@@ -101,7 +93,7 @@ const ResetPassword = () => {
   } else {
     return (
       <Container>
-        <h2>Enter your email address</h2>
+        <h2>New password</h2>
         {isLoading && <Loader />}
         <FormContainer>
           {isError && (
