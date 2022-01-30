@@ -132,3 +132,13 @@ export const AgreeToTermsContainer = styled.div`
 export const Terms = styled.div`
   font-weight: ${fonts.sfPro.fontWeight.light};
 `;
+
+export const CardsContainer = styled.div`
+  > img {
+    width: 70px;
+  }
+
+  > :nth-child(2) {
+    width: 60px;
+  }
+`;

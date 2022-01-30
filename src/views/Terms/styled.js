@@ -50,12 +50,15 @@ export const Title = styled.h1`
 
 export const LogosContainer = styled.span`
   margin-top: 20px;
-  margin-bottom: 50px;
+
   display: flex;
   padding: 20px;
   flex-wrap: wrap;
-
   justify-content: center;
+
+  @media (max-width: 620px) {
+    flex-direction: column;
+  }
 `;
 
 export const LogoContainer = styled.div`
@@ -67,10 +70,19 @@ export const LogoContainer = styled.div`
   margin-bottom: 30px;
 
   > span {
-    font-size: 16px;
+    font-size: 14px;
+    color: ${colors.gray.textLight};
   }
 
   > img {
     height: 70px;
+  }
+
+  @media (max-width: 920px) {
+    margin-right: 50px;
+  }
+
+  @media (max-width: 630px) {
+    margin-right: 0px;
   }
 `;

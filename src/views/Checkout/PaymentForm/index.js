@@ -1,3 +1,4 @@
+import Button from 'components/atoms/Button/index';
 import Loader from 'components/atoms/Loader/index';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +8,38 @@ import {
   onSubmitPurchase,
   setIsIsPaymentFailedStep
 } from 'state/checkout';
+import styled from 'styled-components';
+import { colors } from 'styles/index';
+
 const { TOKEN } = process.env;
+
+const Label = styled.label`
+  color: ${colors.pink.primary};
+  display: block;
+  margin-bottom: 20px;
+`;
+
+const Form = styled.form`
+  width: 1000px;
+  margin: 0px auto;
+  margin-top: 40px;
+
+  @media (max-width: 1050px) {
+    width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 0px 20px;
+  }
+`;
+
+const CardError = styled.span`
+  font-size: 14px;
+  color: red;
+  display: block;
+  margin-bottom: 10px;
+`;
 
 const PaymentForm = () => {
   const {
@@ -72,24 +104,24 @@ const PaymentForm = () => {
           color: 'red'
         },
         complete: {
-          color: 'blue'
+          color: `${colors.pink.primary}`
         },
         label: {
           base: {
-            color: 'blue',
+            color: `${colors.pink.primary}`,
             textTransform: 'none'
           },
           invalid: {
-            color: 'gray'
+            color: 'red'
           },
           complete: {
-            color: 'green'
+            color: '#4caf50'
           }
         },
         input: {
           base: {
             fontSize: '15px',
-            color: '#663399'
+            color: `${colors.pink.primary}`
           }
         },
         rememberCardLabel: {
@@ -161,25 +193,25 @@ const PaymentForm = () => {
     };
 
     return (
-      <>
-        <form
-          onSubmit={(event) => handleSubmit(event)}
-          action=""
-          method="post"
-          id="payment-form"
-          ref={paymentForm}
-        >
-          <div className="form-row">
-            <label htmlFor="card-element">Credit or debit card</label>
-            <div ref={cardElement} id="card-element">
-              {isMounted ? card.mount('card-element') : <Loader />}
-            </div>
-
-            <div ref={cardError} id="card-errors" role="alert"></div>
+      <Form
+        onSubmit={(event) => handleSubmit(event)}
+        action=""
+        method="post"
+        id="payment-form"
+        ref={paymentForm}
+      >
+        <div className="form-row">
+          <Label label htmlFor="card-element">
+            Credit or debit card
+          </Label>
+          <div ref={cardElement} id="card-element">
+            {isMounted ? card.mount('card-element') : <Loader />}
           </div>
-          <button>Submit Payment</button>
-        </form>
-      </>
+
+          <CardError ref={cardError} id="card-errors" role="alert"></CardError>
+        </div>
+        <Button>Submit Payment</Button>
+      </Form>
     );
   }
 

@@ -1,7 +1,6 @@
 import { Container, Title, LogosContainer, LogoContainer } from './styled';
 import visa_secure from 'assets/images/logos/visa_secure.jpg';
 import mc_check from 'assets/images/logos/mc_check.png';
-import diners_secure from 'assets/images/logos/diners_secure.png';
 import monri from 'assets/images/logos/monri.png';
 
 const Terms = () => {
@@ -207,11 +206,7 @@ const Terms = () => {
           <img src={mc_check} alt="Mastercard check" />
         </LogoContainer>
         <LogoContainer>
-          <span>Diners</span>
-          <img src={diners_secure} alt="Diners" />
-        </LogoContainer>
-        <LogoContainer>
-          <span>Diners</span>
+          <span>Monri</span>
           <img src={monri} alt="Monri" />
         </LogoContainer>
       </LogosContainer>

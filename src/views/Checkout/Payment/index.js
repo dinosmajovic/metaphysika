@@ -10,7 +10,8 @@ import {
   PaymentMethods,
   StyledSpan,
   AgreeToTermsContainer,
-  Terms
+  Terms,
+  CardsContainer
 } from './styled';
 import checkmark from 'assets/icons/checkmark.svg';
 import { useEffect, useState } from 'react';
@@ -26,12 +27,10 @@ import Loader from 'components/atoms/Loader/index';
 import { Redirect } from 'react-router';
 import { LoaderWrapper } from 'components/atoms/Loader/styledWrapper';
 import ErrorMessage from 'components/atoms/ErrorMessage';
-import mc_logo from 'assets/images/logos/mc_small.png';
-import ms_logo from 'assets/images/logos/ms_small.png';
-import visa_logo from 'assets/images/logos/visa_small.gif';
-import diners_small from 'assets/images/logos/diners_small.gif';
-import discover_small from 'assets/images/logos/discover_small.gif';
 import { privacyPolicyPath, termsOfService } from 'constants/routes/index';
+import mc_logo from 'assets/images/logos/mc_big.png';
+import ms_logo from 'assets/images/logos/ms_big.png';
+import visa_logo from 'assets/images/logos/visa_small.gif';
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -167,13 +166,11 @@ const Payment = () => {
               </div>
 
               {isOnlinePayment && (
-                <div>
+                <CardsContainer>
                   <img src={mc_logo} alt="mastercard" />
                   <img src={ms_logo} alt="maestro" />
                   <img src={visa_logo} alt="visa" />
-                  <img src={diners_small} alt="diners" />
-                  <img src={discover_small} alt="discover" />
-                </div>
+                </CardsContainer>
               )}
             </OnlinePayment>
 

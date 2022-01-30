@@ -53,3 +53,29 @@ export const ApplyButton = styled.button`
     background-color: ${colors.gray.light};
   }
 `;
+
+export const LogosContainer = styled.span`
+  margin-top: 20px;
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: center;
+  margin-bottom: 30px;
+
+  > span {
+    font-size: 14px;
+    color: ${colors.gray.textLight};
+  }
+
+  > img {
+    height: 70px;
+  }
+`;
