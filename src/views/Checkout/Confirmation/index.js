@@ -19,7 +19,7 @@ const Confirmation = () => {
     };
   }, [dispatch]);
 
-  if (true) {
+  if (isPaymentSuccessfulStep) {
     return (
       <Container>
         <div>

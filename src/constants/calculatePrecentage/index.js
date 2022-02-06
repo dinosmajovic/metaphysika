@@ -1,5 +1,6 @@
 const calculatePrecentageDecrease = (currentPrice, oldPrice) => {
-  return Math.round(((currentPrice - oldPrice) / currentPrice) * 100);
+  console.log(currentPrice, oldPrice);
+  return Math.round(((oldPrice - currentPrice) / oldPrice) * 100);
 };
 
 export default calculatePrecentageDecrease;
