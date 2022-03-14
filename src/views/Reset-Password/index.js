@@ -121,7 +121,7 @@ const ResetPassword = () => {
             formik.submitForm();
           }}
         >
-          Verify
+          Change
         </Button>
       </Container>
     );
