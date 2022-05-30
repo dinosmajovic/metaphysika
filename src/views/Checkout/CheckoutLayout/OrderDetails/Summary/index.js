@@ -7,8 +7,6 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
   let tax = 0.17 * subtotalPrice;
   tax = tax.toFixed(2);
 
-  console.log(subtotalPrice);
-
   if (type === 'subTotal') {
     return (
       <SummaryContainer type={type}>

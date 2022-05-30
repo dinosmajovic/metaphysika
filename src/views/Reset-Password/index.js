@@ -19,6 +19,7 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [passwordIsChanged, setpasswordIsChanged] = useState(false);
+
   const history = useHistory();
 
   const onPasswordReset = async (password) => {
