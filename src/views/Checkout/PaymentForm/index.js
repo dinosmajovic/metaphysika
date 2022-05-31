@@ -10,62 +10,11 @@ import {
 import styled from 'styled-components';
 import { colors } from 'styles/index';
 import fonts from 'assets/fonts';
-
-const Button = styled.button`
-  width: 115px;
-  height: 30px;
-  font-size: 12px;
-
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: ${fonts.sfPro.fontWeight.semibold};
-  border: ${({ type }) =>
-    type === 'pink' ? 'none' : `1px solid ${colors.pink.primary}`};
-  background-color: ${({ type }) =>
-    type === 'pink' ? `${colors.pink.primary}` : `${colors.white.primary}`};
-  color: ${({ type }) =>
-    type === 'pink' ? `${colors.white.primary}` : `${colors.pink.primary}`};
-
-  :active {
-    background-color: ${({ type }) =>
-      type === 'pink' ? `${colors.pink.dark}` : `${colors.gray.light}`};
-  }
-
-  :disabled {
-    background-color: ${colors.pink.light};
-    cursor: auto;
-  }
-`;
+import Loader from 'components/atoms/Loader';
 
 const { TOKEN } = process.env;
-
-const Label = styled.label`
-  color: ${colors.pink.primary};
-  display: block;
-  margin-bottom: 20px;
-`;
-
-const Form = styled.form`
-  width: 1000px;
-  margin: 0px auto;
-  margin-top: 40px;
-
-  @media (max-width: 1050px) {
-    width: 500px;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-    padding: 0px 20px;
-  }
-`;
-
-const CardError = styled.span`
-  font-size: 14px;
-  color: red;
-  display: block;
-  margin-bottom: 10px;
-`;
+const monriInstance = window['Monri'];
+const monri = monriInstance(TOKEN);
 
 const style = {
   style: {
@@ -107,6 +56,67 @@ const style = {
   // tokenizePan: true
 };
 
+const Button = styled.button`
+  width: 115px;
+  height: 30px;
+  font-size: 12px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: ${fonts.sfPro.fontWeight.semibold};
+  border: ${({ type }) =>
+    type === 'pink' ? 'none' : `1px solid ${colors.pink.primary}`};
+  background-color: ${({ type }) =>
+    type === 'pink' ? `${colors.pink.primary}` : `${colors.white.primary}`};
+  color: ${({ type }) =>
+    type === 'pink' ? `${colors.white.primary}` : `${colors.pink.primary}`};
+
+  :active {
+    background-color: ${({ type }) =>
+      type === 'pink' ? `${colors.pink.dark}` : `${colors.gray.light}`};
+  }
+
+  :disabled {
+    background-color: ${colors.pink.light};
+    cursor: auto;
+  }
+`;
+
+const LoaderWrapper = styled.div`
+  width: 115px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Label = styled.label`
+  color: ${colors.pink.primary};
+  display: block;
+  margin-bottom: 20px;
+`;
+
+const Form = styled.form`
+  width: 1000px;
+  margin: 0px auto;
+  margin-top: 40px;
+
+  @media (max-width: 1050px) {
+    width: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 0px 20px;
+  }
+`;
+
+const CardError = styled.span`
+  font-size: 14px;
+  color: red;
+  display: block;
+  margin-bottom: 10px;
+`;
+
 const PaymentForm = () => {
   const {
     clientSecret,
@@ -124,7 +134,8 @@ const PaymentForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [isMounted, setIsMounted] = useState(false);
+  const [card, setCard] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const cardError = useRef(null);
   const cardElement = useRef(null);
@@ -143,12 +154,10 @@ const PaymentForm = () => {
 
   useEffect(() => {
     if (cardElement.current) {
-      setIsMounted(true);
+      // setIsMounted(true);
+      card.mount('card-element');
     }
   }, [cardElement]);
-
-  const monriInstance = window['Monri'];
-  const monri = monriInstance(TOKEN);
 
   if (isPaymentSuccessfulStep) {
     return <Redirect to="/checkout/confirmation" />;
@@ -161,26 +170,33 @@ const PaymentForm = () => {
   if (clientSecret) {
     const components = monri.components({ clientSecret });
 
-    const card = components.create('card', style);
+    if (!card) {
+      const newCard = components.create('card', style);
+      setCard(newCard);
+    }
 
-    card.onChange((event) => {
-      if (event.error) {
-        const { message } = event.error;
-        cardError.current.textContent = message;
-      } else {
-        cardError.current.textContent = '';
-      }
-    });
+    if (card) {
+      card.onChange((event) => {
+        if (event.error) {
+          const { message } = event.error;
+          cardError.current.textContent = message;
+        } else {
+          cardError.current.textContent = '';
+        }
+      });
+    }
 
     const handleSubmit = async (event) => {
+      setIsLoading(true);
       event.preventDefault();
 
       const result = await monri.createToken(card);
 
       if (result.error) {
         //Inform the customer that there was an error.
+
         cardError.current.textContent = result.error.message;
-        setIsIsPaymentFailedStep(result.error.message);
+        setIsLoading(false);
       } else {
         const transactionParams = {
           address: `${shippingInfo.address.line1} ${shippingInfo.address.line2}`,
@@ -197,7 +213,7 @@ const PaymentForm = () => {
           if (result.error) {
             // Inform the customer that there was an error.
             cardError.current.textContent = result.error.message;
-            setIsIsPaymentFailedStep(result.error.message);
+            setIsLoading(false);
           } else {
             const paymentResult = result.result;
 
@@ -226,13 +242,17 @@ const PaymentForm = () => {
       <Form onSubmit={(event) => handleSubmit(event)}>
         <div className="form-row">
           <Label htmlFor="card-element">Credit or debit card</Label>
-          <div ref={cardElement} id="card-element">
-            {isMounted && card.mount('card-element')}
-          </div>
+          <div ref={cardElement} id="card-element"></div>
           <CardError ref={cardError} id="card-errors" role="alert"></CardError>
         </div>
 
-        <Button>Submit Payment</Button>
+        {isLoading ? (
+          <LoaderWrapper>
+            <Loader size={30} />
+          </LoaderWrapper>
+        ) : (
+          <Button>Submit Payment</Button>
+        )}
       </Form>
     );
   }
