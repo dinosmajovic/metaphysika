@@ -16,6 +16,6 @@ export default Yup.object({
     zipCode: Yup.string()
       .matches(/^[0-9]+$/, 'Character not allowed')
       .min(5, '5 digits')
-      .required('Requried')
+      .required('Required')
   })
 });

@@ -23,6 +23,6 @@ export default Yup.object({
     zipCode: Yup.string()
       .matches(/^[0-9]+$/, 'Character not allowed')
       .max(40, 'max 40 characters')
-      .required('Requried')
+      .required('Required')
   })
 });
