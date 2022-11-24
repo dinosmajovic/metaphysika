@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux';
-import { SummaryContainer, Total } from './styled';
+import { SummaryContainer, Total, Euro, Vat } from './styled';
 
 const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
   const { couponValue } = useSelector((state) => state.checkout);
 
-  let tax = 0.17 * subtotalPrice;
-  tax = tax.toFixed(2);
+  const calculatePriceInEuro = (total) => {
+    const totalInEuro = total * 0.5104;
+    return Number.parseFloat(totalInEuro).toFixed(2);
+  };
 
   if (type === 'subTotal') {
     return (
@@ -23,7 +25,8 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
         <h1>Summary</h1>
         <div>
           <span>Subtotal</span>
-          <span>{(subtotalPrice - tax).toFixed(2)} BAM</span>
+          <Vat>VAT INCLUDED</Vat>
+          <span>{subtotalPrice} BAM</span>
         </div>
         <div>
           <span>Delivery</span>
@@ -32,18 +35,16 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
         {couponValue && (
           <div>
             <span>Coupon</span>
-            <span>-{couponValue} BAM</span>
+            <span>-{couponValue} %</span>
           </div>
         )}
-        <div>
-          <span>Tax</span>
-          <span>{tax} BAM</span>
-        </div>
-
         <Total>
           <span>TOTAL</span>
           <span>{totalPrice} BAM</span>
         </Total>
+        <Euro>
+          {totalPrice} BAM = {calculatePriceInEuro(totalPrice)}€
+        </Euro>
       </SummaryContainer>
     );
   }

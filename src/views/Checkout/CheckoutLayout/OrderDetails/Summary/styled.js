@@ -18,6 +18,7 @@ export const SummaryContainer = styled.div`
 
   > div {
     display: flex;
+    align-items: center;
     width: 100%;
     justify-content: space-between;
     padding-bottom: 5px;
@@ -33,7 +34,7 @@ export const SummaryContainer = styled.div`
     }
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 450px) {
     padding: 20px;
   }
 `;
@@ -50,4 +51,17 @@ export const Total = styled.span`
     display: bloc;
     font-size: 22px;
   }
+`;
+
+export const Euro = styled.span`
+  margin: 0px auto;
+  width: fit-content;
+  margin-top: 12px;
+  font-size: 18px;
+  color: ${colors.pink.dark};
+`;
+
+export const Vat = styled.div`
+  font-size: 12px;
+  color: ${colors.pink.dark};
 `;
