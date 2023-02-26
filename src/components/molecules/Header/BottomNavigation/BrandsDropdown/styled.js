@@ -48,13 +48,14 @@ export const Dropdown = styled.div`
 `;
 
 export const Label = styled.span`
-  font-size: 18px;
-  font-weight: ${fonts.sfPro.fontWeight.regular};
+  font-weight: ${fonts.sfPro.fontWeight.medium};
   color: ${({ brandIsClicked }) =>
     brandIsClicked ? colors.pink.primary : 'none'};
   padding-bottom: ${({ brandIsClicked }) => (brandIsClicked ? '2px' : 'none')};
   border-bottom: ${({ brandIsClicked }) =>
     brandIsClicked ? `1px solid ${colors.pink.primary}` : 'none'};
+  text-transform: uppercase;
+  font-size: 18px;
 `;
 
 export const ArrowUp = styled.span`

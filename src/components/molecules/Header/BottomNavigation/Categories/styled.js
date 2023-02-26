@@ -8,8 +8,9 @@ export const CategoriesContainer = styled.div``;
 export const CategoryItem = styled(Link)`
   font-size: 18px;
   cursor: pointer;
-  font-weight: ${fonts.sfPro.fontWeight.regular};
+  font-weight: ${fonts.sfPro.fontWeight.medium};
   text-decoration: none;
+  text-transform: uppercase;
 
   :active,
   :hover {
