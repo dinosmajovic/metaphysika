@@ -44,7 +44,7 @@ const Product = ({ product, onProductDelete, type }) => {
               <span>Size: {product.size}</span>
               <span>Quantity: {product.quantity}</span>
             </ProductOptions>
-            <ProductPrice>{product.price} BAM</ProductPrice>
+            <ProductPrice>{product.price} KM</ProductPrice>
             {type === 'checkout' ? null : (
               <LikeWrapper>
                 <img src={likeHeartOutlined} alt="like icon" />

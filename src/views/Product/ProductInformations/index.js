@@ -164,8 +164,8 @@ const ProductInformations = ({ product, options, setOptions }) => {
       </ProductName>
 
       <PriceContainer>
-        {product.oldPrice && <OldPrice>{product.oldPrice} BAM</OldPrice>}
-        <Price>{product.price} BAM</Price>
+        {product.oldPrice && <OldPrice>{product.oldPrice} KM</OldPrice>}
+        <Price>{product.price} KM</Price>
       </PriceContainer>
 
       <ProductOptions

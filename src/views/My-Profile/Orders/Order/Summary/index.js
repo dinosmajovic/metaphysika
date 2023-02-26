@@ -7,11 +7,11 @@ const Summary = ({ order }) => {
       <SummaryItems>
         <SummaryItem>
           <span>Subtotal:</span>
-          <span>{order.subtotal} BAM</span>
+          <span>{order.subtotal} KM</span>
         </SummaryItem>
         <SummaryItem>
           <span>Delivery:</span>
-          <span>{order.shippingPrice} BAM</span>
+          <span>{order.shippingPrice} KM</span>
         </SummaryItem>
         {order.couponValue ? (
           <SummaryItem>
@@ -21,7 +21,7 @@ const Summary = ({ order }) => {
         ) : null}
         <SummaryItem type="total">
           <span>Total</span>
-          <span>{order.total} BAM</span>
+          <span>{order.total} KM</span>
         </SummaryItem>
       </SummaryItems>
     </Container>

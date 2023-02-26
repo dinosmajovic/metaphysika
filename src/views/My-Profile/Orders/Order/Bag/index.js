@@ -23,7 +23,7 @@ const Bag = ({ products }) => {
                 <span>Size: {product.size}</span>
                 <span>Quantity: {product.quantity}</span>
               </Stock>
-              <h2>{product.price} BAM</h2>
+              <h2>{product.price} KM</h2>
             </ProductDetails>
           </Product>
         );

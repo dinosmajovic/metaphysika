@@ -60,7 +60,7 @@ const Product = ({ product }) => {
             <span>Size: {product.size}</span>
             <span>Quantity: {product.quantity}</span>
           </ProductOptions>
-          <ProductPrice>{product.price} BAM</ProductPrice>
+          <ProductPrice>{product.price} KM</ProductPrice>
         </ProductInfo>
       </ProductWrapper>
     </Wrapper>

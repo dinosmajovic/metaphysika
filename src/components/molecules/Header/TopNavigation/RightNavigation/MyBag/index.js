@@ -48,7 +48,7 @@ const MyBagList = () => {
       </Products>
       <SubTotal>
         <span>Sub-total</span>
-        <span>{subtotal} BAM</span>
+        <span>{subtotal} KM</span>
       </SubTotal>
       <Buttons>
         <StyledLink to={bagPath}>

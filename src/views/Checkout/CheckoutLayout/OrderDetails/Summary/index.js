@@ -15,7 +15,7 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
         <h1>Summary</h1>
         <div>
           <span>Subtotal</span>
-          <span>{subtotalPrice} BAM</span>
+          <span>{subtotalPrice} KM</span>
         </div>
       </SummaryContainer>
     );
@@ -26,11 +26,11 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
         <div>
           <span>Subtotal</span>
           <Vat>VAT INCLUDED</Vat>
-          <span>{subtotalPrice} BAM</span>
+          <span>{subtotalPrice} KM</span>
         </div>
         <div>
           <span>Delivery</span>
-          <span>{deliveryPrice} BAM</span>
+          <span>{deliveryPrice} KM</span>
         </div>
         {couponValue && (
           <div>
@@ -40,10 +40,10 @@ const Summary = ({ subtotalPrice, type, totalPrice, deliveryPrice }) => {
         )}
         <Total>
           <span>TOTAL</span>
-          <span>{totalPrice} BAM</span>
+          <span>{totalPrice} KM</span>
         </Total>
         <Euro>
-          {totalPrice} BAM = {calculatePriceInEuro(totalPrice)}€
+          {totalPrice} KM = {calculatePriceInEuro(totalPrice)}€
         </Euro>
       </SummaryContainer>
     );
