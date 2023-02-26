@@ -112,20 +112,21 @@ export const Price = styled.span`
 export const Percentage = styled.span`
   position: absolute;
   cursor: default;
-  right: 20px;
-  top: 20px;
+  right: 5px;
+  top: 5px;
   z-index: 2;
   background-color: white;
   border: 1px solid ${colors.gray.hover};
-  padding: 9px;
-  border-radius: 50px;
+  padding: 5px 10px;
+  border-radius: 10px;
 
   > span {
     font-size: 17px;
     color: ${colors.pink.primary};
 
     @media (max-width: 600px) {
-      font-size: 14px;
+      font-size: 12px;
+      padding: 0px 2px;
     }
   }
 `;
