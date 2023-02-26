@@ -17,21 +17,20 @@ export const Wrapper = styled.div`
 
 export const MainImage = styled.div`
   border: solid 1px ${colors.gray.light};
-  padding: 40px;
   width: 400px;
   height: 490px;
   text-align: center;
   cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
 
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   @media (max-width: 600px) {
-    margin-bottom: 10px;
-    padding: 0px;
     width: 100%;
     height: 280px;
     align-self: center;
@@ -67,7 +66,8 @@ export const Image = styled.div`
   border: 1px solid
     ${({ isClicked }) =>
       isClicked ? `${colors.pink.primary}` : `${colors.gray.light}`};
-  padding: 5px;
+  border-radius: 8px;
+  overflow: hidden;
   width: 90px;
   height: 90px;
   display: block;
@@ -82,7 +82,7 @@ export const Image = styled.div`
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   @media (max-width: 600px) {

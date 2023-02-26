@@ -37,22 +37,24 @@ export const ModalContainer = styled.div`
 export const Wrapper = styled.div``;
 
 export const MainImage = styled.div`
-  padding: 40px;
-  width: 550px;
-  height: 640px;
+  width: 500px;
+  height: 500px;
   display: block;
   text-align: center;
+  margin-left: 20px;
 
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   @media (max-width: 800px) {
-    padding: 0px;
     width: auto;
-    height: 400px;
+    height: 300px;
+    width: 100%;
+    margin-left: 0px;
     margin-bottom: 10px;
   }
 
@@ -74,12 +76,13 @@ export const ImagesContainer = styled.div`
 `;
 
 export const Image = styled.div`
-  padding: 5px;
   width: 100px;
   height: 100px;
   display: block;
   text-align: center;
   cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
   border: 1px solid
     ${({ isClicked }) =>
       isClicked ? `${colors.pink.primary}` : `${colors.white.primary}`};
@@ -95,7 +98,7 @@ export const Image = styled.div`
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   @media (max-width: 800px) {

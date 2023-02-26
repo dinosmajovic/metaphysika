@@ -16,13 +16,14 @@ export const RelatedProductsWrapper = styled.div`
 
 export const RelatedProduct = styled.div`
   border: solid 1px ${colors.gray.light};
-  padding: 5px;
   width: 90px;
   height: 90px;
   display: block;
   text-align: center;
   cursor: pointer;
   margin: 15px 0px;
+  border-radius: 8px;
+  overflow: hidden;
 
   :not(:last-child) {
     margin-right: 15px;
@@ -36,6 +37,6 @@ export const RelatedProduct = styled.div`
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 `;

@@ -12,7 +12,6 @@ export const ProductContainer = styled.div`
 `;
 
 export const Picture = styled.div`
-  padding: 10px;
   position: relative;
   display: block;
   text-align: center;
@@ -25,7 +24,8 @@ export const Picture = styled.div`
   > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   @media (max-width: 600px) {
@@ -51,8 +51,8 @@ export const Heart = styled.div`
   align-items: center;
   cursor: pointer;
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  right: 5px;
+  bottom: 5px;
   z-index: 10;
 
   > img {
