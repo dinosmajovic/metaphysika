@@ -54,12 +54,9 @@ export const MainImage = styled.div`
     width: auto;
     height: 300px;
     width: 100%;
-    margin-left: 0px;
+    margin: 0px auto;
     margin-bottom: 10px;
-  }
-
-  @media (max-width: 800px) {
-    height: 300px;
+    max-width: 300px;
   }
 `;
 

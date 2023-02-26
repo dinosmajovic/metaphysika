@@ -23,6 +23,7 @@ export const MainImage = styled.div`
   cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 10px;
 
   > img {
     width: 100%;
@@ -32,7 +33,8 @@ export const MainImage = styled.div`
 
   @media (max-width: 600px) {
     width: 100%;
-    height: 280px;
+    max-width: 350px;
+    height: 350px;
     align-self: center;
   }
 `;

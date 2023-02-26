@@ -14,7 +14,7 @@ export const ProductDataWrapper = styled.div`
   display: flex;
 
   @media (max-width: 1024px) {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 `;
 

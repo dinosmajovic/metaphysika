@@ -10,6 +10,8 @@ import Loader from 'components/atoms/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, getProductSuccess, clearProduct } from 'state/product';
 import Error from 'views/Error';
+import RelatedProducts from './ProductImages/RelatedProducts/';
+import useWindowSize from 'hooks/useWindowSize';
 
 const Product = () => {
   const params = useParams();
@@ -18,9 +20,11 @@ const Product = () => {
   const [mainImage, setMainImage] = useState(null);
   const [images, setImages] = useState(null);
   const [isInWishlist, setIsInWishlist] = useState(null);
+  const { width } = useWindowSize();
   const { isError, isLoading, product, errorMessage } = useSelector(
     (state) => state.product
   );
+  const isTablet = width >= 1024;
   const { token, isAuthenticated } = useSelector((state) => state.user);
   const [options, setOptions] = useState([
     {
@@ -152,6 +156,10 @@ const Product = () => {
             sizeIsSelected={false}
             options={options}
           />
+
+          {!isTablet && (
+            <RelatedProducts relatedProducts={product?.relatedProducts} />
+          )}
         </ProductDataWrapper>
       </ProductContainer>
     );
